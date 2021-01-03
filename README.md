@@ -1,1 +1,1 @@
-# devlinky-chrome-extension
+# devlinky
