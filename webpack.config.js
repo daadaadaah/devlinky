@@ -28,6 +28,7 @@ module.exports = (env, argv) => ({
     extensions: ['.js', '.jsx'],
   },
   devServer: {
+    open: true,
     historyApiFallback: true,
   },
   plugins: [
