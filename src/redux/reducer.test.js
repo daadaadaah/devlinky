@@ -1,13 +1,15 @@
 import reducer, {
   setCurrentUser,
+  setUrl,
 } from './slice';
 
-import { currentUser } from '../../fixtures';
+import { currentUser, devlink } from '../../fixtures';
 
 describe('reducer', () => {
   context('when previous state is undefined', () => {
     const initialState = {
       currentUser: null,
+      url: null,
     };
 
     it('returns initialState', () => {
@@ -26,6 +28,19 @@ describe('reducer', () => {
       const state = reducer(initialState, setCurrentUser(currentUser));
 
       expect(state.currentUser).toStrictEqual(currentUser);
+    });
+  });
+
+  describe('setUrl', () => {
+    it('set url', () => {
+      const initialState = {
+        currentUser: null,
+        url: null,
+      };
+
+      const state = reducer(initialState, setUrl(devlink.url));
+
+      expect(state.url).toStrictEqual(devlink.url);
     });
   });
 });
