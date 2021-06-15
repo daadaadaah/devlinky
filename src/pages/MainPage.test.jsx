@@ -2,27 +2,44 @@ import React from 'react';
 
 import { useHistory } from 'react-router-dom';
 
+import { useDispatch, useSelector } from 'react-redux';
+
+import chrome from 'sinon-chrome/extensions';
+
 import { fireEvent, render } from '@testing-library/react';
 
 import MainPage from './MainPage';
 
 import useCurrentUser from '../hooks/useCurrentUser';
 
-import { currentUser } from '../../fixtures';
+import { setUrl } from '../redux/slice';
+
+import { currentUser, devlink } from '../../fixtures';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useHistory: jest.fn(),
 }));
-
 jest.mock('../hooks/useCurrentUser');
 
 describe('<MainPage />', () => {
+  beforeAll(() => {
+    global.chrome = chrome;
+  });
+
+  afterAll(() => {
+    chrome.flush();
+  });
+
   context('with currentUser', () => {
+    const dispatch = jest.fn();
+
     beforeEach(() => {
       useCurrentUser.mockImplementation(() => ({
         currentUser,
       }));
+
+      useDispatch.mockImplementation(() => dispatch);
     });
 
     it('shows menus', () => {
@@ -35,6 +52,7 @@ describe('<MainPage />', () => {
   });
 
   context('without currentUser', () => {
+    const dispatch = jest.fn();
     const mockPush = jest.fn();
 
     beforeEach(() => {
@@ -45,6 +63,8 @@ describe('<MainPage />', () => {
       useCurrentUser.mockImplementation(() => ({
         currentUser: null,
       }));
+
+      useDispatch.mockImplementation(() => dispatch);
     });
 
     it('redirect to LoginPage', () => {
@@ -55,10 +75,14 @@ describe('<MainPage />', () => {
   });
 
   context('when bookmark menu is clicked', () => {
+    const dispatch = jest.fn();
+
     beforeEach(() => {
       useCurrentUser.mockImplementation(() => ({
         currentUser,
       }));
+
+      useDispatch.mockImplementation(() => dispatch);
     });
 
     it('shows the devlink save form', () => {
@@ -75,10 +99,14 @@ describe('<MainPage />', () => {
   });
 
   context('when list menu is clicked', () => {
+    const dispatch = jest.fn();
+
     beforeEach(() => {
       useCurrentUser.mockImplementation(() => ({
         currentUser,
       }));
+
+      useDispatch.mockImplementation(() => dispatch);
     });
 
     it('shows list', () => {
@@ -87,6 +115,29 @@ describe('<MainPage />', () => {
       fireEvent.click(getByText(/list/i));
 
       expect(container).toHaveTextContent('list tab menu');
+    });
+  });
+
+  context('without url', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+
+      useSelector.mockImplementation((selector) => selector({
+        url: null,
+      }));
+    });
+
+    it('shows preview default image', () => {
+      const { getByAltText } = render(<MainPage />);
+
+      expect(getByAltText('preview-default')).toHaveAttribute('src', '../../assets/images/preview_default.png');
+      expect(dispatch).toBeCalledWith(setUrl(devlink.url));
     });
   });
 });
