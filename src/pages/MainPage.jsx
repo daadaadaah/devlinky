@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import useCurrentUser from '../hooks/useCurrentUser';
 
-import { setUrl } from '../redux/slice';
+import { setUrl, fetchPreview } from '../redux/slice';
 
 import { isEmpty, get } from '../utils';
 
@@ -28,12 +28,20 @@ export default function MainPage() {
 
   if (!url) {
     if (process.env.NODE_ENV !== 'production') {
-      dispatch(setUrl('https://jeonghwan-kim.github.io/series/2019/12/10/frontend-dev-env-webpack-basic.html'));
+      setTimeout(() => { // 테스트용 코드
+        dispatch(setUrl('https://jeonghwan-kim.github.io/series/2019/12/10/frontend-dev-env-webpack-basic.html'));
+      }, 1000);
     } else {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         dispatch(setUrl(tabs[0].url));
       });
     }
+  }
+
+  const preview = useSelector(get('preview'));
+
+  if (url && isEmpty(preview)) {
+    dispatch(fetchPreview());
   }
 
   const handleChange = () => {
@@ -76,10 +84,23 @@ export default function MainPage() {
                 </fieldset>
                 <>
                   <h3>preview</h3>
-                  <img
-                    src="../../assets/images/preview_default.png"
-                    alt="preview-default"
-                  />
+                  {preview
+                    ? (
+                      <>
+                        <img
+                          src={preview && preview.thumbnail}
+                          alt="thumbnail"
+                        />
+                        <p>{preview && preview.title}</p>
+                        <p>{preview && preview.url}</p>
+                      </>
+                    )
+                    : (
+                      <img
+                        src="../../assets/images/preview_default.png"
+                        alt="preview-default"
+                      />
+                    )}
                 </>
                 <>
                   <h3>comment</h3>

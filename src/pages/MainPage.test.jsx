@@ -14,7 +14,7 @@ import useCurrentUser from '../hooks/useCurrentUser';
 
 import { setUrl } from '../redux/slice';
 
-import { currentUser, devlink } from '../../fixtures';
+import { currentUser, devlink, preview } from '../../fixtures';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -137,7 +137,63 @@ describe('<MainPage />', () => {
       const { getByAltText } = render(<MainPage />);
 
       expect(getByAltText('preview-default')).toHaveAttribute('src', '../../assets/images/preview_default.png');
-      expect(dispatch).toBeCalledWith(setUrl(devlink.url));
+
+      jest.useFakeTimers();
+
+      setTimeout(() => {
+        expect(dispatch).toBeCalledWith(setUrl(devlink.url));
+      }, 1000);
+    });
+  });
+
+  context('with url & without preview', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+
+      useSelector.mockImplementation((selector) => selector({
+        url: devlink.url,
+        preview: null,
+      }));
+    });
+
+    it('listens change events', () => {
+      const { container } = render(<MainPage />);
+
+      expect(container).toBeInTheDocument(devlink.url);
+
+      expect(dispatch).not.toBeCalledWith(setUrl(devlink.url));
+      expect(dispatch).toBeCalledTimes(1);
+    });
+  });
+
+  context('with url & preview', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+
+      useSelector.mockImplementation((selector) => selector({
+        url: devlink.url,
+        preview,
+      }));
+    });
+
+    it('shows preview', () => {
+      const { container, getByAltText } = render(<MainPage />);
+
+      expect(container).toBeInTheDocument(preview.url);
+      expect(container).toBeInTheDocument(preview.title);
+      expect(getByAltText('thumbnail')).toHaveAttribute('src', preview.thumbnail);
     });
   });
 });

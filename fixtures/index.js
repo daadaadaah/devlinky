@@ -17,4 +17,13 @@ export const devlink = {
 export const initialState = {
   currentUser: null,
   url: null,
+  preview: null,
+};
+
+export const { url } = devlink;
+
+export const preview = {
+  url: devlink.url,
+  title: devlink.title,
+  thumbnail: devlink.thumbnail,
 };
