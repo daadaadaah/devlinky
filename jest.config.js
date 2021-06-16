@@ -12,4 +12,6 @@ module.exports = {
       statements: 100,
     },
   },
+  modulePathIgnorePatterns: ['./src/services/api'],
+  coveragePathIgnorePatterns: ['./src/services/api'],
 };
