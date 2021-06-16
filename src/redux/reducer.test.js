@@ -1,6 +1,7 @@
 import reducer, {
   setCurrentUser,
   setUrl,
+  setPreview,
 } from './slice';
 
 import { currentUser, devlink } from '../../fixtures';
@@ -10,6 +11,7 @@ describe('reducer', () => {
     const initialState = {
       currentUser: null,
       url: null,
+      preview: null,
     };
 
     it('returns initialState', () => {
@@ -41,6 +43,26 @@ describe('reducer', () => {
       const state = reducer(initialState, setUrl(devlink.url));
 
       expect(state.url).toStrictEqual(devlink.url);
+    });
+  });
+
+  describe('setPreview', () => {
+    it('set Preview', () => {
+      const initialState = {
+        currentUser: null,
+        url: null,
+        preview: null,
+      };
+
+      const preview = {
+        url: devlink.url,
+        title: devlink.title,
+        thumbnail: devlink.thumbnail,
+      };
+
+      const state = reducer(initialState, setPreview(preview));
+
+      expect(state.preview).toStrictEqual(preview);
     });
   });
 });
