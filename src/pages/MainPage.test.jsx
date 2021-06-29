@@ -20,6 +20,7 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useHistory: jest.fn(),
 }));
+
 jest.mock('../hooks/useCurrentUser');
 
 describe('<MainPage />', () => {
@@ -194,6 +195,35 @@ describe('<MainPage />', () => {
       expect(container).toBeInTheDocument(preview.url);
       expect(container).toBeInTheDocument(preview.title);
       expect(getByAltText('thumbnail')).toHaveAttribute('src', preview.thumbnail);
+    });
+  });
+
+  context('when url input is modified', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+
+      useSelector.mockImplementation((selector) => selector({
+        url: devlink.url,
+        preview,
+      }));
+    });
+
+    it('change url', () => {
+      const { getByLabelText } = render(<MainPage />);
+
+      const newUrl = 'http://example.com';
+
+      fireEvent.change(getByLabelText('devlink-url'), {
+        target: { value: newUrl },
+      });
+
+      expect(dispatch).toBeCalledWith(setUrl(newUrl));
     });
   });
 });

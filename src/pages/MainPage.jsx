@@ -44,8 +44,8 @@ export default function MainPage() {
     dispatch(fetchPreview());
   }
 
-  const handleChange = () => {
-
+  const handleChange = (e) => {
+    dispatch(setUrl(e.target.value));
   };
 
   const handleClick = () => {
