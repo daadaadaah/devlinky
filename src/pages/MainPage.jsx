@@ -39,6 +39,10 @@ export default function MainPage() {
     dispatch(setUrl(e.target.value));
   };
 
+  const handleSearchUrl = () => {
+    dispatch(fetchPreview());
+  };
+
   return (
     <>
       <main>
@@ -67,7 +71,9 @@ export default function MainPage() {
                     value={url || ''}
                     onChange={handleChangeUrl}
                   />
-                  <i className="fa fa-search" />
+                  <button type="button" id="search-url" aria-label="search-url" onClick={handleSearchUrl}>
+                    <i className="fa fa-search" />
+                  </button>
                 </fieldset>
                 <fieldset>
                   <h3>preview</h3>
