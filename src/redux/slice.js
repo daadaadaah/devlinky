@@ -39,8 +39,7 @@ export const {
 } = actions;
 
 export const loadUrl = () => (dispatch) => {
-  const currentUrl = fetchUrl();
-  dispatch(setUrl(currentUrl));
+  fetchUrl((data) => dispatch(setUrl(data)));
 };
 
 export const fetchPreview = () => async (dispatch, getState) => {
