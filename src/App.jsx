@@ -12,8 +12,8 @@ export default function App() {
     <>
       <Header />
       <Switch>
-        <Route exact path="/" component={MainPage} />
         <Route exact path="/login" component={LoginPage} />
+        <Route path="/" component={MainPage} />
       </Switch>
     </>
   );
