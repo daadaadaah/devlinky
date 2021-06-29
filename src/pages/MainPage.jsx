@@ -8,7 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import useCurrentUser from '../hooks/useCurrentUser';
 
-import { fetchPreview, loadUrl, setUrl } from '../redux/slice';
+import {
+  fetchPreview, loadUrl, setUrl, setComment,
+} from '../redux/slice';
 
 import { isEmpty, get } from '../utils';
 
@@ -41,6 +43,12 @@ export default function MainPage() {
 
   const handleSearchUrl = () => {
     dispatch(fetchPreview());
+  };
+
+  const comment = useSelector(get('comment'));
+
+  const handleChangeComment = (e) => {
+    dispatch(setComment(e.target.value));
   };
 
   return (
@@ -96,7 +104,18 @@ export default function MainPage() {
                     )}
                 </fieldset>
                 <fieldset>
-                  <h3>comment</h3>
+                  <label htmlFor="devlink-comment">
+                    comment
+                  </label>
+                  <input
+                    type="text"
+                    id="devlink-comment"
+                    aria-label="devlink-comment"
+                    placeholder="Comment를 입력해주세요"
+                    name="comment"
+                    value={comment || ''}
+                    onChange={handleChangeComment}
+                  />
                 </fieldset>
                 <fieldset>
                   <h3>tags</h3>
