@@ -10,9 +10,11 @@ import MainPage from './MainPage';
 
 import useCurrentUser from '../hooks/useCurrentUser';
 
-import { setUrl } from '../redux/slice';
+import { setUrl, setComment } from '../redux/slice';
 
-import { currentUser, url, preview } from '../../fixtures';
+import {
+  currentUser, url, preview, comment,
+} from '../../fixtures';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -242,6 +244,34 @@ describe('<MainPage />', () => {
       fireEvent.click(getByLabelText('search-url'));
 
       expect(dispatch).toBeCalledTimes(1);
+    });
+  });
+
+  context('when user input comment', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+
+      useSelector.mockImplementation((selector) => selector({
+        url,
+        preview,
+        comment: null,
+      }));
+    });
+
+    it('change comment', () => {
+      const { getByLabelText } = render(<MainPage />);
+
+      fireEvent.change(getByLabelText('comment'), {
+        target: { value: comment },
+      });
+
+      expect(dispatch).toBeCalledWith(setComment(comment));
     });
   });
 });
