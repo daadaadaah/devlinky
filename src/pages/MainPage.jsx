@@ -4,9 +4,13 @@ import {
   useHistory, MemoryRouter, Route, Link, Switch,
 } from 'react-router-dom';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 import useCurrentUser from '../hooks/useCurrentUser';
 
-import { isEmpty } from '../utils';
+import { fetchPreview, loadUrl, setUrl } from '../redux/slice';
+
+import { isEmpty, get } from '../utils';
 
 export default function MainPage() {
   const history = useHistory();
@@ -16,6 +20,24 @@ export default function MainPage() {
   if (isEmpty(currentUser)) {
     history.push('/login');
   }
+
+  const dispatch = useDispatch();
+
+  const url = useSelector(get('url'));
+
+  if (isEmpty(url)) {
+    dispatch(loadUrl());
+  }
+
+  const preview = useSelector(get('preview'));
+
+  if (url && isEmpty(preview)) {
+    dispatch(fetchPreview());
+  }
+
+  const handleChangeUrl = (e) => {
+    dispatch(setUrl(e.target.value));
+  };
 
   return (
     <>
@@ -31,17 +53,50 @@ export default function MainPage() {
           </ul>
           <Switch>
             <Route path="/bookmark">
-              <>
-                <p>url</p>
-                <p>preview</p>
-                <img
-                  src="../../assets/images/preview_default.png"
-                  alt="preview-default"
-                />
-                <p>comment</p>
-                <p>tags</p>
+              <form>
+                <fieldset>
+                  <label htmlFor="devlink-url">
+                    url
+                  </label>
+                  <input
+                    type="text"
+                    id="devlink-url"
+                    aria-label="devlink-url"
+                    placeholder="URL을 입력해주세요"
+                    name="url"
+                    value={url || ''}
+                    onChange={handleChangeUrl}
+                  />
+                  <i className="fa fa-search" />
+                </fieldset>
+                <fieldset>
+                  <h3>preview</h3>
+                  {preview
+                    ? (
+                      <>
+                        <img
+                          src={preview && preview.thumbnail}
+                          alt="thumbnail"
+                        />
+                        <p>{preview && preview.title}</p>
+                        <p>{preview && preview.url}</p>
+                      </>
+                    )
+                    : (
+                      <img
+                        src="../../assets/images/preview_default.png"
+                        alt="preview-default"
+                      />
+                    )}
+                </fieldset>
+                <fieldset>
+                  <h3>comment</h3>
+                </fieldset>
+                <fieldset>
+                  <h3>tags</h3>
+                </fieldset>
                 <button type="button">save a contents</button>
-              </>
+              </form>
             </Route>
             <Route path="/list">
               <>
