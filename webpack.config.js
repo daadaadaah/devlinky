@@ -46,6 +46,7 @@ module.exports = (env, argv) => ({
         { from: './assets/manifest.json', to: './manifest.json' },
         { from: './assets/icon.png', to: './icon.png' },
         { from: './assets/images/logo-small.png', to: './assets/images/logo-small.png' },
+        { from: './assets/images/preview_default.png', to: './assets/images/preview_default.png' },
       ],
     }),
   ],
