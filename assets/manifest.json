@@ -14,6 +14,5 @@
   "permissions": [
     "<all_urls>",
     "tabs"
-  ],
-  "content_security_policy": "script-src 'self' 'unsafe-eval' 'script-src-elem' https://apis.google.com/; object-src 'self'"
+  ]
 }
