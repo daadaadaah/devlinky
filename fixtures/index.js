@@ -8,4 +8,16 @@ export const currentUser = {
   },
 };
 
-export const temp = {};
+export const devlink = {
+  url: 'https://jeonghwan-kim.github.io/series/2019/12/10/frontend-dev-env-webpack-basic.html',
+  title: '프론트엔드 개발환경의 이해: 웹팩(기본)',
+  thumbnail: 'https://jeonghwan-kim.github.io/assets/imgs/me.jpg',
+};
+
+export const { url } = devlink;
+
+export const preview = {
+  url: devlink.url,
+  title: devlink.title,
+  thumbnail: devlink.thumbnail,
+};
