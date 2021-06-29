@@ -34,6 +34,10 @@ export default function MainPage() {
               <>
                 <p>url</p>
                 <p>preview</p>
+                <img
+                  src="../../assets/images/preview_default.png"
+                  alt="preview-default"
+                />
                 <p>comment</p>
                 <p>tags</p>
                 <button type="button">save a contents</button>

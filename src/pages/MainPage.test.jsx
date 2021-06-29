@@ -62,12 +62,13 @@ describe('<MainPage />', () => {
     });
 
     it('shows the devlink save form', () => {
-      const { container, getByText } = render(<MainPage />);
+      const { container, getByText, getByAltText } = render(<MainPage />);
 
       fireEvent.click(getByText(/bookmark/i));
 
       expect(container).toHaveTextContent('url');
       expect(container).toHaveTextContent('preview');
+      expect(getByAltText('preview-default')).toHaveAttribute('src', '../../assets/images/preview_default.png');
       expect(container).toHaveTextContent('comment');
       expect(container).toHaveTextContent('tags');
       expect(container).toHaveTextContent('save a contents');
