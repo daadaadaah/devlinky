@@ -2,7 +2,7 @@
 {
   "manifest_version": 2,
   "name": "develinky",
-  "description": "This is web clipper for devlink website",
+  "description": "This is web clipper for devlinky website",
   "version": "1.0.0",
   "icons": {
     "128": "icon.png"

@@ -24,6 +24,10 @@ describe('<App />', () => {
   }
 
   context('with any path ', () => {
+    beforeEach(() => {
+      useDispatch.mockImplementation(() => dispatch);
+    });
+
     it('shows App name', () => {
       const { getByAltText } = renderApp({ path: '/' });
 
