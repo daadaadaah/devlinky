@@ -1,13 +1,15 @@
 /* global chrome */
-export const fetchUrl = () => {
-  let currentTabUrl = 'https://jeonghwan-kim.github.io/series/2019/12/10/frontend-dev-env-webpack-basic.html';
+export const fetchUrl = (callback) => {
   if (process.env.NODE_ENV === 'production') {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      currentTabUrl = tabs[0].url;
+      callback(tabs[0].url);
     });
+  } else {
+    const currentTabUrl = 'https://jeonghwan-kim.github.io/series/2019/12/10/frontend-dev-env-webpack-basic.html';
+    setTimeout(() => {
+      callback(currentTabUrl);
+    }, 1000);
   }
-
-  return currentTabUrl;
 };
 
 export const temp = () => {};
