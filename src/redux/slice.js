@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { fetchUrlMetaData } from '../services/api';
+import { fetchUrl } from '../services/chrome';
 
 const { actions, reducer } = createSlice({
   name: 'devlinky#',
@@ -36,6 +37,10 @@ export const {
   setUrl,
   setPreview,
 } = actions;
+
+export const loadUrl = () => (dispatch) => {
+  fetchUrl((data) => dispatch(setUrl(data)));
+};
 
 export const fetchPreview = () => async (dispatch, getState) => {
   const { url } = getState();

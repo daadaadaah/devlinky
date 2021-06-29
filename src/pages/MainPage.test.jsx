@@ -226,4 +226,29 @@ describe('<MainPage />', () => {
       expect(dispatch).toBeCalledWith(setUrl(newUrl));
     });
   });
+
+  context('when search button is clicked', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+
+      useSelector.mockImplementation((selector) => selector({
+        url: devlink.url,
+        preview,
+      }));
+    });
+
+    it('change dispatch', () => {
+      const { getByLabelText } = render(<MainPage />);
+
+      fireEvent.click(getByLabelText('search-url'));
+
+      expect(dispatch).toBeCalledTimes(1);
+    });
+  });
 });

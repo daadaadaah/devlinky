@@ -1,4 +1,3 @@
-/* global chrome */
 import React from 'react';
 
 import {
@@ -9,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import useCurrentUser from '../hooks/useCurrentUser';
 
-import { setUrl, fetchPreview } from '../redux/slice';
+import { setUrl, fetchPreview, loadUrl } from '../redux/slice';
 
 import { isEmpty, get } from '../utils';
 
@@ -27,15 +26,7 @@ export default function MainPage() {
   const url = useSelector(get('url'));
 
   if (!url) {
-    if (process.env.NODE_ENV !== 'production') {
-      setTimeout(() => { // 테스트용 코드
-        dispatch(setUrl('https://jeonghwan-kim.github.io/series/2019/12/10/frontend-dev-env-webpack-basic.html'));
-      }, 1000);
-    } else {
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        dispatch(setUrl(tabs[0].url));
-      });
-    }
+    dispatch(loadUrl());
   }
 
   const preview = useSelector(get('preview'));
@@ -49,7 +40,7 @@ export default function MainPage() {
   };
 
   const handleClick = () => {
-
+    dispatch(fetchPreview());
   };
 
   return (
@@ -80,7 +71,9 @@ export default function MainPage() {
                     value={url || ''}
                     onChange={handleChange}
                   />
-                  <button type="button" aria-label="devlink-url" onClick={handleClick}><i className="fa fa-search" /></button>
+                  <button type="button" id="search-url" aria-label="search-url" onClick={handleClick}>
+                    <i className="fa fa-search" />
+                  </button>
                 </fieldset>
                 <>
                   <h3>preview</h3>
