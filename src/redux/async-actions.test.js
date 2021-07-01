@@ -25,7 +25,7 @@ describe('actions', () => {
         url: null,
       });
 
-      fetchUrl.mockImplementation((callback) => callback(url));
+      fetchUrl.mockResolvedValue(url);
     });
 
     it('runs setUrl', async () => {
