@@ -46,8 +46,9 @@ export const {
   setComment,
 } = actions;
 
-export const loadUrl = () => (dispatch) => {
-  fetchUrl((data) => dispatch(setUrl(data)));
+export const loadUrl = () => async (dispatch) => {
+  const url = await fetchUrl();
+  dispatch(setUrl(url));
 };
 
 export const fetchPreview = () => async (dispatch, getState) => {
