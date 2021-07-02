@@ -1,3 +1,12 @@
+---
+name: Bug report
+about: Create a report to help us improve
+title: ''
+labels: ''
+assignees: ''
+
+---
+
 ## What
 _어떤 버그인가? (e.g. 기대한 결과, 에러 메시지 또는 스크린샷/동영상 첨부)._
 
