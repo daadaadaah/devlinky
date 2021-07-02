@@ -1,3 +1,12 @@
+---
+name: Feature request
+about: Suggest an idea for this project
+title: ''
+labels: ''
+assignees: ''
+
+---
+
 ## Why
 _이 기능이 UI/UX 관점에서 또는 비즈니스 측면에서 왜 필요한지._
 
