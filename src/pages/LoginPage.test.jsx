@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { render } from '@testing-library/react';
+import { useDispatch } from 'react-redux';
+
+import { fireEvent, render } from '@testing-library/react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -29,6 +31,26 @@ describe('<LoginPage />', () => {
       const { container } = render(<LoginPage />);
 
       expect(container).toHaveTextContent('login');
+    });
+  });
+
+  context('when user click login button', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser: null,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+    });
+
+    it('change currentUser', () => {
+      const { getByText } = render(<LoginPage />);
+
+      fireEvent.click(getByText('Github login'));
+
+      expect(dispatch).toBeCalledTimes(1);
     });
   });
 
