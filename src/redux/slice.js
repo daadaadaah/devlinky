@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchUrlMetaData } from '../services/api';
+import { fetchUrlMetaData, login } from '../services/api';
+
 import { fetchUrl } from '../services/chrome';
+
+import { saveItem } from '../services/storage/localStorage';
 
 const { actions, reducer } = createSlice({
   name: 'devlinky#',
@@ -37,6 +40,14 @@ export const {
   setUrl,
   setPreview,
 } = actions;
+
+export const loadCurrentUser = () => async (dispatch) => {
+  const currentUser = await login();
+
+  saveItem('LAST_LOGIN_USER', JSON.stringify(currentUser));
+
+  dispatch(setCurrentUser(currentUser));
+};
 
 export const loadUrl = () => async (dispatch) => {
   const url = await fetchUrl();
