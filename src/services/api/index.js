@@ -1,3 +1,7 @@
+import {
+  githubOAuthLogin,
+} from '../firebase';
+
 export const fetchUrlMetaData = async (url) => {
   const response = await fetch(url, {
     method: 'GET',
@@ -23,4 +27,20 @@ export const fetchUrlMetaData = async (url) => {
   return preview;
 };
 
-export const temp = () => {};
+export const login = async () => {
+  const response = await githubOAuthLogin();
+
+  const firebaseUserIdToken = await response.user.getIdToken(true);
+
+  const currentUser = {
+    uid: response.user.uid,
+    githubId: response.additionalUserInfo.profile.login,
+    githubProfile: response.user.photoURL,
+    accessToken: {
+      github: response.credential.accessToken,
+      firebase: firebaseUserIdToken,
+    },
+  };
+
+  return currentUser;
+};
