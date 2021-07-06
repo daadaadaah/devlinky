@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchUrlMetaData, login } from '../services/api';
+import {
+  fetchUrlMetaData, login, isUser, autoSignup,
+} from '../services/api';
 
 import { fetchUrl } from '../services/chrome';
 
@@ -9,11 +11,18 @@ import { saveItem } from '../services/storage/localStorage';
 const { actions, reducer } = createSlice({
   name: 'devlinky#',
   initialState: {
+    error: null,
     currentUser: null,
     url: null,
     preview: null,
   },
   reducers: {
+    setError(state, { payload: error }) {
+      return {
+        ...state,
+        error,
+      };
+    },
     setCurrentUser(state, { payload: currentUser }) {
       return {
         ...state,
@@ -36,17 +45,31 @@ const { actions, reducer } = createSlice({
 });
 
 export const {
+  setError,
   setCurrentUser,
   setUrl,
   setPreview,
 } = actions;
 
 export const loadCurrentUser = () => async (dispatch) => {
-  const currentUser = await login();
+  try {
+    const currentUser = await login();
 
-  saveItem('LAST_LOGIN_USER', JSON.stringify(currentUser));
+    const user = {
+      firebaseUid: currentUser.uid,
+      githubId: currentUser.githubId,
+      githubProfile: currentUser.githubProfile,
+    };
 
-  dispatch(setCurrentUser(currentUser));
+    // eslint-disable-next-line no-unused-vars
+    const response = await isUser(user.firebaseUid) || await autoSignup(user);
+
+    saveItem('LAST_LOGIN_USER', JSON.stringify(currentUser));
+
+    dispatch(setCurrentUser(currentUser));
+  } catch (error) {
+    dispatch(setError(error.message));
+  }
 };
 
 export const loadUrl = () => async (dispatch) => {
