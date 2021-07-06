@@ -13,6 +13,7 @@ const GlobalStyle = () => (
 
       body {
         width: 360px;
+        min-height: 600px;
         background-color: ${style.common.background};
         font-family: ${style.common.font.en.family};
       }
