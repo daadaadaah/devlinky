@@ -1,5 +1,7 @@
 import {
   githubOAuthLogin,
+  getUser,
+  addUser,
 } from '../firebase';
 
 export const fetchUrlMetaData = async (url) => {
@@ -25,6 +27,16 @@ export const fetchUrlMetaData = async (url) => {
   };
 
   return preview;
+};
+
+export const isUser = async (firebaseUid) => {
+  const response = await getUser(firebaseUid);
+  return response;
+};
+
+export const autoSignup = async (user) => {
+  const response = await addUser(user);
+  return response;
 };
 
 export const login = async () => {
