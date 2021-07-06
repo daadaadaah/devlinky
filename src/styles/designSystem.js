@@ -4,14 +4,14 @@ const common = { // TODO : 다크모드/라이트모드는 나중에 하기로~
   background: colors.yoonblue.deepDark,
   font: {
     en: {
-      family: 'Gotham',
+      family: font.family.en,
       weight: {
         medium: font.weight.medium,
         bold: font.weight.bold,
       },
     },
     krNum: {
-      family: 'Spoqa Han Sans Neo',
+      family: font.family.krNum,
       weight: {
         light: font.weight.light,
         regular: font.weight.regular,

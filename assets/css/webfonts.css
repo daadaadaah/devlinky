@@ -1,0 +1,15 @@
+/* URL : https://github.com/spoqa/spoqa-han-sans */
+
+@font-face {
+  font-family: "Gotham";
+  src: url("../webfonts/en/Gotham-Black.otf"); 
+}
+
+@font-face {
+  font-family: "Spoqa Han Sans Neo";
+  src: url("../webfonts/kr/SpoqaHanSansNeo-Bold.eot"); /* IE9 */
+  src: url("../webfonts/kr/SpoqaHanSansNeo-Bold.woff2") format("woff2"), /* Chrome, Firefox */
+    url("../webfonts/kr/SpoqaHanSansNeo-Bold.woff") format("woff"), /* Chrome, Firefox */
+    url("../webfonts/kr/SpoqaHanSansNeo-Bold.ttf") format("truetype"), /* Chrome, Firefox, Opera, Safari, Android, iOS 4.2+ */
+    /* url("../webfonts/kr/SpoqaHanSansNeo-Bold.svg") format("svg"); */ /* iOS 4.1- TODO : svg 파일 없음 */ 
+}
