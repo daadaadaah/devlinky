@@ -38,7 +38,7 @@ describe('<MainPage />', () => {
     it('shows menus', () => {
       const { container } = render(<MainPage />);
 
-      expect(container).toHaveTextContent('bookmark');
+      expect(container).toHaveTextContent('newlink');
 
       expect(container).toHaveTextContent('list');
     });
@@ -67,7 +67,7 @@ describe('<MainPage />', () => {
     });
   });
 
-  context('when bookmark menu is clicked', () => {
+  context('when newlink menu is clicked', () => {
     const dispatch = jest.fn();
 
     beforeEach(() => {
@@ -81,7 +81,7 @@ describe('<MainPage />', () => {
     it('shows the devlink save form', () => {
       const { container, getByText, getByAltText } = render(<MainPage />);
 
-      fireEvent.click(getByText(/bookmark/i));
+      fireEvent.click(getByText(/newlink/i));
 
       expect(container).toHaveTextContent('url');
       expect(container).toHaveTextContent('preview');
