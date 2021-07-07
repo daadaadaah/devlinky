@@ -52,7 +52,7 @@ export default function MainPage() {
               <Link to="/newlink">newlink</Link>
             </li>
             <li>
-              <Link to="/list">list</Link>
+              <Link to="/archive">archive</Link>
             </li>
           </ul>
           <Switch>
@@ -104,9 +104,9 @@ export default function MainPage() {
                 <button type="button">save a contents</button>
               </form>
             </Route>
-            <Route path="/list">
+            <Route path="/archive">
               <>
-                <p>list tab menu</p>
+                <p>archive tab menu</p>
               </>
             </Route>
           </Switch>

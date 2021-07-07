@@ -28,7 +28,7 @@ Scenario('이전에 로그인한 기록이 있으면, 메인 페이지가 보인
   I.refreshPage();
 
   I.see('newlink');
-  I.see('list');
+  I.see('archive');
 });
 
 Scenario('이전에 로그인한 기록이 없으면, 로그인 페이지가 보인한다.', async ({ I }) => {
@@ -50,9 +50,9 @@ Scenario('원하는 메뉴탭을 클릭할 수 있다', async ({ I }) => {
       ],
     },
     {
-      title: 'list',
+      title: 'archive',
       contents: [ // devlink 아이템 내용으로 수정 필요
-        'list tab menu',
+        'archive tab menu',
       ],
     },
   ];

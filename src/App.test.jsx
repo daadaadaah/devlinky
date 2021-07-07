@@ -49,7 +49,7 @@ describe('<App />', () => {
       const { container } = renderApp({ path: '/' });
 
       expect(container).toHaveTextContent('newlink');
-      expect(container).toHaveTextContent('list');
+      expect(container).toHaveTextContent('archive');
     });
   });
 
@@ -66,7 +66,7 @@ describe('<App />', () => {
       const { container } = renderApp({ path: '/' });
 
       expect(container).not.toHaveTextContent('newlink');
-      expect(container).not.toHaveTextContent('list');
+      expect(container).not.toHaveTextContent('archive');
       expect(container).toHaveTextContent('login');
     });
   });

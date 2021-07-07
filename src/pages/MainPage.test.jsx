@@ -40,7 +40,7 @@ describe('<MainPage />', () => {
 
       expect(container).toHaveTextContent('newlink');
 
-      expect(container).toHaveTextContent('list');
+      expect(container).toHaveTextContent('archive');
     });
   });
 
@@ -92,7 +92,7 @@ describe('<MainPage />', () => {
     });
   });
 
-  context('when list menu is clicked', () => {
+  context('when archive menu is clicked', () => {
     const dispatch = jest.fn();
 
     beforeEach(() => {
@@ -103,12 +103,12 @@ describe('<MainPage />', () => {
       useDispatch.mockImplementation(() => dispatch);
     });
 
-    it('shows list', () => {
+    it('shows archive', () => {
       const { container, getByText } = render(<MainPage />);
 
-      fireEvent.click(getByText(/list/i));
+      fireEvent.click(getByText(/archive/i));
 
-      expect(container).toHaveTextContent('list tab menu');
+      expect(container).toHaveTextContent('archive tab menu');
     });
   });
 
