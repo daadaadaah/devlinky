@@ -15,6 +15,7 @@ const { actions, reducer } = createSlice({
     currentUser: null,
     url: null,
     preview: null,
+    comment: null,
   },
   reducers: {
     setError(state, { payload: error }) {
@@ -41,6 +42,12 @@ const { actions, reducer } = createSlice({
         preview,
       };
     },
+    setComment(state, { payload: comment }) {
+      return {
+        ...state,
+        comment,
+      };
+    },
   },
 });
 
@@ -49,6 +56,7 @@ export const {
   setCurrentUser,
   setUrl,
   setPreview,
+  setComment,
 } = actions;
 
 export const loadCurrentUser = () => async (dispatch) => {
