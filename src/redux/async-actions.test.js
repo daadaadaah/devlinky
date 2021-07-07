@@ -10,6 +10,8 @@ import {
   setPreview,
   loadCurrentUser,
   setCurrentUser,
+  loadAutoCompleteTags,
+  setAutoCompleteTags,
 } from './slice';
 
 import { fetchUrl } from '../services/chrome';
@@ -19,7 +21,7 @@ import {
 } from '../services/api';
 
 import {
-  error, url, preview, currentUser,
+  error, url, preview, currentUser, autoCompleteTags,
 } from '../../fixtures';
 
 const mockStore = configureStore(getDefaultMiddleware());
@@ -131,6 +133,23 @@ describe('actions', () => {
 
         expect(actions[0]).toEqual(setError('error'));
       });
+    });
+  });
+  describe('loadAutoCompleteTags', () => {
+    beforeEach(() => {
+      store = mockStore({
+        autoCompleteTags: [],
+      });
+    });
+
+    it('runs setAutoCompleteTags', async () => {
+      const inputTag = 'ja';
+
+      await store.dispatch(loadAutoCompleteTags(inputTag));
+
+      const actions = store.getActions();
+
+      expect(actions[0]).toEqual(setAutoCompleteTags(autoCompleteTags));
     });
   });
 });

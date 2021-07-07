@@ -8,6 +8,8 @@ import { fetchUrl } from '../services/chrome';
 
 import { saveItem } from '../services/storage/localStorage';
 
+import { teches } from '../../assets/js/data';
+
 const { actions, reducer } = createSlice({
   name: 'devlinky#',
   initialState: {
@@ -16,6 +18,8 @@ const { actions, reducer } = createSlice({
     url: null,
     preview: null,
     comment: null,
+    tags: [],
+    autoCompleteTags: [],
   },
   reducers: {
     setError(state, { payload: error }) {
@@ -48,6 +52,24 @@ const { actions, reducer } = createSlice({
         comment,
       };
     },
+    setTags(state, { payload: tags }) {
+      return {
+        ...state,
+        tags,
+      };
+    },
+    setAutoCompleteTags(state, { payload: autoCompleteTags }) {
+      return {
+        ...state,
+        autoCompleteTags,
+      };
+    },
+    resetAutoCompleteTags(state) {
+      return {
+        ...state,
+        autoCompleteTags: [],
+      };
+    },
   },
 });
 
@@ -57,6 +79,9 @@ export const {
   setUrl,
   setPreview,
   setComment,
+  setTags,
+  setAutoCompleteTags,
+  resetAutoCompleteTags,
 } = actions;
 
 export const loadCurrentUser = () => async (dispatch) => {
@@ -95,6 +120,11 @@ export const fetchPreview = () => async (dispatch, getState) => {
     title,
     thumbnail,
   }));
+};
+
+export const loadAutoCompleteTags = (newTag) => (dispatch) => {
+  const autoCompleteTags = teches.filter((tech) => tech.name.toUpperCase().match(new RegExp(`^${newTag}`, 'i')));
+  dispatch(setAutoCompleteTags(autoCompleteTags));
 };
 
 export default reducer;
