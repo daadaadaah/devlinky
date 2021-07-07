@@ -1,4 +1,6 @@
 /* eslint-disable react/no-array-index-key */
+import styled from '@emotion/styled';
+
 import React from 'react';
 
 import {
@@ -7,7 +9,9 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import styled from '@emotion/styled';
+import style from '../styles/designSystem';
+
+import { colors, font } from '../styles/commom';
 
 import useCurrentUser from '../hooks/useCurrentUser';
 
@@ -96,16 +100,16 @@ export default function MainPage() {
 
   return (
     <>
-      <main>
-        <MemoryRouter initialEntries={['/newlink']}>
-          <ul>
-            <li>
-              <Link to="/newlink">newlink</Link>
-            </li>
-            <li>
-              <Link to="/archive">archive</Link>
-            </li>
-          </ul>
+      <MemoryRouter initialEntries={['/newlink']}>
+        <TabMenus>
+          <li>
+            <Link to="/newlink">newlink</Link>
+          </li>
+          <li>
+            <Link to="/archive">archive</Link>
+          </li>
+        </TabMenus>
+        <Layout>
           <Switch>
             <Route path="/newlink">
               <form>
@@ -206,11 +210,50 @@ export default function MainPage() {
               </>
             </Route>
           </Switch>
-        </MemoryRouter>
-      </main>
+        </Layout>
+      </MemoryRouter>
     </>
   );
 }
+
+const TabMenus = styled.ul`  
+  margin-top: 30px;
+
+  width: 100%;
+  height: 38px;
+
+  padding-left: 24px;
+  list-style: none; /* 가로 정렬 */
+  
+  & li {
+    float: left; /* 가로 정렬 */
+
+    height: 100%;
+    font-size: ${font.size.large};
+    font-weight: ${font.weight.bold};
+    line-height: 24px;
+
+    & a {
+      color: ${style.common.color};
+      text-transform: capitalize;
+    }
+  }
+
+  & li:nth-child(1) {
+    // TODO : 사용자가 선택한 메뉴에 따라 동적 처리
+    border-bottom: 3px solid ${colors.white}; /* 선택 */
+  }
+
+  & li:nth-child(2) {
+    margin-left: 16px;
+
+    opacity: 0.5; /* 미 선택 */
+  }
+`;
+
+const Layout = styled.div`
+  padding: ${style.common.interval.small} ${style.common.interval.small} 48px;
+`;
 
 const AutoCompleteTagsWrapper = styled.div`
   ul {
