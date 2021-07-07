@@ -112,7 +112,10 @@ Scenario('북마크 메뉴에서 개발링크를 저장할 수 있다', async ({
 
   I.fillField('#devlink-comment', devlink.comment);
 
-  devlink.tags.map((tag) => I.fillField('#devlink-tags', tag));
+  devlink.tags.forEach((tag) => {
+    I.fillField('#devlink-tags', tag);
+    I.pressKey('Enter');
+  });
 
   I.click('#btn-save');
 });
