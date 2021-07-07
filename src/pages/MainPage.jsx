@@ -46,17 +46,17 @@ export default function MainPage() {
   return (
     <>
       <main>
-        <MemoryRouter initialEntries={['/bookmark']}>
+        <MemoryRouter initialEntries={['/newlink']}>
           <ul>
             <li>
-              <Link to="/bookmark">bookmark</Link>
+              <Link to="/newlink">newlink</Link>
             </li>
             <li>
-              <Link to="/list">list</Link>
+              <Link to="/archive">archive</Link>
             </li>
           </ul>
           <Switch>
-            <Route path="/bookmark">
+            <Route path="/newlink">
               <form>
                 <fieldset>
                   <label htmlFor="devlink-url">
@@ -104,9 +104,9 @@ export default function MainPage() {
                 <button type="button">save a contents</button>
               </form>
             </Route>
-            <Route path="/list">
+            <Route path="/archive">
               <>
-                <p>list tab menu</p>
+                <p>archive tab menu</p>
               </>
             </Route>
           </Switch>

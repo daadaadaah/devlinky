@@ -48,8 +48,8 @@ describe('<App />', () => {
     it('shows menus', () => {
       const { container } = renderApp({ path: '/' });
 
-      expect(container).toHaveTextContent('bookmark');
-      expect(container).toHaveTextContent('list');
+      expect(container).toHaveTextContent('newlink');
+      expect(container).toHaveTextContent('archive');
     });
   });
 
@@ -65,8 +65,8 @@ describe('<App />', () => {
     it('does not show menus & redirect loginPage', () => {
       const { container } = renderApp({ path: '/' });
 
-      expect(container).not.toHaveTextContent('bookmark');
-      expect(container).not.toHaveTextContent('list');
+      expect(container).not.toHaveTextContent('newlink');
+      expect(container).not.toHaveTextContent('archive');
       expect(container).toHaveTextContent('login');
     });
   });

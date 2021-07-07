@@ -38,9 +38,9 @@ describe('<MainPage />', () => {
     it('shows menus', () => {
       const { container } = render(<MainPage />);
 
-      expect(container).toHaveTextContent('bookmark');
+      expect(container).toHaveTextContent('newlink');
 
-      expect(container).toHaveTextContent('list');
+      expect(container).toHaveTextContent('archive');
     });
   });
 
@@ -67,7 +67,7 @@ describe('<MainPage />', () => {
     });
   });
 
-  context('when bookmark menu is clicked', () => {
+  context('when newlink menu is clicked', () => {
     const dispatch = jest.fn();
 
     beforeEach(() => {
@@ -81,7 +81,7 @@ describe('<MainPage />', () => {
     it('shows the devlink save form', () => {
       const { container, getByText, getByAltText } = render(<MainPage />);
 
-      fireEvent.click(getByText(/bookmark/i));
+      fireEvent.click(getByText(/newlink/i));
 
       expect(container).toHaveTextContent('url');
       expect(container).toHaveTextContent('preview');
@@ -92,7 +92,7 @@ describe('<MainPage />', () => {
     });
   });
 
-  context('when list menu is clicked', () => {
+  context('when archive menu is clicked', () => {
     const dispatch = jest.fn();
 
     beforeEach(() => {
@@ -103,12 +103,12 @@ describe('<MainPage />', () => {
       useDispatch.mockImplementation(() => dispatch);
     });
 
-    it('shows list', () => {
+    it('shows archive', () => {
       const { container, getByText } = render(<MainPage />);
 
-      fireEvent.click(getByText(/list/i));
+      fireEvent.click(getByText(/archive/i));
 
-      expect(container).toHaveTextContent('list tab menu');
+      expect(container).toHaveTextContent('archive tab menu');
     });
   });
 

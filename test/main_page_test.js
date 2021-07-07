@@ -27,8 +27,8 @@ Scenario('이전에 로그인한 기록이 있으면, 메인 페이지가 보인
 
   I.refreshPage();
 
-  I.see('bookmark');
-  I.see('list');
+  I.see('newlink');
+  I.see('archive');
 });
 
 Scenario('이전에 로그인한 기록이 없으면, 로그인 페이지가 보인한다.', async ({ I }) => {
@@ -40,7 +40,7 @@ Scenario('이전에 로그인한 기록이 없으면, 로그인 페이지가 보
 Scenario('원하는 메뉴탭을 클릭할 수 있다', async ({ I }) => {
   const menus = [
     {
-      title: 'bookmark',
+      title: 'newlink',
       contents: [
         'url',
         'preview',
@@ -50,9 +50,9 @@ Scenario('원하는 메뉴탭을 클릭할 수 있다', async ({ I }) => {
       ],
     },
     {
-      title: 'list',
+      title: 'archive',
       contents: [ // devlink 아이템 내용으로 수정 필요
-        'list tab menu',
+        'archive tab menu',
       ],
     },
   ];
@@ -68,7 +68,7 @@ Scenario('원하는 메뉴탭을 클릭할 수 있다', async ({ I }) => {
   menus.forEach((menu) => {
     I.click(menu.title);
 
-    if (menu.title === 'bookmark') {
+    if (menu.title === 'newlink') {
       const previewDefaultImage = '../../assets/images/preview_default.png';
       I.waitForVisible({ xpath: `//img[@src='${previewDefaultImage}']` });
     }
@@ -88,7 +88,7 @@ Scenario('북마크 메뉴에서 url을 추가하면, 해당 url에 대한 정�
 
   I.refreshPage();
 
-  I.click('bookmark');
+  I.click('newlink');
 
   I.see(devlink.url);
   I.see(devlink.title);
