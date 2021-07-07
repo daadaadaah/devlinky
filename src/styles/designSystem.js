@@ -20,6 +20,13 @@ const common = { // TODO : 다크모드/라이트모드는 나중에 하기로~
       },
     },
   },
+  interval: {
+    tiny: '20px',
+    small: '24px',
+    regular: '30px',
+    medium: '32px',
+    large: '48px',
+  },
 };
 
 const button = {

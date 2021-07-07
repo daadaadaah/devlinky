@@ -4,33 +4,39 @@ import React from 'react';
 
 import useCurrentUser from './hooks/useCurrentUser';
 
+import style from './styles/designSystem';
+
 export default function Header() {
   const { currentUser } = useCurrentUser();
 
   return (
-    <Wrapper>
+    <Layout>
       <Logo src="../assets/images/logo-small.png" alt="devlinky-logo" />
       {currentUser && <Profile src={currentUser.githubProfile} alt="user-profile" />}
-    </Wrapper>
+    </Layout>
   );
 }
 
-const Wrapper = styled.div`
-  position: absolute;
-  margin: 36px 30px 0 30px;
+const Layout = styled.header`
+  margin: ${style.common.interval.small} ${style.common.interval.tiny} 0;
+
+  & img:nth-child(1) {
+    margin-top: 6px;
+  }
+
+  & img:nth-child(2) {
+    margin-left: 128px;
+  }
+
 `;
 
 const Logo = styled.img`
-  width: 140px;
-  height: 25px;
-
-  border-radius: 0px;
+  width: 120px;
+  height: 21px;
 `;
 
-// TODO : 동그랗게 하기
 const Profile = styled.img`
-  height: 36px;
-  width: 36px;
-
-  border-radius: 0px;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
 `;
