@@ -10,14 +10,14 @@ const currentUser = {
   },
 };
 
-Scenario('로그인 할 수 있다', async (I) => {
+Scenario('로그인 할 수 있다', async ({ I }) => {
   I.amOnPage('/');
 
   I.click('Github login');
 
-  // await I.executeScript((setCurrentUser) => {
-  //   localStorage.setItem('LAST_LOGIN_USER', JSON.stringify(setCurrentUser));
-  // }, currentUser);
+  await I.executeScript((setCurrentUser) => {
+    localStorage.setItem('LAST_LOGIN_USER', JSON.stringify(setCurrentUser));
+  }, currentUser);
 
   I.refreshPage();
 

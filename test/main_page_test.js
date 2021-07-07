@@ -18,7 +18,7 @@ const devlink = {
   tags: ['Webpack', '웹', '프론트앤드'],
 };
 
-Scenario('이전에 로그인한 기록이 있으면, 메인 페이지가 보인다.', async (I) => {
+Scenario('이전에 로그인한 기록이 있으면, 메인 페이지가 보인다.', async ({ I }) => {
   I.amOnPage('/');
 
   await I.executeScript((setCurrentUser) => {
@@ -31,13 +31,13 @@ Scenario('이전에 로그인한 기록이 있으면, 메인 페이지가 보인
   I.see('list');
 });
 
-Scenario('이전에 로그인한 기록이 없으면, 로그인 페이지가 보인한다.', async (I) => {
+Scenario('이전에 로그인한 기록이 없으면, 로그인 페이지가 보인한다.', async ({ I }) => {
   I.amOnPage('/');
 
   I.see('Github login');
 });
 
-Scenario('원하는 메뉴탭을 클릭할 수 있다', async (I) => {
+Scenario('원하는 메뉴탭을 클릭할 수 있다', async ({ I }) => {
   const menus = [
     {
       title: 'bookmark',
@@ -79,7 +79,7 @@ Scenario('원하는 메뉴탭을 클릭할 수 있다', async (I) => {
   });
 });
 
-Scenario('북마크 메뉴에서 url을 추가하면, 해당 url에 대한 정보를 미리 볼 수 있다', async (I) => {
+Scenario('북마크 메뉴에서 url을 추가하면, 해당 url에 대한 정보를 미리 볼 수 있다', async ({ I }) => {
   I.amOnPage('/');
 
   await I.executeScript((setCurrentUser) => {
