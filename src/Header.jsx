@@ -2,17 +2,32 @@ import styled from '@emotion/styled';
 
 import React from 'react';
 
+import { useDispatch } from 'react-redux';
+
 import useCurrentUser from './hooks/useCurrentUser';
 
 import style from './styles/designSystem';
 
+import { removeCurrentUser } from './redux/slice';
+
 export default function Header() {
   const { currentUser } = useCurrentUser();
+
+  const dispatch = useDispatch();
+
+  const handleClickLogout = () => {
+    dispatch(removeCurrentUser());
+  };
 
   return (
     <Layout>
       <Logo src="../assets/images/logo-small.png" alt="devlinky-logo" />
-      {currentUser && <Profile src={currentUser.githubProfile} alt="user-profile" />}
+      {currentUser && (
+        <>
+          <Profile src={currentUser.githubProfile} alt="user-profile" />
+          <button type="button" onClick={handleClickLogout}>Log out</button>
+        </>
+      )}
     </Layout>
   );
 }

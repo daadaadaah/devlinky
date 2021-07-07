@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { screen, render } from '@testing-library/react';
+import { useDispatch } from 'react-redux';
+
+import { screen, render, fireEvent } from '@testing-library/react';
 
 import useCurrentUser from './hooks/useCurrentUser';
 
@@ -9,6 +11,7 @@ import { currentUser } from '../fixtures';
 import Header from './Header';
 
 jest.mock('./hooks/useCurrentUser');
+jest.mock('react-redux');
 
 describe('<Header />', () => {
   context('inital render', () => {
@@ -34,6 +37,26 @@ describe('<Header />', () => {
       const userProfile = screen.getByAltText('user-profile');
 
       expect(userProfile).toHaveAttribute('src', currentUser.githubProfile);
+    });
+  });
+
+  context('when user click logout button', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+    });
+
+    it('change currentUser', () => {
+      const { getByText } = render(<Header />);
+
+      fireEvent.click(getByText('Log out'));
+
+      expect(dispatch).toBeCalledTimes(1);
     });
   });
 
