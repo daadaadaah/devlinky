@@ -14,6 +14,8 @@ import {
   setAutoCompleteTags,
   submitDevlink,
   resetDevlink,
+  removeCurrentUser,
+  resetCurrentUser,
 } from './slice';
 
 import { fetchUrl } from '../services/chrome';
@@ -200,6 +202,22 @@ describe('actions', () => {
 
         expect(actions[0]).toEqual(setError('error'));
       });
+    });
+  });
+
+  describe('removeCurrentUser', () => {
+    beforeEach(() => {
+      store = mockStore({
+        currentUser,
+      });
+    });
+
+    it('runs resetCurrentUser', async () => {
+      await store.dispatch(removeCurrentUser());
+
+      const actions = store.getActions();
+
+      expect(actions[0]).toStrictEqual(resetCurrentUser());
     });
   });
 });

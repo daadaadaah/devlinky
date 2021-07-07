@@ -1,6 +1,7 @@
 import reducer, {
   setError,
   setCurrentUser,
+  resetCurrentUser,
   setUrl,
   setPreview,
   setComment,
@@ -54,6 +55,20 @@ describe('reducer', () => {
       const state = reducer(initialState, setCurrentUser(currentUser));
 
       expect(state.currentUser).toStrictEqual(currentUser);
+    });
+  });
+
+  describe('resetCurrentUser', () => {
+    it('reset CurrentUser', () => {
+      const initialState = {
+        currentUser,
+        url: null,
+        preview: null,
+      };
+
+      const state = reducer(initialState, resetCurrentUser());
+
+      expect(state.currentUser).toBeNull();
     });
   });
 
