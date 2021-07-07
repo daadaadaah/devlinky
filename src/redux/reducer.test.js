@@ -4,10 +4,13 @@ import reducer, {
   setUrl,
   setPreview,
   setComment,
+  setTags,
+  setAutoCompleteTags,
+  resetAutoCompleteTags,
 } from './slice';
 
 import {
-  error, currentUser, url, preview, comment,
+  error, currentUser, url, preview, comment, tags, autoCompleteTags,
 } from '../../fixtures';
 
 describe('reducer', () => {
@@ -18,6 +21,8 @@ describe('reducer', () => {
       url: null,
       preview: null,
       comment: null,
+      tags: [],
+      autoCompleteTags: [],
     };
 
     it('returns initialState', () => {
@@ -91,6 +96,56 @@ describe('reducer', () => {
       const state = reducer(initialState, setComment(comment));
 
       expect(state.comment).toStrictEqual(comment);
+    });
+  });
+
+  describe('setTags', () => {
+    it('set Tags', () => {
+      const initialState = {
+        currentUser: null,
+        url: null,
+        preview: null,
+        comment: null,
+        tags: [],
+      };
+
+      const state = reducer(initialState, setTags(tags));
+
+      expect(state.tags).toStrictEqual(tags);
+    });
+  });
+
+  describe('setAutoCompleteTags', () => {
+    it('set autoCompleteTags', () => {
+      const initialState = {
+        currentUser: null,
+        url: null,
+        preview: null,
+        comment: null,
+        tags: [],
+        autoCompleteTags: [],
+      };
+
+      const state = reducer(initialState, setAutoCompleteTags(autoCompleteTags));
+
+      expect(state.autoCompleteTags).toStrictEqual(autoCompleteTags);
+    });
+  });
+
+  describe('resetAutoCompleteTags', () => {
+    it('reset autoCompleteTags', () => {
+      const initialState = {
+        currentUser: null,
+        url: null,
+        preview: null,
+        comment: null,
+        tags: [],
+        autoCompleteTags,
+      };
+
+      const state = reducer(initialState, resetAutoCompleteTags());
+
+      expect(state.autoCompleteTags).toStrictEqual([]);
     });
   });
 });

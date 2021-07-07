@@ -16,7 +16,7 @@ export const devlink = {
   tags: ['Webpack', '웹', '프론트앤드'],
 };
 
-export const { url, comment } = devlink;
+export const { url, comment, tags } = devlink;
 
 export const preview = {
   url: devlink.url,
@@ -25,3 +25,14 @@ export const preview = {
 };
 
 export const error = 'error';
+
+export const autoCompleteTags = [
+  {
+    name: 'Java',
+    color: '#E76F00',
+  },
+  {
+    name: 'Javascript',
+    color: '#757575',
+  },
+];
