@@ -46,7 +46,7 @@ Scenario('원하는 메뉴탭을 클릭할 수 있다', async ({ I }) => {
         'preview',
         'comment',
         'tags',
-        'save a contents',
+        'Save a contents',
       ],
     },
     {

@@ -12,7 +12,14 @@ import styled from '@emotion/styled';
 import useCurrentUser from '../hooks/useCurrentUser';
 
 import {
-  fetchPreview, loadUrl, setUrl, setComment, setTags, loadAutoCompleteTags, resetAutoCompleteTags,
+  fetchPreview,
+  loadUrl,
+  setUrl,
+  setComment,
+  setTags,
+  loadAutoCompleteTags,
+  resetAutoCompleteTags,
+  submitDevlink,
 } from '../redux/slice';
 
 import { isEmpty, get } from '../utils';
@@ -78,6 +85,13 @@ export default function MainPage() {
         e.target.value = '';
       }
     }
+  };
+
+  const handleClickSave = () => {
+    if (preview && comment && !isEmpty(tags)) {
+      dispatch(submitDevlink());
+    }
+    // TODO : 디자인 시안 나오면, 추가 구현하기 + useRef 공부 후 없는 곳 포커스
   };
 
   return (
@@ -183,7 +197,7 @@ export default function MainPage() {
                     </ul>
                   </AutoCompleteTagsWrapper>
                 </fieldset>
-                <button type="button" id="btn-save">save a contents</button>
+                <button type="button" id="btn-save" onClick={handleClickSave}>Save a contents</button>
               </form>
             </Route>
             <Route path="/archive">

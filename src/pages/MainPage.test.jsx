@@ -92,7 +92,7 @@ describe('<MainPage />', () => {
       expect(getByAltText('preview-default')).toHaveAttribute('src', '../../assets/images/preview_default.png');
       expect(container).toHaveTextContent('comment');
       expect(container).toHaveTextContent('tags');
-      expect(container).toHaveTextContent('save a contents');
+      expect(container).toHaveTextContent('Save a contents');
     });
   });
 
@@ -447,6 +447,64 @@ describe('<MainPage />', () => {
 
       autoCompleteTags.forEach((autoCompleteTag) => {
         expect(container).toHaveTextContent(autoCompleteTag.name);
+      });
+    });
+  });
+
+  context('when user click save button', () => {
+    context('with devlink', () => {
+      const dispatch = jest.fn();
+
+      beforeEach(() => {
+        useCurrentUser.mockImplementation(() => ({
+          currentUser,
+        }));
+
+        useDispatch.mockImplementation(() => dispatch);
+
+        useSelector.mockImplementation((selector) => selector({
+          url,
+          preview,
+          comment,
+          tags,
+          autoCompleteTags: [],
+        }));
+      });
+
+      it('save devlink', () => {
+        const { getByText } = render(<MainPage />);
+
+        fireEvent.click(getByText(/Save a contents/i));
+
+        expect(dispatch).toBeCalledTimes(1);
+      });
+    });
+
+    context('without url or preview or comment or tags', () => {
+      const dispatch = jest.fn();
+
+      beforeEach(() => {
+        useCurrentUser.mockImplementation(() => ({
+          currentUser,
+        }));
+
+        useDispatch.mockImplementation(() => dispatch);
+
+        useSelector.mockImplementation((selector) => selector({
+          url,
+          preview,
+          comment: null,
+          tags: [],
+          autoCompleteTags: [],
+        }));
+      });
+
+      it('do not save devlink', () => {
+        const { getByText } = render(<MainPage />);
+
+        fireEvent.click(getByText(/Save a contents/i));
+
+        expect(dispatch).not.toBeCalled();
       });
     });
   });
