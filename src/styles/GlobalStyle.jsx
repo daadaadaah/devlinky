@@ -15,6 +15,7 @@ const GlobalStyle = () => (
         width: 360px;
         min-height: 600px;
         background-color: ${style.common.background};
+        color: ${style.common.color};
         font-family: ${style.common.font.en.family};
       }
     `}

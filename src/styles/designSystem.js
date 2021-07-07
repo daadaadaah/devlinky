@@ -2,6 +2,7 @@ import { colors, font } from './commom';
 
 const common = { // TODO : 다크모드/라이트모드는 나중에 하기로~
   background: colors.yoonblue.deepDark,
+  color: colors.white,
   font: {
     en: {
       family: font.family.en,
@@ -22,6 +23,10 @@ const common = { // TODO : 다크모드/라이트모드는 나중에 하기로~
 };
 
 const button = {
+  font: {
+    size: font.size.medium,
+    weight: font.weight.medium,
+  },
   normal: {
     background: colors.yoonblue.normal,
     color: colors.white,

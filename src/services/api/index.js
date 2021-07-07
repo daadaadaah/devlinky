@@ -1,3 +1,9 @@
+import {
+  githubOAuthLogin,
+  getUser,
+  addUser,
+} from '../firebase';
+
 export const fetchUrlMetaData = async (url) => {
   const response = await fetch(url, {
     method: 'GET',
@@ -23,4 +29,30 @@ export const fetchUrlMetaData = async (url) => {
   return preview;
 };
 
-export const temp = () => {};
+export const isUser = async (firebaseUid) => {
+  const response = await getUser(firebaseUid);
+  return response;
+};
+
+export const autoSignup = async (user) => {
+  const response = await addUser(user);
+  return response;
+};
+
+export const login = async () => {
+  const response = await githubOAuthLogin();
+
+  const firebaseUserIdToken = await response.user.getIdToken(true);
+
+  const currentUser = {
+    uid: response.user.uid,
+    githubId: response.additionalUserInfo.profile.login,
+    githubProfile: response.user.photoURL,
+    accessToken: {
+      github: response.credential.accessToken,
+      firebase: firebaseUserIdToken,
+    },
+  };
+
+  return currentUser;
+};

@@ -21,3 +21,5 @@ export const preview = {
   title: devlink.title,
   thumbnail: devlink.thumbnail,
 };
+
+export const error = 'error';

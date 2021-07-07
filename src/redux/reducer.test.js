@@ -1,10 +1,13 @@
 import reducer, {
+  setError,
   setCurrentUser,
   setUrl,
   setPreview,
 } from './slice';
 
-import { currentUser, url, preview } from '../../fixtures';
+import {
+  error, currentUser, url, preview,
+} from '../../fixtures';
 
 describe('reducer', () => {
   context('when previous state is undefined', () => {
@@ -12,12 +15,25 @@ describe('reducer', () => {
       currentUser: null,
       url: null,
       preview: null,
+      error: null,
     };
 
     it('returns initialState', () => {
       const state = reducer(undefined, { type: 'action' });
 
       expect(state).toEqual(initialState);
+    });
+  });
+
+  describe('setError', () => {
+    it('set error', () => {
+      const initialState = {
+        error: null,
+      };
+
+      const state = reducer(initialState, setError(error));
+
+      expect(state.error).toStrictEqual(error);
     });
   });
 
