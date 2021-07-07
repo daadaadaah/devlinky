@@ -3,19 +3,21 @@ import reducer, {
   setCurrentUser,
   setUrl,
   setPreview,
+  setComment,
 } from './slice';
 
 import {
-  error, currentUser, url, preview,
+  error, currentUser, url, preview, comment,
 } from '../../fixtures';
 
 describe('reducer', () => {
   context('when previous state is undefined', () => {
     const initialState = {
+      error: null,
       currentUser: null,
       url: null,
       preview: null,
-      error: null,
+      comment: null,
     };
 
     it('returns initialState', () => {
@@ -74,6 +76,21 @@ describe('reducer', () => {
       const state = reducer(initialState, setPreview(preview));
 
       expect(state.preview).toStrictEqual(preview);
+    });
+  });
+
+  describe('setCommnet', () => {
+    it('set Commnet', () => {
+      const initialState = {
+        currentUser: null,
+        url: null,
+        preview: null,
+        comment: null,
+      };
+
+      const state = reducer(initialState, setComment(comment));
+
+      expect(state.comment).toStrictEqual(comment);
     });
   });
 });
