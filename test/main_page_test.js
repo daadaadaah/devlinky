@@ -79,7 +79,7 @@ Scenario('원하는 메뉴탭을 클릭할 수 있다', async ({ I }) => {
   });
 });
 
-Scenario('북마크 메뉴에서 url을 추가하면, 해당 url에 대한 정보를 미리 볼 수 있다', async ({ I }) => {
+Scenario('newlink 메뉴에서 url을 추가하면, 해당 url에 대한 정보를 미리 볼 수 있다', async ({ I }) => {
   I.amOnPage('/');
 
   await I.executeScript((setCurrentUser) => {
@@ -95,7 +95,7 @@ Scenario('북마크 메뉴에서 url을 추가하면, 해당 url에 대한 정�
   I.waitForVisible({ xpath: `//img[@src='${devlink.thumbnail}']` });
 });
 
-Scenario('북마크 메뉴에서 개발링크를 저장할 수 있다', async ({ I }) => {
+Scenario('newlink 메뉴에서 개발링크를 저장할 수 있다', async ({ I }) => {
   I.amOnPage('/');
 
   await I.executeScript((setCurrentUser) => {
@@ -104,7 +104,7 @@ Scenario('북마크 메뉴에서 개발링크를 저장할 수 있다', async ({
 
   I.refreshPage();
 
-  I.click('bookmark');
+  I.click('newlink');
 
   I.see(devlink.url);
   I.see(devlink.title);
