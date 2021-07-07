@@ -12,16 +12,18 @@ import {
   setCurrentUser,
   loadAutoCompleteTags,
   setAutoCompleteTags,
+  submitDevlink,
+  resetDevlink,
 } from './slice';
 
 import { fetchUrl } from '../services/chrome';
 
 import {
-  fetchUrlMetaData, login, isUser, autoSignup,
+  fetchUrlMetaData, login, isUser, autoSignup, postDevlink,
 } from '../services/api';
 
 import {
-  error, url, preview, currentUser, autoCompleteTags,
+  error, url, preview, currentUser, autoCompleteTags, comment, tags,
 } from '../../fixtures';
 
 const mockStore = configureStore(getDefaultMiddleware());
@@ -135,6 +137,7 @@ describe('actions', () => {
       });
     });
   });
+
   describe('loadAutoCompleteTags', () => {
     beforeEach(() => {
       store = mockStore({
@@ -150,6 +153,53 @@ describe('actions', () => {
       const actions = store.getActions();
 
       expect(actions[0]).toEqual(setAutoCompleteTags(autoCompleteTags));
+    });
+  });
+
+  describe('submitDevlink', () => {
+    context('when postDevlink is success', () => {
+      beforeEach(() => {
+        store = mockStore({
+          currentUser,
+          url,
+          preview,
+          comment,
+          tags,
+        });
+
+        postDevlink.mockResolvedValue({});
+      });
+
+      it('runs resetDevlink', async () => {
+        await store.dispatch(submitDevlink());
+
+        const actions = store.getActions();
+
+        expect(actions[0]).toEqual(resetDevlink());
+      });
+    });
+
+    context('when postDevlink is not success', () => {
+      beforeEach(() => {
+        store = mockStore({
+          currentUser,
+          url,
+          preview,
+          comment,
+          tags,
+        });
+
+        const mockError = { message: error };
+        postDevlink.mockRejectedValue(mockError);
+      });
+
+      it('runs setError', async () => {
+        await store.dispatch(submitDevlink());
+
+        const actions = store.getActions();
+
+        expect(actions[0]).toEqual(setError('error'));
+      });
     });
   });
 });

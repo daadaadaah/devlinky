@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
-  fetchUrlMetaData, login, isUser, autoSignup,
+  fetchUrlMetaData, login, isUser, autoSignup, postDevlink,
 } from '../services/api';
 
 import { fetchUrl } from '../services/chrome';
@@ -70,6 +70,15 @@ const { actions, reducer } = createSlice({
         autoCompleteTags: [],
       };
     },
+    resetDevlink(state) {
+      return {
+        ...state,
+        url: null,
+        preview: null,
+        comment: null,
+        tags: [],
+      };
+    },
   },
 });
 
@@ -82,6 +91,7 @@ export const {
   setTags,
   setAutoCompleteTags,
   resetAutoCompleteTags,
+  resetDevlink,
 } = actions;
 
 export const loadCurrentUser = () => async (dispatch) => {
@@ -125,6 +135,27 @@ export const fetchPreview = () => async (dispatch, getState) => {
 export const loadAutoCompleteTags = (newTag) => (dispatch) => {
   const autoCompleteTags = teches.filter((tech) => tech.name.toUpperCase().match(new RegExp(`^${newTag}`, 'i')));
   dispatch(setAutoCompleteTags(autoCompleteTags));
+};
+
+export const submitDevlink = () => async (dispatch, getState) => {
+  const {
+    currentUser, url, preview, comment, tags,
+  } = getState();
+
+  const devlink = {
+    url,
+    preview,
+    comment,
+    tags,
+  };
+
+  try {
+    // eslint-disable-next-line no-unused-vars
+    const response = await postDevlink({ userId: currentUser.uid, devlink });
+    dispatch(resetDevlink());
+  } catch (error) {
+    dispatch(setError(error.message));
+  }
 };
 
 export default reducer;

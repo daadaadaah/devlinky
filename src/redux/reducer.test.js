@@ -7,6 +7,7 @@ import reducer, {
   setTags,
   setAutoCompleteTags,
   resetAutoCompleteTags,
+  resetDevlink,
 } from './slice';
 
 import {
@@ -146,6 +147,26 @@ describe('reducer', () => {
       const state = reducer(initialState, resetAutoCompleteTags());
 
       expect(state.autoCompleteTags).toStrictEqual([]);
+    });
+  });
+
+  describe('resetDevlink', () => {
+    it('reset Devlink', () => {
+      const initialState = {
+        currentUser: null,
+        url,
+        preview,
+        comment,
+        tags,
+        autoCompleteTags: [],
+      };
+
+      const state = reducer(initialState, resetDevlink());
+
+      expect(state.url).toBeNull();
+      expect(state.preview).toBeNull();
+      expect(state.comment).toBeNull();
+      expect(state.tags).toStrictEqual([]);
     });
   });
 });
