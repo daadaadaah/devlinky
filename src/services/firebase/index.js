@@ -12,6 +12,8 @@ const githubOAuthLogin = () => firebase.auth().signInWithPopup(githubAuthProvide
 
 const db = firebase.firestore();
 
+const version = 'V2';
+
 const getUser = async (firebaseUid) => {
   const responses = await db.collection('user').where('uid', '==', firebaseUid).get();
 
@@ -27,10 +29,49 @@ const addUser = async ({ firebaseUid, githubId, githubProfile }) => {
   return { uid: firebaseUid, githubId, githubProfile };
 };
 
+const getDevlink = async ({ url }) => {
+  const responses = await db.collection(`devlink${version}`).where('url', '==', url).get();
+
+  return responses.docs.map((doc) => (doc.data()))[0];
+};
+
+const addNewDevlink = async (devlink) => {
+  const newDevlink = {
+    ...devlink,
+    createdAt: new Date().toISOString(),
+    updatedAt: null,
+    deletedAt: null,
+  };
+
+  const doc = await db.collection(`devlink${version}`).add(newDevlink);
+
+  const resNewDevLink = newDevlink;
+  resNewDevLink.uid = doc.id;
+
+  return resNewDevLink;
+};
+
+const addMyDevlink = async ({ userId, devlinkId }) => {
+  const newMyDevlink = {
+    userUid: userId,
+    devlinkId,
+    createdAt: new Date().toISOString(),
+    updatedAt: null,
+    deletedAt: null,
+  };
+
+  const doc = await db.collection(`mydevlink${version}`).add(newMyDevlink);
+
+  return doc;
+};
+
 export {
   firebase,
   githubAuthProvider,
   githubOAuthLogin,
   getUser,
   addUser,
+  getDevlink,
+  addNewDevlink,
+  addMyDevlink,
 };

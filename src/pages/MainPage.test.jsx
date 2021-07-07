@@ -10,9 +10,13 @@ import MainPage from './MainPage';
 
 import useCurrentUser from '../hooks/useCurrentUser';
 
-import { setUrl } from '../redux/slice';
+import {
+  setUrl, setComment, setTags, resetAutoCompleteTags,
+} from '../redux/slice';
 
-import { currentUser, url, preview } from '../../fixtures';
+import {
+  currentUser, url, preview, comment, tags, autoCompleteTags,
+} from '../../fixtures';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -88,7 +92,7 @@ describe('<MainPage />', () => {
       expect(getByAltText('preview-default')).toHaveAttribute('src', '../../assets/images/preview_default.png');
       expect(container).toHaveTextContent('comment');
       expect(container).toHaveTextContent('tags');
-      expect(container).toHaveTextContent('save a contents');
+      expect(container).toHaveTextContent('Save a contents');
     });
   });
 
@@ -186,7 +190,6 @@ describe('<MainPage />', () => {
 
       expect(container).toBeInTheDocument(url);
 
-      expect(dispatch).not.toBeCalledWith(setUrl(url));
       expect(dispatch).toBeCalledTimes(1);
     });
   });
@@ -242,6 +245,267 @@ describe('<MainPage />', () => {
       fireEvent.click(getByLabelText('search-url'));
 
       expect(dispatch).toBeCalledTimes(1);
+    });
+  });
+
+  context('when user input comment', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+
+      useSelector.mockImplementation((selector) => selector({
+        url,
+        preview,
+        comment: null,
+      }));
+    });
+
+    it('change comment', () => {
+      const { getByLabelText } = render(<MainPage />);
+
+      fireEvent.change(getByLabelText('comment'), {
+        target: { value: comment },
+      });
+
+      expect(dispatch).toBeCalledWith(setComment(comment));
+    });
+  });
+
+  context('when user input tag', () => {
+    context('and press enter', () => {
+      const dispatch = jest.fn();
+
+      beforeEach(() => {
+        useCurrentUser.mockImplementation(() => ({
+          currentUser,
+        }));
+
+        useDispatch.mockImplementation(() => dispatch);
+
+        useSelector.mockImplementation((selector) => selector({
+          url,
+          preview,
+          comment,
+          tags: [tags[0]],
+          autoCompleteTags: [],
+        }));
+      });
+
+      it('changes tags and autoCompleteTags', () => {
+        const { getByLabelText } = render(<MainPage />);
+
+        const tagInput = getByLabelText('devlink-tags');
+
+        const newTag = tags[1];
+
+        fireEvent.change(tagInput, {
+          target: { value: newTag },
+        });
+
+        fireEvent.keyDown(tagInput, { key: 'Enter', code: 'Enter', keyCode: 13 });
+
+        expect(dispatch).toBeCalledWith(setTags([...[tags[0]], newTag]));
+        expect(dispatch).toBeCalledWith(resetAutoCompleteTags());
+      });
+    });
+
+    context('and press other key, not enter', () => {
+      const dispatch = jest.fn();
+
+      beforeEach(() => {
+        useCurrentUser.mockImplementation(() => ({
+          currentUser,
+        }));
+
+        useDispatch.mockImplementation(() => dispatch);
+
+        useSelector.mockImplementation((selector) => selector({
+          url,
+          preview,
+          comment,
+          tags: [tags[0]],
+          autoCompleteTags: [],
+        }));
+      });
+
+      it('does not change Tags and AutoCompleteTags', () => {
+        const { getByLabelText } = render(<MainPage />);
+
+        const tagInput = getByLabelText('devlink-tags');
+
+        fireEvent.keyDown(tagInput, { key: 'A', code: 'KeyA' });
+
+        expect(dispatch).not.toBeCalledWith(setTags([tags[0]]));
+        expect(dispatch).not.toBeCalledWith(resetAutoCompleteTags());
+      });
+    });
+
+    context('and clears it', () => {
+      const dispatch = jest.fn();
+
+      beforeEach(() => {
+        useCurrentUser.mockImplementation(() => ({
+          currentUser,
+        }));
+
+        useDispatch.mockImplementation(() => dispatch);
+
+        useSelector.mockImplementation((selector) => selector({
+          url,
+          preview,
+          comment,
+          tags: [tags[0]],
+          autoCompleteTags,
+        }));
+      });
+
+      it('reset AutoCompleteTags', () => {
+        const { getByLabelText } = render(<MainPage />);
+
+        const tagInput = getByLabelText('devlink-tags');
+
+        const newTag = 'ja';
+
+        fireEvent.change(tagInput, {
+          target: { value: newTag },
+        });
+
+        expect(dispatch).toBeCalledTimes(1);
+
+        fireEvent.change(tagInput, {
+          target: { value: null },
+        });
+
+        expect(dispatch).toBeCalledWith(resetAutoCompleteTags());
+      });
+    });
+  });
+
+  context('when user input empty tag', () => {
+    context('and press enter', () => {
+      const dispatch = jest.fn();
+
+      beforeEach(() => {
+        useCurrentUser.mockImplementation(() => ({
+          currentUser,
+        }));
+
+        useDispatch.mockImplementation(() => dispatch);
+
+        useSelector.mockImplementation((selector) => selector({
+          url,
+          preview,
+          comment,
+          tags: [tags[0]],
+          autoCompleteTags: [],
+        }));
+      });
+
+      it('does not change tags and autoCompleteTags', () => {
+        const { getByLabelText } = render(<MainPage />);
+
+        const tagInput = getByLabelText('devlink-tags');
+
+        fireEvent.change(tagInput, {
+          target: { value: null },
+        });
+
+        fireEvent.keyDown(tagInput, { key: 'Enter', code: 'Enter', keyCode: 13 });
+
+        expect(dispatch).not.toBeCalledWith(setTags([tags[1]]));
+        expect(dispatch).not.toBeCalledWith(resetAutoCompleteTags());
+      });
+    });
+  });
+
+  context('with autocompletTags', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+
+      useSelector.mockImplementation((selector) => selector({
+        url,
+        preview,
+        comment,
+        tags,
+        autoCompleteTags,
+      }));
+    });
+
+    it('show autocompletTags', () => {
+      const { container } = render(<MainPage />);
+
+      autoCompleteTags.forEach((autoCompleteTag) => {
+        expect(container).toHaveTextContent(autoCompleteTag.name);
+      });
+    });
+  });
+
+  context('when user click save button', () => {
+    context('with devlink', () => {
+      const dispatch = jest.fn();
+
+      beforeEach(() => {
+        useCurrentUser.mockImplementation(() => ({
+          currentUser,
+        }));
+
+        useDispatch.mockImplementation(() => dispatch);
+
+        useSelector.mockImplementation((selector) => selector({
+          url,
+          preview,
+          comment,
+          tags,
+          autoCompleteTags: [],
+        }));
+      });
+
+      it('save devlink', () => {
+        const { getByText } = render(<MainPage />);
+
+        fireEvent.click(getByText(/Save a contents/i));
+
+        expect(dispatch).toBeCalledTimes(1);
+      });
+    });
+
+    context('without url or preview or comment or tags', () => {
+      const dispatch = jest.fn();
+
+      beforeEach(() => {
+        useCurrentUser.mockImplementation(() => ({
+          currentUser,
+        }));
+
+        useDispatch.mockImplementation(() => dispatch);
+
+        useSelector.mockImplementation((selector) => selector({
+          url,
+          preview,
+          comment: null,
+          tags: [],
+          autoCompleteTags: [],
+        }));
+      });
+
+      it('do not save devlink', () => {
+        const { getByText } = render(<MainPage />);
+
+        fireEvent.click(getByText(/Save a contents/i));
+
+        expect(dispatch).not.toBeCalled();
+      });
     });
   });
 });

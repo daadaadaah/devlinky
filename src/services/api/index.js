@@ -2,6 +2,9 @@ import {
   githubOAuthLogin,
   getUser,
   addUser,
+  getDevlink,
+  addNewDevlink,
+  addMyDevlink,
 } from '../firebase';
 
 export const fetchUrlMetaData = async (url) => {
@@ -55,4 +58,11 @@ export const login = async () => {
   };
 
   return currentUser;
+};
+
+export const postDevlink = async ({ userId, devlink }) => {
+  const response = await getDevlink({ url: devlink.url }) || await addNewDevlink(devlink);
+
+  const result = await addMyDevlink({ userId, devlinkId: response?.uid });
+  return result;
 };

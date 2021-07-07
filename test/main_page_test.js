@@ -46,7 +46,7 @@ Scenario('원하는 메뉴탭을 클릭할 수 있다', async ({ I }) => {
         'preview',
         'comment',
         'tags',
-        'save a contents',
+        'Save a contents',
       ],
     },
     {
@@ -79,7 +79,7 @@ Scenario('원하는 메뉴탭을 클릭할 수 있다', async ({ I }) => {
   });
 });
 
-Scenario('북마크 메뉴에서 url을 추가하면, 해당 url에 대한 정보를 미리 볼 수 있다', async ({ I }) => {
+Scenario('newlink 메뉴에서 url을 추가하면, 해당 url에 대한 정보를 미리 볼 수 있다', async ({ I }) => {
   I.amOnPage('/');
 
   await I.executeScript((setCurrentUser) => {
@@ -93,4 +93,29 @@ Scenario('북마크 메뉴에서 url을 추가하면, 해당 url에 대한 정�
   I.see(devlink.url);
   I.see(devlink.title);
   I.waitForVisible({ xpath: `//img[@src='${devlink.thumbnail}']` });
+});
+
+Scenario('newlink 메뉴에서 개발링크를 저장할 수 있다', async ({ I }) => {
+  I.amOnPage('/');
+
+  await I.executeScript((setCurrentUser) => {
+    localStorage.setItem('LAST_LOGIN_USER', JSON.stringify(setCurrentUser));
+  }, currentUser);
+
+  I.refreshPage();
+
+  I.click('newlink');
+
+  I.see(devlink.url);
+  I.see(devlink.title);
+  I.waitForVisible({ xpath: `//img[@src='${devlink.thumbnail}']` });
+
+  I.fillField('#devlink-comment', devlink.comment);
+
+  devlink.tags.forEach((tag) => {
+    I.fillField('#devlink-tags', tag);
+    I.pressKey('Enter');
+  });
+
+  I.click('#btn-save');
 });
