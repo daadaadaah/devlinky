@@ -12,7 +12,7 @@ const GlobalStyle = () => (
       }
 
       body {
-        width: 360px;
+        width: 320px;
         min-height: 600px;
         background-color: ${style.common.background};
         color: ${style.common.color};
