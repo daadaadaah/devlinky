@@ -39,10 +39,12 @@ export default function LoginPage() {
 }
 
 const Welcome = styled.p`
-  position: absolute;
-  
-  top: 100px;
-  left: 60px;
+  position: fixed;
+  top: 263px;
+
+  width: 320px;
+
+  padding: 0 ${style.common.interval.small};
 
   color:  ${colors.gray.light};
 
@@ -54,20 +56,20 @@ const Welcome = styled.p`
 `;
 
 const LoginButton = styled.button`
-  position: absolute;  
+  position: fixed;
+  top: 510px;
+  margin: 0 40px;
+
   width: 240px;
   height: 42px;
-  border-radius: 63px;
 
-  left: 60px;
-  top: 318px;
-
-  background-color: ${style.button.normal.background};
-  color:  ${style.button.normal.color};
-
-  text-align: center;
   font-size: ${style.button.font.size};;
   font-weight: ${style.button.font.weight};
+  color:  ${style.button.normal.color};
+
+  background: ${style.button.normal.background};
+  border-radius: 63px;
+
   
   &:hover {
     background-color:${style.button.hover.background};

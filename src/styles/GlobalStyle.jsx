@@ -9,6 +9,7 @@ const GlobalStyle = () => (
     styles={css`
       * {
         box-sizing: border-box;
+        font-family: ${style.common.font.en.family};
       }
 
       body {
@@ -16,7 +17,6 @@ const GlobalStyle = () => (
         min-height: 600px;
         background-color: ${style.common.background};
         color: ${style.common.color};
-        font-family: ${style.common.font.en.family};
       }
 
       button {
