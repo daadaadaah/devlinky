@@ -17,6 +17,8 @@ const GlobalStyle = () => (
         background-color: ${style.common.background};
         color: ${style.common.color};
         font-family: ${style.common.font.en.family};
+        /* 임시 : 디자인 QA용 */
+        /* border: 1px solid #FFFFFF;  */
       }
 
       button {

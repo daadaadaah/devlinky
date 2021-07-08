@@ -47,4 +47,8 @@ button {
   padding: 0;
 }
 
+a, a:link, a:visited, a:hover {
+  text-decoration: none;
+}
+
 /* ----- end : reset.css ----- */
