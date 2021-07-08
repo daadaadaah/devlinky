@@ -57,6 +57,8 @@ const card = {
 };
 
 const style = {
+  colors,
+  font,
   common,
   button,
   card,
