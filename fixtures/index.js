@@ -36,3 +36,5 @@ export const autoCompleteTags = [
     color: '#757575',
   },
 ];
+
+export const toggleMenu = true;

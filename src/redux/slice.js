@@ -20,6 +20,7 @@ const { actions, reducer } = createSlice({
     comment: null,
     tags: [],
     autoCompleteTags: [],
+    toggleMenu: false,
   },
   reducers: {
     setError(state, { payload: error }) {
@@ -85,6 +86,18 @@ const { actions, reducer } = createSlice({
         tags: [],
       };
     },
+    setToggleMenu(state, { payload: toggleMenu }) {
+      return {
+        ...state,
+        toggleMenu,
+      };
+    },
+    resetToggleMenu(state) {
+      return {
+        ...state,
+        toggleMenu: false,
+      };
+    },
   },
 });
 
@@ -99,6 +112,8 @@ export const {
   setAutoCompleteTags,
   resetAutoCompleteTags,
   resetDevlink,
+  setToggleMenu,
+  resetToggleMenu,
 } = actions;
 
 export const loadCurrentUser = () => async (dispatch) => {
