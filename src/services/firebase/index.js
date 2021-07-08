@@ -9,6 +9,7 @@ firebase.initializeApp(config);
 
 const githubAuthProvider = new firebase.auth.GithubAuthProvider();
 const githubOAuthLogin = () => firebase.auth().signInWithPopup(githubAuthProvider);
+const githubOAuthLogout = () => firebase.auth().signOut();
 
 const db = firebase.firestore();
 
@@ -74,4 +75,5 @@ export {
   getDevlink,
   addNewDevlink,
   addMyDevlink,
+  githubOAuthLogout,
 };

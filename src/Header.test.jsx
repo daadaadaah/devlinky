@@ -1,14 +1,19 @@
 import React from 'react';
 
-import { screen, render } from '@testing-library/react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { screen, render, fireEvent } from '@testing-library/react';
 
 import useCurrentUser from './hooks/useCurrentUser';
 
-import { currentUser } from '../fixtures';
+import { setToggleMenu, resetToggleMenu } from './redux/slice';
+
+import { currentUser, toggleMenu } from '../fixtures';
 
 import Header from './Header';
 
 jest.mock('./hooks/useCurrentUser');
+jest.mock('react-redux');
 
 describe('<Header />', () => {
   context('inital render', () => {
@@ -34,6 +39,55 @@ describe('<Header />', () => {
       const userProfile = screen.getByAltText('user-profile');
 
       expect(userProfile).toHaveAttribute('src', currentUser.githubProfile);
+    });
+  });
+
+  context('when user click user profile', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+
+      useSelector.mockImplementation((selector) => selector({
+        toggleMenu: false,
+      }));
+    });
+
+    it('change toggleMenu', () => {
+      const { getByAltText } = render(<Header />);
+
+      fireEvent.click(getByAltText('user-profile'));
+
+      expect(dispatch).toBeCalledWith(setToggleMenu(true));
+    });
+  });
+
+  context('when user click logout button', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+
+      useSelector.mockImplementation((selector) => selector({
+        toggleMenu,
+      }));
+    });
+
+    it('change currentUser and toggleMenu', () => {
+      const { getByText } = render(<Header />);
+
+      fireEvent.click(getByText('Log out'));
+
+      expect(dispatch).toBeCalledWith(resetToggleMenu());
+      expect(dispatch).toBeCalledTimes(2);
     });
   });
 

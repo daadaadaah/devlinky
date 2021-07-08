@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
-  fetchUrlMetaData, login, isUser, autoSignup, postDevlink,
+  fetchUrlMetaData, login, isUser, autoSignup, postDevlink, logout,
 } from '../services/api';
 
 import { fetchUrl } from '../services/chrome';
 
-import { saveItem } from '../services/storage/localStorage';
+import { saveItem, removeItem } from '../services/storage/localStorage';
 
 import { teches } from '../../assets/js/data';
 
@@ -20,6 +20,7 @@ const { actions, reducer } = createSlice({
     comment: null,
     tags: [],
     autoCompleteTags: [],
+    toggleMenu: false,
   },
   reducers: {
     setError(state, { payload: error }) {
@@ -32,6 +33,12 @@ const { actions, reducer } = createSlice({
       return {
         ...state,
         currentUser,
+      };
+    },
+    resetCurrentUser(state) {
+      return {
+        ...state,
+        currentUser: null,
       };
     },
     setUrl(state, { payload: url }) {
@@ -79,12 +86,25 @@ const { actions, reducer } = createSlice({
         tags: [],
       };
     },
+    setToggleMenu(state, { payload: toggleMenu }) {
+      return {
+        ...state,
+        toggleMenu,
+      };
+    },
+    resetToggleMenu(state) {
+      return {
+        ...state,
+        toggleMenu: false,
+      };
+    },
   },
 });
 
 export const {
   setError,
   setCurrentUser,
+  resetCurrentUser,
   setUrl,
   setPreview,
   setComment,
@@ -92,6 +112,8 @@ export const {
   setAutoCompleteTags,
   resetAutoCompleteTags,
   resetDevlink,
+  setToggleMenu,
+  resetToggleMenu,
 } = actions;
 
 export const loadCurrentUser = () => async (dispatch) => {
@@ -113,6 +135,14 @@ export const loadCurrentUser = () => async (dispatch) => {
   } catch (error) {
     dispatch(setError(error.message));
   }
+};
+
+export const removeCurrentUser = () => async (dispatch) => {
+  removeItem('LAST_LOGIN_USER');
+
+  await logout();
+
+  dispatch(resetCurrentUser());
 };
 
 export const loadUrl = () => async (dispatch) => {

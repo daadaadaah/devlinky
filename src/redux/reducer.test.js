@@ -1,6 +1,7 @@
 import reducer, {
   setError,
   setCurrentUser,
+  resetCurrentUser,
   setUrl,
   setPreview,
   setComment,
@@ -8,10 +9,12 @@ import reducer, {
   setAutoCompleteTags,
   resetAutoCompleteTags,
   resetDevlink,
+  setToggleMenu,
+  resetToggleMenu,
 } from './slice';
 
 import {
-  error, currentUser, url, preview, comment, tags, autoCompleteTags,
+  error, currentUser, url, preview, comment, tags, autoCompleteTags, toggleMenu,
 } from '../../fixtures';
 
 describe('reducer', () => {
@@ -24,6 +27,7 @@ describe('reducer', () => {
       comment: null,
       tags: [],
       autoCompleteTags: [],
+      toggleMenu: false,
     };
 
     it('returns initialState', () => {
@@ -54,6 +58,20 @@ describe('reducer', () => {
       const state = reducer(initialState, setCurrentUser(currentUser));
 
       expect(state.currentUser).toStrictEqual(currentUser);
+    });
+  });
+
+  describe('resetCurrentUser', () => {
+    it('reset CurrentUser', () => {
+      const initialState = {
+        currentUser,
+        url: null,
+        preview: null,
+      };
+
+      const state = reducer(initialState, resetCurrentUser());
+
+      expect(state.currentUser).toBeNull();
     });
   });
 
@@ -167,6 +185,42 @@ describe('reducer', () => {
       expect(state.preview).toBeNull();
       expect(state.comment).toBeNull();
       expect(state.tags).toStrictEqual([]);
+    });
+  });
+
+  describe('setToggleMenu', () => {
+    it('set toggleMenu', () => {
+      const initialState = {
+        currentUser: null,
+        url: null,
+        preview: null,
+        comment: null,
+        tags: [],
+        autoCompleteTags: [],
+        toggleMenu: false,
+      };
+
+      const state = reducer(initialState, setToggleMenu(toggleMenu));
+
+      expect(state.toggleMenu).toBeTruthy();
+    });
+  });
+
+  describe('resetToggleMenu', () => {
+    it('reset toggleMenu', () => {
+      const initialState = {
+        currentUser: null,
+        url: null,
+        preview: null,
+        comment: null,
+        tags: [],
+        autoCompleteTags: [],
+        toggleMenu,
+      };
+
+      const state = reducer(initialState, resetToggleMenu());
+
+      expect(state.toggleMenu).toBeFalsy();
     });
   });
 });
