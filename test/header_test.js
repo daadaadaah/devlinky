@@ -36,7 +36,7 @@ Scenario('이전에 로그인한 기록이 없으면, 사용자 프로필이 안
   I.waitForInvisible({ xpath: `//img[@src='${currentUser.githubProfile}']` });
 });
 
-Scenario('로그아웃할 수 있다.', async (I) => {
+Scenario('로그아웃할 수 있다.', async ({ I }) => {
   I.amOnPage('/');
 
   await I.executeScript((setCurrentUser) => {
@@ -44,6 +44,8 @@ Scenario('로그아웃할 수 있다.', async (I) => {
   }, currentUser);
 
   I.refreshPage();
+
+  I.click({ xpath: `//img[@src='${currentUser.githubProfile}']` });
 
   I.click('Log out');
 
