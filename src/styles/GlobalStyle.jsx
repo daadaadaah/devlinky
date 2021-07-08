@@ -18,6 +18,10 @@ const GlobalStyle = () => (
         color: ${style.common.color};
         font-family: ${style.common.font.en.family};
       }
+
+      button {
+        cursor: pointer;
+      }
     `}
   />
 );

@@ -35,10 +35,10 @@ export default function Header() {
         <>
           <Profile src={currentUser.githubProfile} onClick={handleClickProfile} alt="user-profile" />
           <SpeechBubble toggleMenu={toggleMenu}>
-            <div />
-            <div>
+            <SpeechTail />
+            <Bubble>
               <button type="button" onClick={handleClickLogout}>Log out</button>
-            </div>
+            </Bubble>
           </SpeechBubble>
         </>
       )}
@@ -67,8 +67,63 @@ const Profile = styled.img`
   height: 32px;
   width: 32px;
   border-radius: 50%;
+  cursor:  pointer;
 `;
 
 const SpeechBubble = styled.div`
+  position: absolute;
+  top: 66px;
+  left: 244px;
+  
   display: ${({ toggleMenu }) => (toggleMenu ? 'block' : 'none')};
+  width: 57px;
+  height: 33px;
+  cursor:  pointer;
+
+  & div:nth-of-type(1) {
+    position: absolute;
+    top: 0%;
+    right: 22%;
+    bottom: 64%;
+    left: 62%;
+  }
+
+  & div:nth-of-type(2) {
+    position: absolute;   
+    top: 12%;
+    right: 0%;
+    bottom: 0%;
+    left: 0%;
+ 
+    & button {
+      position: absolute;
+      top: 0%;
+      right: 0%;
+      bottom: 0%;
+      left: 18%;
+    }
+  }
+`;
+
+const SpeechTail = styled.div`
+  width: 9px;
+  height: 9px;
+  border-radius: 1px;
+  transform: rotate(45deg);
+  background: ${style.button.normal.background};
+`;
+
+const Bubble = styled.div`
+  background: ${style.button.normal.background};
+  border-radius: 10px;
+
+  & button {
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    font-size: ${style.font.size.tiny};
+    font-weight: ${style.font.weight.black};
+    color: ${style.button.normal.color};
+  }
 `;
