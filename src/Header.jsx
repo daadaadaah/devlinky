@@ -47,7 +47,7 @@ export default function Header() {
 }
 
 const Layout = styled.header`
-  margin: ${style.common.interval.small} ${style.common.interval.tiny} 0;
+  padding: ${style.common.interval.small} ${style.common.interval.tiny} 0;
 
   & img:nth-of-type(1) {
     margin-top: 6px;
