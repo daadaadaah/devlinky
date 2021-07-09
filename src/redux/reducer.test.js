@@ -2,6 +2,7 @@ import reducer, {
   setError,
   setCurrentUser,
   resetCurrentUser,
+  setSelectTabMenu,
   setUrl,
   setPreview,
   setComment,
@@ -14,7 +15,7 @@ import reducer, {
 } from './slice';
 
 import {
-  error, currentUser, url, preview, comment, tags, autoCompleteTags, toggleMenu,
+  error, currentUser, url, preview, comment, tags, autoCompleteTags, toggleMenu, selectTabMenu,
 } from '../../fixtures';
 
 describe('reducer', () => {
@@ -28,6 +29,7 @@ describe('reducer', () => {
       tags: [],
       autoCompleteTags: [],
       toggleMenu: false,
+      selectTabMenu: selectTabMenu.Menu1,
     };
 
     it('returns initialState', () => {
@@ -72,6 +74,21 @@ describe('reducer', () => {
       const state = reducer(initialState, resetCurrentUser());
 
       expect(state.currentUser).toBeNull();
+    });
+  });
+
+  describe('setSelectTabMenu', () => {
+    it('reset SelectTabMenu', () => {
+      const initialState = {
+        currentUser,
+        url: null,
+        preview: null,
+        selectTabMenu: selectTabMenu.Menu1,
+      };
+
+      const state = reducer(initialState, setSelectTabMenu(selectTabMenu.Menu2));
+
+      expect(state.selectTabMenu).toBe(selectTabMenu.Menu2);
     });
   });
 
