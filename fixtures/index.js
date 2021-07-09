@@ -37,7 +37,7 @@ export const autoCompleteTags = [
   },
 ];
 
-export const toggleMenu = true;
+export const toggleSpeechBubble = true;
 
 export const selectTabMenu = {
   Menu1: 'newlink',
