@@ -158,20 +158,21 @@ export default function MainPage() {
                       />
                     )}
                 </fieldset>
-                <fieldset>
+                <FormField>
                   <label htmlFor="devlink-comment">
                     comment
                   </label>
-                  <input
+                  <FormFieldInput
                     type="text"
                     id="devlink-comment"
                     aria-label="devlink-comment"
                     placeholder="Comment를 입력해주세요"
                     name="comment"
+                    autoComplete="off"
                     value={comment || ''}
                     onChange={handleChangeComment}
                   />
-                </fieldset>
+                </FormField>
                 <fieldset>
                   <label htmlFor="devlink-tags">
                     tags
@@ -262,6 +263,41 @@ const TabMenus = styled.ul`
 
 const Layout = styled.div`
   padding: ${style.common.interval.small} ${style.common.interval.small} 48px;
+`;
+
+const FormField = styled.fieldset`
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  & label {
+    text-transform: capitalize;
+    
+    font-weight: 300;
+    font-size: 12px;
+    opacity: 0.8;
+
+    align-items: center;
+
+    font-family: ${style.font.family.en};
+  }
+`;
+
+const FormFieldInput = styled.input`
+  margin-top: 4px;
+
+  width: 272px;
+  height: 30px;
+
+  padding: 0 16px;
+
+  border-radius: 15px;
+
+  ::placeholder {
+    font-family: ${style.font.family.krNum};
+    opacity: 0.5;
+  }
 `;
 
 const AutoCompleteTagsWrapper = styled.div`
