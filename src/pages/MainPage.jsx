@@ -24,6 +24,7 @@ import {
   loadAutoCompleteTags,
   resetAutoCompleteTags,
   submitDevlink,
+  setSelectTabMenu,
 } from '../redux/slice';
 
 import { isEmpty, get } from '../utils';
@@ -38,6 +39,13 @@ export default function MainPage() {
   }
 
   const dispatch = useDispatch();
+
+  const selectTabMenu = useSelector(get('selectTabMenu'));
+
+  const handleClickTabMenu = (e) => {
+    const newSelectTabMenu = e.target.text;
+    dispatch(setSelectTabMenu(newSelectTabMenu));
+  };
 
   const url = useSelector(get('url'));
 
@@ -101,12 +109,12 @@ export default function MainPage() {
   return (
     <>
       <MemoryRouter initialEntries={['/newlink']}>
-        <TabMenus>
+        <TabMenus selectTabMenu={selectTabMenu}>
           <li>
-            <Link to="/newlink">newlink</Link>
+            <Link to="/newlink" onClick={handleClickTabMenu}>newlink</Link>
           </li>
           <li>
-            <Link to="/archive">archive</Link>
+            <Link to="/archive" onClick={handleClickTabMenu}>archive</Link>
           </li>
         </TabMenus>
         <Layout>
@@ -239,14 +247,15 @@ const TabMenus = styled.ul`
     }
   }
 
-  & li:nth-child(1) {
-    // TODO : 사용자가 선택한 메뉴에 따라 동적 처리
+  & li:nth-of-type(2) {
+    margin-left: 16px;
+  }
+  
+  & li:nth-of-type(${({ selectTabMenu }) => (selectTabMenu === 'newlink' ? 1 : 2)}) {
     border-bottom: 3px solid ${colors.white}; /* 선택 */
   }
 
-  & li:nth-child(2) {
-    margin-left: 16px;
-
+  & li:nth-of-type(${({ selectTabMenu }) => (selectTabMenu === 'newlink' ? 2 : 1)}){
     opacity: 0.5; /* 미 선택 */
   }
 `;
