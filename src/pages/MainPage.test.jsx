@@ -462,6 +462,35 @@ describe('<MainPage />', () => {
     });
   });
 
+  context('when user select autocompletTags', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+
+      useSelector.mockImplementation((selector) => selector({
+        url,
+        preview,
+        comment,
+        tags,
+        autoCompleteTags,
+      }));
+    });
+
+    it('change tags and autoCompleteTags', () => {
+      const { getByText } = render(<MainPage />);
+
+      fireEvent.click(getByText(`#${autoCompleteTags[0].name}`));
+
+      expect(dispatch).toBeCalledWith(resetAutoCompleteTags());
+      expect(dispatch).toBeCalledWith(setTags([...tags, autoCompleteTags[0].name]));
+    });
+  });
+
   context('when user click save button', () => {
     context('with devlink', () => {
       const dispatch = jest.fn();

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import styled from '@emotion/styled';
 
-import React from 'react';
+import React, { useRef } from 'react';
 
 import {
   useHistory, MemoryRouter, Route, Link, Switch,
@@ -74,6 +74,8 @@ export default function MainPage() {
     dispatch(setComment(e.target.value));
   };
 
+  const inputTag = useRef();
+
   const tags = useSelector(get('tags'));
   const autoCompleteTags = useSelector(get('autoCompleteTags'));
 
@@ -95,9 +97,19 @@ export default function MainPage() {
       if (newTag && tags.indexOf(newTag) === -1) {
         dispatch(resetAutoCompleteTags());
         dispatch(setTags([...tags, newTag]));
+        // 너비보다 더 많은 태그를 입력했을 때, 스크롤 이동하여 입력창으로 포커스 주기
+        // 최대 태그 입력 갯수 정하기
         e.target.value = '';
       }
     }
+  };
+
+  const handleClickAutoCompleteTag = (index) => {
+    const newAutoCompleteTag = autoCompleteTags[index].name;
+
+    dispatch(setTags([...tags, newAutoCompleteTag]));
+    inputTag.current.value = '';
+    dispatch(resetAutoCompleteTags());
   };
 
   const handleClickRemoveTag = (removeIndex) => {
@@ -199,18 +211,19 @@ export default function MainPage() {
                           placeholder={isEmpty(tags) ? 'tag 입력 후 enter를 입력해주세요' : undefined}
                           name="tags"
                           autoComplete="off"
+                          ref={inputTag}
                           onChange={handleChangeTag}
                           onKeyDown={handleKeyDownEnter}
                         />
                       </TagInput>
                     </Tags>
                   </TagInputWrapper>
-                  <AutoCompleteTagsWrapper>
+                  <AutoCompleteTagsWrapper showAutoCompleteTags={!isEmpty(autoCompleteTags)}>
                     <ul>
                       {!isEmpty(autoCompleteTags)
                       && autoCompleteTags.map((autoCompleteTag, index) => (
                         <li key={index}>
-                          {`[v]${autoCompleteTag.name}`}
+                          <AutoCompleteTagsText onClick={() => handleClickAutoCompleteTag(index)}>{`#${autoCompleteTag.name}`}</AutoCompleteTagsText>
                         </li>
                       ))}
                     </ul>
@@ -307,6 +320,8 @@ const FormFieldInput = styled.input`
 `;
 
 const AutoCompleteTagsWrapper = styled.div`
+  display: ${({ showAutoCompleteTags }) => (showAutoCompleteTags ? 'block' : 'none')};
+
   ul {
     display: flex;
     flex-direction: row;
@@ -315,6 +330,24 @@ const AutoCompleteTagsWrapper = styled.div`
       list-style: none;
     }
   }
+`;
+
+const AutoCompleteTagsText = styled.span`
+
+  display: flex;
+  align-items: center;
+
+  font-style: normal;
+  font-weight: ${style.font.weight.bold};
+  font-size: 10px;
+  line-height: 12px;
+
+  color:  ${style.colors.white};
+  background: #8F8ECF;
+  margin: 3px 6px;
+  text-transform: uppercase;
+
+  cursor: pointer;
 `;
 
 const TagInputWrapper = styled.div`
