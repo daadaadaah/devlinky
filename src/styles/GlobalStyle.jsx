@@ -17,6 +17,8 @@ const GlobalStyle = () => (
         min-height: 600px;
         background-color: ${style.common.background};
         color: ${style.common.color};
+        /* 임시 : 디자인 QA용 */
+        /* border: 1px solid #FFFFFF;  */
       }
 
       button {

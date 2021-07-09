@@ -11,11 +11,11 @@ import MainPage from './MainPage';
 import useCurrentUser from '../hooks/useCurrentUser';
 
 import {
-  setUrl, setComment, setTags, resetAutoCompleteTags,
+  setUrl, setComment, setTags, resetAutoCompleteTags, setSelectTabMenu,
 } from '../redux/slice';
 
 import {
-  currentUser, url, preview, comment, tags, autoCompleteTags,
+  currentUser, url, preview, comment, tags, autoCompleteTags, selectTabMenu,
 } from '../../fixtures';
 
 jest.mock('react-router-dom', () => ({
@@ -71,7 +71,7 @@ describe('<MainPage />', () => {
     });
   });
 
-  context('when newlink menu is clicked', () => {
+  context('when tab menu is clicked', () => {
     const dispatch = jest.fn();
 
     beforeEach(() => {
@@ -80,38 +80,21 @@ describe('<MainPage />', () => {
       }));
 
       useDispatch.mockImplementation(() => dispatch);
-    });
 
-    it('shows the devlink save form', () => {
-      const { container, getByText, getByAltText } = render(<MainPage />);
-
-      fireEvent.click(getByText(/newlink/i));
-
-      expect(container).toHaveTextContent('url');
-      expect(container).toHaveTextContent('preview');
-      expect(getByAltText('preview-default')).toHaveAttribute('src', '../../assets/images/preview_default.png');
-      expect(container).toHaveTextContent('comment');
-      expect(container).toHaveTextContent('tags');
-      expect(container).toHaveTextContent('Save a contents');
-    });
-  });
-
-  context('when archive menu is clicked', () => {
-    const dispatch = jest.fn();
-
-    beforeEach(() => {
-      useCurrentUser.mockImplementation(() => ({
-        currentUser,
+      useSelector.mockImplementation((selector) => selector({
+        url,
+        selectTabMenu: selectTabMenu.Menu1,
       }));
-
-      useDispatch.mockImplementation(() => dispatch);
     });
 
-    it('shows archive', () => {
+    it('change selectTabMenu', () => {
       const { container, getByText } = render(<MainPage />);
+
+      expect(container).toHaveTextContent('Save a contents');
 
       fireEvent.click(getByText(/archive/i));
 
+      expect(dispatch).toBeCalledWith(setSelectTabMenu(selectTabMenu.Menu2));
       expect(container).toHaveTextContent('archive tab menu');
     });
   });

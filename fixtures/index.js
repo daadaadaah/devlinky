@@ -38,3 +38,8 @@ export const autoCompleteTags = [
 ];
 
 export const toggleMenu = true;
+
+export const selectTabMenu = {
+  Menu1: 'newlink',
+  Menu2: 'archive',
+};

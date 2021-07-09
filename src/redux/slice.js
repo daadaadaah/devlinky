@@ -21,6 +21,7 @@ const { actions, reducer } = createSlice({
     tags: [],
     autoCompleteTags: [],
     toggleMenu: false,
+    selectTabMenu: 'newlink',
   },
   reducers: {
     setError(state, { payload: error }) {
@@ -39,6 +40,12 @@ const { actions, reducer } = createSlice({
       return {
         ...state,
         currentUser: null,
+      };
+    },
+    setSelectTabMenu(state, { payload: selectTabMenu }) {
+      return {
+        ...state,
+        selectTabMenu,
       };
     },
     setUrl(state, { payload: url }) {
@@ -105,6 +112,7 @@ export const {
   setError,
   setCurrentUser,
   resetCurrentUser,
+  setSelectTabMenu,
   setUrl,
   setPreview,
   setComment,
