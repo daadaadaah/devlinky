@@ -180,7 +180,7 @@ export default function MainPage() {
                   <label htmlFor="devlink-comment">
                     comment
                   </label>
-                  <FormFieldInput
+                  <input
                     type="text"
                     id="devlink-comment"
                     aria-label="devlink-comment"
@@ -191,32 +191,32 @@ export default function MainPage() {
                     onChange={handleChangeComment}
                   />
                 </FormField>
-                <fieldset>
+                <FormField>
                   <label htmlFor="devlink-tags">
                     tags
                   </label>
                   <TagInputWrapper>
-                    <Tags>
+                    <ul>
                       {!isEmpty(tags) && tags.map((tag, index) => (
-                        <TagText key={index}>
-                          <span>{`#${tag}`}</span>
+                        <li key={index}>
+                          <TagText>{`#${tag}`}</TagText>
                           <button type="button" alt="btn-remove-tag" title="remove-tag" onClick={() => handleClickRemoveTag(index)} />
-                        </TagText>
+                        </li>
                       ))}
-                      <TagInput>
+                      <li>
                         <input
                           type="text"
                           id="devlink-tags"
                           aria-label="devlink-tags"
                           placeholder={isEmpty(tags) ? 'tag 입력 후 enter를 입력해주세요' : undefined}
+                          ref={inputTag}
                           name="tags"
                           autoComplete="off"
-                          ref={inputTag}
                           onChange={handleChangeTag}
                           onKeyDown={handleKeyDownEnter}
                         />
-                      </TagInput>
-                    </Tags>
+                      </li>
+                    </ul>
                   </TagInputWrapper>
                   <AutoCompleteTagsWrapper showAutoCompleteTags={!isEmpty(autoCompleteTags)}>
                     <ul>
@@ -228,7 +228,7 @@ export default function MainPage() {
                       ))}
                     </ul>
                   </AutoCompleteTagsWrapper>
-                </fieldset>
+                </FormField>
                 <SaveButton type="button" id="btn-save" onClick={handleClickSave}>Save a contents</SaveButton>
               </form>
             </Route>
@@ -297,37 +297,101 @@ const FormField = styled.fieldset`
     font-size: 12px;
     opacity: 0.8;
 
-    align-items: center;
-
     font-family: ${style.font.family.en};
+  }
+
+  & label ~ :nth-child(2) {
+    margin-top: 4px;
+
+    padding: 0 16px;
+    background: ${style.colors.white};
+    border-radius: 15px;
+  }
+
+  & input {
+    height: 30px;
+
+    ::placeholder {
+      font-family: ${style.font.family.krNum};
+      opacity: 0.5;
+    }
   }
 `;
 
-const FormFieldInput = styled.input`
-  margin-top: 4px;
+const TagInputWrapper = styled.div`
+  width: 272px; /* 태그가 많아졌을 때, 늘어나는 걸 방지하기 위해 고정값 사용 */
 
-  width: 272px;
-  height: 30px;
+  & ul {
+    display: flex;
+    flex-wrap: nowrap; /* 1줄로 표시  */
+    overflow: scroll;
 
-  padding: 0 16px;
+    align-items: center;
 
-  border-radius: 15px;
+    & li {
+      flex: 0 0 auto;
 
-  ::placeholder {
-    font-family: ${style.font.family.krNum};
-    opacity: 0.5;
+      & span {
+
+      }
+
+      & button {
+        margin-left: 2px;
+        width: 10px;
+        height: 10px;
+
+        background: url('../../assets/images/tag-remove.png');
+      }
+    }
+
+    & li:not(:first-of-type) {
+      margin-left: 10px;
+    }
+
+    & li:last-of-type input {
+      width: 200px; /* placeholder 보일 정도만 */
+    }
   }
+
+  & ul::-webkit-scrollbar { /* Chrome, Safari, Opera*/
+    display: none; /* 스크롤 바 안보이게 */
+  }
+`;
+
+const TagText = styled.span`
+  font-family: ${style.font.family.krNum};
+  font-style: normal;
+  font-weight: ${style.font.weight.regular};
+  font-size: 12px;
+  color: #383D4B;
+  text-transform: uppercase;
 `;
 
 const AutoCompleteTagsWrapper = styled.div`
+  margin: 0 16px;
+
   display: ${({ showAutoCompleteTags }) => (showAutoCompleteTags ? 'block' : 'none')};
+
+  height: 32px;
+  background: ${style.colors.white};
+  border: 0.25px solid ${style.colors.gray.normal};
 
   ul {
     display: flex;
     flex-direction: row;
-    background: white;
+    margin: 8px;
+
     li {
       list-style: none;
+
+      height: 16px;
+
+      background: #8F8ECF;
+      border-radius: 40px;
+    }
+
+    li:not(:first-of-type) {
+      margin-left: 4px;
     }
   }
 `;
@@ -348,49 +412,6 @@ const AutoCompleteTagsText = styled.span`
   text-transform: uppercase;
 
   cursor: pointer;
-`;
-
-const TagInputWrapper = styled.div`
-  background: white;
-  border: 1px solid #d6d6d6;
-  border-radius: 2px;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 5px 5px 0;
-
-  input {
-    border: none;
-    width: 100%;
-  }
-`;
-
-const Tags = styled.ul`
-  display: inline-flex;
-  flex-wrap: wrap;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-
-  li {
-    align-items: center;
-    border-radius: 2px;
-    color: white;
-    display: flex;
-    font-weight: 300;
-    list-style: none;
-    margin-bottom: 1px;
-    margin-right: 1px;
-    padding: 1px 2px;
-  }
-`;
-
-const TagText = styled.li`
-  background: #85A3BF;
-`;
-
-const TagInput = styled.li`
-  flex-grow: 1;
-  padding: 0;
 `;
 
 const SaveButton = styled.button`
