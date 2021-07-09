@@ -210,7 +210,7 @@ export default function MainPage() {
                     </ul>
                   </AutoCompleteTagsWrapper>
                 </fieldset>
-                <button type="button" id="btn-save" onClick={handleClickSave}>Save a contents</button>
+                <SaveButton type="button" id="btn-save" onClick={handleClickSave}>Save a contents</SaveButton>
               </form>
             </Route>
             <Route path="/archive">
@@ -352,4 +352,23 @@ const TagText = styled.li`
 const TagInput = styled.li`
   flex-grow: 1;
   padding: 0;
+`;
+
+const SaveButton = styled.button`
+  position: fixed;
+  top: 510px;
+  margin: 0 20px;
+
+  width: 240px;
+  height: 42px;
+  background: ${style.button.normal.background};
+  border-radius: 63px;
+
+  font-size: ${style.button.font.size};;
+  font-weight: ${style.button.font.weight};
+  color:  ${style.button.normal.color};
+
+  &:hover {
+    background-color:${style.button.hover.background};
+  }
 `;
