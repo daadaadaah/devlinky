@@ -196,4 +196,12 @@ export const submitDevlink = () => async (dispatch, getState) => {
   }
 };
 
+export const removeTag = (removeIndex) => async (dispatch, getState) => {
+  const { tags } = getState();
+
+  const newTags = tags.filter((tag, index) => index !== removeIndex);
+
+  dispatch(setTags(newTags));
+};
+
 export default reducer;

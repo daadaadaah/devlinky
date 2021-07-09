@@ -16,6 +16,8 @@ import {
   resetDevlink,
   removeCurrentUser,
   resetCurrentUser,
+  removeTag,
+  setTags,
 } from './slice';
 
 import { fetchUrl } from '../services/chrome';
@@ -218,6 +220,24 @@ describe('actions', () => {
       const actions = store.getActions();
 
       expect(actions[0]).toStrictEqual(resetCurrentUser());
+    });
+  });
+
+  describe('removeTag', () => {
+    beforeEach(() => {
+      store = mockStore({
+        currentUser,
+        tags,
+      });
+    });
+
+    it('runs setTags', async () => {
+      const removeIndex = 0;
+      await store.dispatch(removeTag(removeIndex));
+
+      const actions = store.getActions();
+
+      expect(actions[0]).toStrictEqual(setTags([tags[1], tags[2]]));
     });
   });
 });
