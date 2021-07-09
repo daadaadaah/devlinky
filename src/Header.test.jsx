@@ -6,9 +6,9 @@ import { screen, render, fireEvent } from '@testing-library/react';
 
 import useCurrentUser from './hooks/useCurrentUser';
 
-import { setToggleMenu, resetToggleMenu } from './redux/slice';
+import { settoggleSpeechBubble, resettoggleSpeechBubble } from './redux/slice';
 
-import { currentUser, toggleMenu } from '../fixtures';
+import { currentUser, toggleSpeechBubble } from '../fixtures';
 
 import Header from './Header';
 
@@ -53,16 +53,16 @@ describe('<Header />', () => {
       useDispatch.mockImplementation(() => dispatch);
 
       useSelector.mockImplementation((selector) => selector({
-        toggleMenu: false,
+        toggleSpeechBubble: false,
       }));
     });
 
-    it('change toggleMenu', () => {
+    it('change toggleSpeechBubble', () => {
       const { getByAltText } = render(<Header />);
 
       fireEvent.click(getByAltText('user-profile'));
 
-      expect(dispatch).toBeCalledWith(setToggleMenu(true));
+      expect(dispatch).toBeCalledWith(settoggleSpeechBubble(true));
     });
   });
 
@@ -77,16 +77,16 @@ describe('<Header />', () => {
       useDispatch.mockImplementation(() => dispatch);
 
       useSelector.mockImplementation((selector) => selector({
-        toggleMenu,
+        toggleSpeechBubble,
       }));
     });
 
-    it('change currentUser and toggleMenu', () => {
+    it('change currentUser and toggleSpeechBubble', () => {
       const { getByText } = render(<Header />);
 
       fireEvent.click(getByText('Log out'));
 
-      expect(dispatch).toBeCalledWith(resetToggleMenu());
+      expect(dispatch).toBeCalledWith(resettoggleSpeechBubble());
       expect(dispatch).toBeCalledTimes(2);
     });
   });

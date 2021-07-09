@@ -20,7 +20,7 @@ const { actions, reducer } = createSlice({
     comment: null,
     tags: [],
     autoCompleteTags: [],
-    toggleMenu: false,
+    toggleSpeechBubble: false,
     selectTabMenu: 'newlink',
   },
   reducers: {
@@ -93,16 +93,16 @@ const { actions, reducer } = createSlice({
         tags: [],
       };
     },
-    setToggleMenu(state, { payload: toggleMenu }) {
+    settoggleSpeechBubble(state, { payload: toggleSpeechBubble }) {
       return {
         ...state,
-        toggleMenu,
+        toggleSpeechBubble,
       };
     },
-    resetToggleMenu(state) {
+    resettoggleSpeechBubble(state) {
       return {
         ...state,
-        toggleMenu: false,
+        toggleSpeechBubble: false,
       };
     },
   },
@@ -120,8 +120,8 @@ export const {
   setAutoCompleteTags,
   resetAutoCompleteTags,
   resetDevlink,
-  setToggleMenu,
-  resetToggleMenu,
+  settoggleSpeechBubble,
+  resettoggleSpeechBubble,
 } = actions;
 
 export const loadCurrentUser = () => async (dispatch) => {

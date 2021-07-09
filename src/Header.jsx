@@ -8,7 +8,7 @@ import useCurrentUser from './hooks/useCurrentUser';
 
 import style from './styles/designSystem';
 
-import { removeCurrentUser, setToggleMenu, resetToggleMenu } from './redux/slice';
+import { removeCurrentUser, settoggleSpeechBubble, resettoggleSpeechBubble } from './redux/slice';
 
 import { get } from './utils';
 
@@ -17,15 +17,15 @@ export default function Header() {
 
   const dispatch = useDispatch();
 
-  const toggleMenu = useSelector(get('toggleMenu'));
+  const toggleSpeechBubble = useSelector(get('toggleSpeechBubble'));
 
   const handleClickProfile = () => {
-    dispatch(setToggleMenu(!toggleMenu));
+    dispatch(settoggleSpeechBubble(!toggleSpeechBubble));
   };
 
   const handleClickLogout = () => {
     dispatch(removeCurrentUser());
-    dispatch(resetToggleMenu());
+    dispatch(resettoggleSpeechBubble());
   };
 
   return (
@@ -34,7 +34,7 @@ export default function Header() {
       {currentUser && (
         <>
           <Profile src={currentUser.githubProfile} onClick={handleClickProfile} alt="user-profile" />
-          <SpeechBubble toggleMenu={toggleMenu}>
+          <SpeechBubble toggleSpeechBubble={toggleSpeechBubble}>
             <SpeechTail />
             <Bubble>
               <button type="button" onClick={handleClickLogout}>Log out</button>
@@ -75,7 +75,7 @@ const SpeechBubble = styled.div`
   top: 66px;
   left: 244px;
   
-  display: ${({ toggleMenu }) => (toggleMenu ? 'block' : 'none')};
+  display: ${({ toggleSpeechBubble }) => (toggleSpeechBubble ? 'block' : 'none')};
   width: 57px;
   height: 33px;
   cursor:  pointer;

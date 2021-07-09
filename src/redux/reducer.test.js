@@ -10,12 +10,20 @@ import reducer, {
   setAutoCompleteTags,
   resetAutoCompleteTags,
   resetDevlink,
-  setToggleMenu,
-  resetToggleMenu,
+  settoggleSpeechBubble,
+  resettoggleSpeechBubble,
 } from './slice';
 
 import {
-  error, currentUser, url, preview, comment, tags, autoCompleteTags, toggleMenu, selectTabMenu,
+  error,
+  currentUser,
+  url,
+  preview,
+  comment,
+  tags,
+  autoCompleteTags,
+  toggleSpeechBubble,
+  selectTabMenu,
 } from '../../fixtures';
 
 describe('reducer', () => {
@@ -28,7 +36,7 @@ describe('reducer', () => {
       comment: null,
       tags: [],
       autoCompleteTags: [],
-      toggleMenu: false,
+      toggleSpeechBubble: false,
       selectTabMenu: selectTabMenu.Menu1,
     };
 
@@ -205,8 +213,8 @@ describe('reducer', () => {
     });
   });
 
-  describe('setToggleMenu', () => {
-    it('set toggleMenu', () => {
+  describe('settoggleSpeechBubble', () => {
+    it('set toggleSpeechBubble', () => {
       const initialState = {
         currentUser: null,
         url: null,
@@ -214,17 +222,17 @@ describe('reducer', () => {
         comment: null,
         tags: [],
         autoCompleteTags: [],
-        toggleMenu: false,
+        toggleSpeechBubble: false,
       };
 
-      const state = reducer(initialState, setToggleMenu(toggleMenu));
+      const state = reducer(initialState, settoggleSpeechBubble(toggleSpeechBubble));
 
-      expect(state.toggleMenu).toBeTruthy();
+      expect(state.toggleSpeechBubble).toBeTruthy();
     });
   });
 
-  describe('resetToggleMenu', () => {
-    it('reset toggleMenu', () => {
+  describe('resettoggleSpeechBubble', () => {
+    it('reset toggleSpeechBubble', () => {
       const initialState = {
         currentUser: null,
         url: null,
@@ -232,12 +240,12 @@ describe('reducer', () => {
         comment: null,
         tags: [],
         autoCompleteTags: [],
-        toggleMenu,
+        toggleSpeechBubble,
       };
 
-      const state = reducer(initialState, resetToggleMenu());
+      const state = reducer(initialState, resettoggleSpeechBubble());
 
-      expect(state.toggleMenu).toBeFalsy();
+      expect(state.toggleSpeechBubble).toBeFalsy();
     });
   });
 });
