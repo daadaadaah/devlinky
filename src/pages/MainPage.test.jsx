@@ -434,6 +434,34 @@ describe('<MainPage />', () => {
     });
   });
 
+  context('when user click tag remove button', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+
+      useSelector.mockImplementation((selector) => selector({
+        url,
+        preview,
+        comment,
+        tags,
+        autoCompleteTags: [],
+      }));
+    });
+
+    it('change tags', () => {
+      const { getAllByTitle } = render(<MainPage />);
+
+      fireEvent.click(getAllByTitle('remove-tag')[0]);
+
+      expect(dispatch).toBeCalledWith(resetAutoCompleteTags());
+    });
+  });
+
   context('when user click save button', () => {
     context('with devlink', () => {
       const dispatch = jest.fn();

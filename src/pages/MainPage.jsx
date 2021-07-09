@@ -25,6 +25,7 @@ import {
   resetAutoCompleteTags,
   submitDevlink,
   setSelectTabMenu,
+  removeTag,
 } from '../redux/slice';
 
 import { isEmpty, get } from '../utils';
@@ -97,6 +98,11 @@ export default function MainPage() {
         e.target.value = '';
       }
     }
+  };
+
+  const handleClickRemoveTag = (removeIndex) => {
+    dispatch(removeTag(removeIndex));
+    dispatch(resetAutoCompleteTags());
   };
 
   const handleClickSave = () => {
@@ -182,7 +188,7 @@ export default function MainPage() {
                       {!isEmpty(tags) && tags.map((tag, index) => (
                         <TagText key={index}>
                           <span>{`#${tag}`}</span>
-                          <span>[X]</span>
+                          <button type="button" alt="btn-remove-tag" title="remove-tag" onClick={() => handleClickRemoveTag(index)} />
                         </TagText>
                       ))}
                       <TagInput>
@@ -190,7 +196,7 @@ export default function MainPage() {
                           type="text"
                           id="devlink-tags"
                           aria-label="devlink-tags"
-                          placeholder="tag 입력 후 enter를 입력해주세요"
+                          placeholder={isEmpty(tags) ? 'tag 입력 후 enter를 입력해주세요' : undefined}
                           name="tags"
                           autoComplete="off"
                           onChange={handleChangeTag}
