@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -14,9 +14,16 @@ import {
   setUrl, setComment, setTags, resetAutoCompleteTags, setSelectTabMenu,
 } from '../redux/slice';
 
+import { isNeedScroll, autoXScroll } from '../helper';
+
 import {
   currentUser, url, preview, comment, tags, autoCompleteTags, selectTabMenu,
 } from '../../fixtures';
+
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useRef: jest.fn(),
+}));
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -27,7 +34,11 @@ jest.mock('react-redux');
 
 jest.mock('../hooks/useCurrentUser');
 
+jest.mock('../helper');
+
 describe('<MainPage />', () => {
+  useRef.mockReturnValue({ current: null });
+
   context('with currentUser', () => {
     const dispatch = jest.fn();
 
@@ -545,6 +556,49 @@ describe('<MainPage />', () => {
         fireEvent.click(getByText(/Save a contents/i));
 
         expect(dispatch).not.toBeCalled();
+      });
+    });
+  });
+
+  context('when user input tag and press enter', () => {
+    context('with isNeedScroll', () => {
+      const dispatch = jest.fn();
+
+      beforeEach(() => {
+        useCurrentUser.mockImplementation(() => ({
+          currentUser,
+        }));
+
+        useDispatch.mockImplementation(() => dispatch);
+
+        useSelector.mockImplementation((selector) => selector({
+          url,
+          preview,
+          comment,
+          tags: [tags[0]],
+          autoCompleteTags: [],
+        }));
+
+        isNeedScroll.mockImplementation(() => jest.fn().mockReturnValue(true));
+      });
+
+      it('call autoScroll', () => {
+        const { getByLabelText } = render(<MainPage />);
+
+        const tagInput = getByLabelText('devlink-tags');
+
+        const newTag = tags[1];
+
+        fireEvent.change(tagInput, {
+          target: { value: newTag },
+        });
+
+        fireEvent.keyDown(tagInput, { key: 'Enter', code: 'Enter', keyCode: 13 });
+
+        expect(dispatch).toBeCalledWith(setTags([...[tags[0]], newTag]));
+        expect(dispatch).toBeCalledWith(resetAutoCompleteTags());
+
+        expect(autoXScroll).toBeCalled();
       });
     });
   });

@@ -30,6 +30,8 @@ import {
 
 import { isEmpty, get } from '../utils';
 
+import { isNeedScroll, autoXScroll } from '../helper';
+
 export default function MainPage() {
   const history = useHistory();
 
@@ -89,12 +91,23 @@ export default function MainPage() {
     }
   };
 
+  const ulTagsRef = useRef();
+
+  const SCROLL_X_VALUE = 60; // TODO : 얼만큼 이동하는게 UX적으로 좋을지 디자이너와 상의 후 x값 픽스하기
+
+  const MOVE = {
+    RIGHT: SCROLL_X_VALUE,
+    LEFT: -SCROLL_X_VALUE,
+  };
+
   const handleAddTag = (tag) => {
     dispatch(setTags([...tags, tag]));
     inputTagRef.current.value = '';
     dispatch(resetAutoCompleteTags());
-    // 너비보다 더 많은 태그를 입력했을 때, 스크롤 이동하여 입력창으로 포커스 주기
     // 최대 태그 입력 갯수 정하기
+    if (isNeedScroll(inputTagRef)) {
+      autoXScroll(ulTagsRef, MOVE.RIGHT);
+    }
   };
 
   const handleKeyDownEnter = (e) => {
