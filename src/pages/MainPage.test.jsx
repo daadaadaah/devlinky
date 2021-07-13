@@ -445,7 +445,7 @@ describe('<MainPage />', () => {
     });
   });
 
-  context('when user click tag remove button', () => {
+  context('when user click tag remove button && with isNeedScroll', () => {
     const dispatch = jest.fn();
 
     beforeEach(() => {
@@ -462,6 +462,8 @@ describe('<MainPage />', () => {
         tags,
         autoCompleteTags: [],
       }));
+
+      isNeedScroll.mockReturnValue(true);
     });
 
     it('change tags', () => {
@@ -470,6 +472,41 @@ describe('<MainPage />', () => {
       fireEvent.click(getAllByTitle('remove-tag')[0]);
 
       expect(dispatch).toBeCalledWith(resetAutoCompleteTags());
+
+      expect(autoXScroll).toBeCalled();
+    });
+  });
+
+  context('when user click tag remove button && without isNeedScroll', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+      useCurrentUser.mockImplementation(() => ({
+        currentUser,
+      }));
+
+      useDispatch.mockImplementation(() => dispatch);
+
+      useSelector.mockImplementation((selector) => selector({
+        url,
+        preview,
+        comment,
+        tags: [tags[0]],
+        autoCompleteTags: [],
+      }));
+
+      isNeedScroll.mockReturnValue(false);
+      autoXScroll.mockClear();
+    });
+
+    it('change tags', () => {
+      const { getAllByTitle } = render(<MainPage />);
+
+      fireEvent.click(getAllByTitle('remove-tag')[0]);
+
+      expect(dispatch).toBeCalledWith(resetAutoCompleteTags());
+
+      expect(autoXScroll).not.toBeCalled();
     });
   });
 

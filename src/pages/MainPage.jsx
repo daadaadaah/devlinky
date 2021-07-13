@@ -130,6 +130,10 @@ export default function MainPage() {
   const handleClickRemoveTag = (removeIndex) => {
     dispatch(removeTag(removeIndex));
     dispatch(resetAutoCompleteTags());
+
+    if (isNeedScroll(inputTagRef)) {
+      autoXScroll(ulTagsRef, MOVE.LEFT);
+    }
   };
 
   const handleClickSave = () => {
