@@ -74,7 +74,7 @@ export default function MainPage() {
     dispatch(setComment(e.target.value));
   };
 
-  const inputTag = useRef();
+  const inputTagRef = useRef();
 
   const tags = useSelector(get('tags'));
   const autoCompleteTags = useSelector(get('autoCompleteTags'));
@@ -89,17 +89,21 @@ export default function MainPage() {
     }
   };
 
+  const handleAddTag = (tag) => {
+    dispatch(setTags([...tags, tag]));
+    inputTagRef.current.value = '';
+    dispatch(resetAutoCompleteTags());
+    // 너비보다 더 많은 태그를 입력했을 때, 스크롤 이동하여 입력창으로 포커스 주기
+    // 최대 태그 입력 갯수 정하기
+  };
+
   const handleKeyDownEnter = (e) => {
     const newTag = e.target.value.trim();
     const ENTER = 13;
 
     if (e.keyCode === ENTER) {
       if (newTag && tags.indexOf(newTag) === -1) {
-        dispatch(resetAutoCompleteTags());
-        dispatch(setTags([...tags, newTag]));
-        // 너비보다 더 많은 태그를 입력했을 때, 스크롤 이동하여 입력창으로 포커스 주기
-        // 최대 태그 입력 갯수 정하기
-        e.target.value = '';
+        handleAddTag(newTag);
       }
     }
   };
@@ -107,9 +111,7 @@ export default function MainPage() {
   const handleClickAutoCompleteTag = (index) => {
     const newAutoCompleteTag = autoCompleteTags[index].name;
 
-    dispatch(setTags([...tags, newAutoCompleteTag]));
-    inputTag.current.value = '';
-    dispatch(resetAutoCompleteTags());
+    handleAddTag(newAutoCompleteTag);
   };
 
   const handleClickRemoveTag = (removeIndex) => {
@@ -209,7 +211,7 @@ export default function MainPage() {
                           id="devlink-tags"
                           aria-label="devlink-tags"
                           placeholder={isEmpty(tags) ? 'tag 입력 후 enter를 입력해주세요' : undefined}
-                          ref={inputTag}
+                          ref={inputTagRef}
                           name="tags"
                           autoComplete="off"
                           onChange={handleChangeTag}
