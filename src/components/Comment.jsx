@@ -40,7 +40,7 @@ const FormField = styled.fieldset`
     font-family: ${style.font.family.en};
   }
 
-  & label input {
+  & label + input {
     margin-top: 4px;
 
     padding: 0 16px;
