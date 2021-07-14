@@ -9,6 +9,8 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import Comment from '../components/Comment';
+
 import style from '../styles/designSystem';
 
 import { colors, font } from '../styles/commom';
@@ -195,21 +197,10 @@ export default function MainPage() {
                       />
                     )}
                 </fieldset>
-                <FormField>
-                  <label htmlFor="devlink-comment">
-                    comment
-                  </label>
-                  <input
-                    type="text"
-                    id="devlink-comment"
-                    aria-label="devlink-comment"
-                    placeholder="Comment를 입력해주세요"
-                    name="comment"
-                    autoComplete="off"
-                    value={comment || ''}
-                    onChange={handleChangeComment}
-                  />
-                </FormField>
+                <Comment
+                  comment={comment}
+                  onChangeComment={handleChangeComment}
+                />
                 <FormField>
                   <label htmlFor="devlink-tags">
                     tags
