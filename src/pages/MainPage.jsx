@@ -189,6 +189,7 @@ export default function MainPage() {
                           alt="thumbnail"
                         />
                         <p>{preview && preview.title}</p>
+                        <p>{preview && preview.description}</p>
                         <p>{preview && preview.url}</p>
                       </>
                     )

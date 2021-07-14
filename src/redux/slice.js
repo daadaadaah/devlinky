@@ -161,11 +161,12 @@ export const loadUrl = () => async (dispatch) => {
 export const fetchPreview = () => async (dispatch, getState) => {
   const { url } = getState();
 
-  const { title, thumbnail } = await fetchUrlMetaData(url);
+  const { title, thumbnail, description } = await fetchUrlMetaData(url);
 
   dispatch(setPreview({
     url,
     title,
+    description,
     thumbnail,
   }));
 };
