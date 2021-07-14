@@ -13,6 +13,7 @@ const currentUser = {
 const devlink = {
   url: 'https://jeonghwan-kim.github.io/series/2019/12/10/frontend-dev-env-webpack-basic.html',
   title: '프론트엔드 개발환경의 이해: 웹팩(기본)',
+  description: '1. 배경 먼저 모듈에 대해 이야기 해보자. 문법 수준에서 모듈을 지원하기 시작한',
   thumbnail: 'https://jeonghwan-kim.github.io/assets/imgs/me.jpg',
   comment: 'Webpack 기본 지식 잘 나온 링크',
   tags: ['Webpack', '웹', '프론트앤드'],
@@ -92,6 +93,7 @@ Scenario('newlink 메뉴에서 url을 추가하면, 해당 url에 대한 정보�
 
   I.see(devlink.url);
   I.see(devlink.title);
+  I.see(devlink.description);
   I.waitForVisible({ xpath: `//img[@src='${devlink.thumbnail}']` });
 });
 
@@ -108,6 +110,7 @@ Scenario('newlink 메뉴에서 개발링크를 저장할 수 있다', async ({ I
 
   I.see(devlink.url);
   I.see(devlink.title);
+  I.see(devlink.description);
   I.waitForVisible({ xpath: `//img[@src='${devlink.thumbnail}']` });
 
   I.fillField('#devlink-comment', devlink.comment);
