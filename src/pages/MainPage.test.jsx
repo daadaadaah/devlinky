@@ -131,6 +131,7 @@ describe('<MainPage />', () => {
 
       expect(container).toBeInTheDocument(preview.url);
       expect(container).toBeInTheDocument(preview.title);
+      expect(container).toBeInTheDocument(preview.descrtion);
       expect(getByAltText('thumbnail')).toHaveAttribute('src', preview.thumbnail);
     });
   });

@@ -22,11 +22,13 @@ export const fetchUrlMetaData = async (url) => {
   el.innerHTML = html;
 
   const title = el.querySelector('meta[property="og:title"]')?.getAttribute('content') || '제목이 없습니다';
+  const description = el.querySelector('meta[property="og:description"]')?.getAttribute('content') || '설명이 없습니다';
   const thumbnail = el.querySelector('meta[property="og:image"]')?.getAttribute('content') || '../../assets/images/preview_default.png';
 
   const preview = {
     url,
     title,
+    description,
     thumbnail,
   };
 
