@@ -21,3 +21,6 @@ dist
 
 ## env
 config/.env.*
+
+# Local Netlify folder
+.netlify
