@@ -29,7 +29,7 @@ export default function Url({
           aria-label="search-url"
           onClick={onSeatchUrl}
         >
-          <img src="../../assets/images/btn_search.png" alt="btn-search" />
+          <img src="../../assets/images/btn-search-url.png" alt="btn-search" />
         </SearchButton>
       </URLInputContainer>
     </URLInputField>
@@ -80,8 +80,9 @@ const SearchButton = styled.button`
   margin: 10px 0 4px 17px;
 
   background: transparent;
-    
+
   & img {
-    background: url('../../assets/images/btn_search.png');
+    width: 20px;
+    height: 20px;
   }
 `;
