@@ -12,6 +12,6 @@ module.exports = {
       statements: 100,
     },
   },
-  modulePathIgnorePatterns: ['./src/services'],
-  coveragePathIgnorePatterns: ['./src/services'],
+  modulePathIgnorePatterns: ['./src/services', 'src/styles'],
+  coveragePathIgnorePatterns: ['./src/services', 'src/styles'],
 };

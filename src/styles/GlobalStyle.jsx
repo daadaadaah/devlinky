@@ -18,7 +18,7 @@ const GlobalStyle = () => (
         background-color: ${style.common.background};
         color: ${style.common.color};
         /* 임시 : 디자인 QA용 */
-        /* box-shadow: 0 0 0 1px #ffffff; */
+        ${process.env.NODE_ENV !== 'production' && `box-shadow: 0 0 0 1px${style.colors.white}`};
       }
 
       button {
