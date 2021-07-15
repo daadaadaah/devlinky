@@ -10,7 +10,7 @@
     "build": "webpack --mode production --config webpack.config.js",
     "build:dev": "webpack --mode development --config webpack.config.js",
     "build:clean": "rm -rf dist",
-    "publish:design": "npm run build:dev && netlify deploy --prod",
+    "publish:netlify": "npm run build:dev && netlify deploy --prod",
     "test": "npm run coverage && start-server-and-test start http://localhost:8080 test:e2e",
     "coverage": "npm run test:unit -- --coverage",
     "test:unit": "jest",
