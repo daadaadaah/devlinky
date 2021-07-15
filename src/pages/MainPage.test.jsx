@@ -379,6 +379,46 @@ describe('<MainPage />', () => {
         expect(dispatch).toBeCalledWith(resetAutoCompleteTags());
       });
     });
+
+    context('with Max tags ', () => {
+      const dispatch = jest.fn();
+
+      window.alert = jest.fn();
+
+      beforeEach(() => {
+        useCurrentUser.mockImplementation(() => ({
+          currentUser,
+        }));
+
+        useDispatch.mockImplementation(() => dispatch);
+
+        useSelector.mockImplementation((selector) => selector({
+          url,
+          preview,
+          comment,
+          tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
+          autoCompleteTags: [],
+        }));
+
+        isNeedScroll.mockImplementation(() => jest.fn().mockReturnValue(true));
+      });
+
+      it('do not add tag', () => {
+        const { getByLabelText } = render(<MainPage />);
+
+        const tagInput = getByLabelText('devlink-tags');
+
+        const newTag = tags[1];
+
+        fireEvent.change(tagInput, {
+          target: { value: newTag },
+        });
+
+        fireEvent.keyDown(tagInput, { key: 'Enter', code: 'Enter', keyCode: 13 });
+
+        expect(window.alert).toBeCalled();
+      });
+    });
   });
 
   context('when user input empty tag', () => {
@@ -541,7 +581,7 @@ describe('<MainPage />', () => {
   });
 
   context('when user click save button', () => {
-    context('with devlink', () => {
+    context('with required input value,', () => {
       const dispatch = jest.fn();
 
       beforeEach(() => {
@@ -569,8 +609,9 @@ describe('<MainPage />', () => {
       });
     });
 
-    context('without url or preview or comment or tags', () => {
+    context('without required input value', () => {
       const dispatch = jest.fn();
+      window.alert = jest.fn();
 
       beforeEach(() => {
         useCurrentUser.mockImplementation(() => ({
@@ -582,7 +623,7 @@ describe('<MainPage />', () => {
         useSelector.mockImplementation((selector) => selector({
           url,
           preview,
-          comment: null,
+          comment, // TODO : 코멘트 필수 입력 논의 후 수정 필요
           tags: [],
           autoCompleteTags: [],
         }));
@@ -593,7 +634,7 @@ describe('<MainPage />', () => {
 
         fireEvent.click(getByText(/Save a contents/i));
 
-        expect(dispatch).not.toBeCalled();
+        expect(window.alert).toBeCalled();
       });
     });
   });

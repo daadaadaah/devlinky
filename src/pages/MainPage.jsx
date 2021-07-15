@@ -105,6 +105,11 @@ export default function MainPage() {
   };
 
   const handleAddTag = (tag) => {
+    if (tags.length === 5) {
+      window.alert('태그는 최대 5개까지 가능합니다.'); // TODO : UI 디자인 나오면 수정 필요
+      return;
+    }
+
     dispatch(setTags([...tags, tag]));
     inputTagRef.current.value = '';
     dispatch(resetAutoCompleteTags());
@@ -141,10 +146,15 @@ export default function MainPage() {
   };
 
   const handleClickSave = () => {
-    if (preview && comment && !isEmpty(tags)) {
-      dispatch(submitDevlink());
+    if (isEmpty(tags)) {
+      alert('태그를 최소 하나 입력해주세요'); // TODO : UI 디자인 나오면 수정 필요
+      inputTagRef.current.focus();
+      return;
     }
-    // TODO : 디자인 시안 나오면, 추가 구현하기 + useRef 공부 후 없는 곳 포커스
+
+    // TODO : 코멘트 필수 입력 논의 후 수정 필요
+
+    dispatch(submitDevlink());
   };
 
   return (
