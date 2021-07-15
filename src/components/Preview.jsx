@@ -81,7 +81,7 @@ const PreviewContainer = styled.div`
 
   background: ${style.colors.white};
   box-shadow: 0px 4px 4px 4px rgba(0, 0, 0, 0.05);
-  border-radius: 15px;
+  border-radius: 16px 15px 15px 16px;
 
   display: flex;
 
