@@ -192,7 +192,7 @@ export default function MainPage() {
                     tags
                   </label>
                   <TagInputWrapper>
-                    <ul>
+                    <ul ref={ulTagsRef}>
                       {!isEmpty(tags) && tags.map((tag, index) => (
                         <li key={index}>
                           <TagText>{`#${tag}`}</TagText>
