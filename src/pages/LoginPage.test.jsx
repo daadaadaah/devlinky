@@ -55,21 +55,22 @@ describe('<LoginPage />', () => {
   });
 
   context('with currentUser', () => {
+    const mockPush = jest.fn();
+
     beforeEach(() => {
       useCurrentUser.mockImplementation(() => ({
         currentUser,
       }));
 
-      const mockPush = jest.fn();
       useHistory.mockImplementation(() => ({
         push: mockPush,
       }));
     });
 
     it('shows mainPage', () => {
-      const { container } = render(<LoginPage />);
+      render(<LoginPage />);
 
-      expect(container).toHaveTextContent('login');
+      expect(mockPush).toBeCalledWith('/');
     });
   });
 });

@@ -21,6 +21,7 @@ export default function LoginPage() {
 
   if (currentUser) {
     history.push('/');
+    return null;
   }
 
   const dispatch = useDispatch();
