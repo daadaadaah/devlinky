@@ -4,7 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = (env, argv) => ({
+module.exports = () => ({
   entry: path.resolve(__dirname, 'src/index.jsx'),
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -36,9 +36,12 @@ module.exports = (env, argv) => ({
       template: 'index.html',
     }),
     new Dotenv({
-      path: argv.mode === 'development'
-        ? path.resolve(__dirname, './config/.env.development')
-        : path.resolve(__dirname, './config/.env.production'),
+      // TODO : 출시 전에 수정 필요! 디자인 QA를 위해 임시로 사용하기
+      path: path.resolve(__dirname, './config/.env.production'),
+
+      // path: argv.mode === 'development'
+      //   ? path.resolve(__dirname, './config/.env.development')
+      //   : path.resolve(__dirname, './config/.env.production'),
     }),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
