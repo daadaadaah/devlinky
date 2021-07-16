@@ -43,6 +43,7 @@ export default function MainPage() {
 
   if (isEmpty(currentUser)) {
     history.push('/login');
+    return null;
   }
 
   const dispatch = useDispatch();
