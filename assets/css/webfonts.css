@@ -11,9 +11,23 @@
 /* Gotham : https://github.com/SergioFloresG/gotham-fonts */
 @font-face {
   font-family: "Gotham";
+  src: url("../webfonts/en/Gotham-Black.woff2") format("woff2");
+  font-style: normal;
+  font-weight: var(--black);
+}
+
+@font-face {
+  font-family: "Gotham";
   src: url("../webfonts/en/Gotham-Bold.woff2") format("woff2");
   font-style: normal;
   font-weight: var(--bold);
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("../webfonts/en/Gotham-Medium.woff2") format("woff2");
+  font-style: normal;
+  font-weight: var(--medium);
 }
 
 @font-face {
