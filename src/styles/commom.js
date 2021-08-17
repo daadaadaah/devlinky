@@ -31,8 +31,8 @@ export const font = {
   },
   size: {
     tiny: '10px', // content-subtitle
-    small: '12px', // input, input-title, content-title, page-number
-    regular: '14px', // welcome 문구
+    small: '12px', // input-placeholder, input-title, content-title, page-number
+    regular: '14px', // welcome 문구, input
     medium: '16px', // button
     large: '20px', // tab menu
   },
