@@ -49,7 +49,9 @@ module.exports = () => ({
       patterns: [
         { from: './assets/manifest.json', to: './manifest.json' },
         { from: './assets/icon.png', to: './icon.png' },
+        { from: './assets/css', to: './assets/css' },
         { from: './assets/images', to: './assets/images' },
+        { from: './assets/webfonts', to: './assets/webfonts' },
       ],
     }),
     new BundleAnalyzerPlugin({
