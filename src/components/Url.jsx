@@ -43,20 +43,26 @@ const URLInputField = styled.fieldset`
   flex-direction: column;
 
   & label {
-    text-transform: capitalize;
+    text-transform: uppercase;
     
-    font-weight: 300;
-    font-size: 12px;
-    opacity: 0.8;
+    font-size: ${style.font.size.small};;
+    font-weight: ${style.font.weight.light};
 
-    font-family: ${style.font.family.en};
+    opacity: 0.8;
   }
 
   & input {
     height: 30px;
 
+    font-size: ${style.font.size.regular};;
+    font-family: ${style.font.family.krNum};
+    font-weight: ${style.font.weight.regular};
+
     ::placeholder {
+      font-size: ${style.font.size.small};;
       font-family: ${style.font.family.krNum};
+      font-weight: ${style.font.weight.light};
+       
       opacity: 0.5;
     }
   }
