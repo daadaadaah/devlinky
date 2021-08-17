@@ -106,7 +106,6 @@ describe('<MainPage />', () => {
       fireEvent.click(getByText(/archive/i));
 
       expect(dispatch).toBeCalledWith(setSelectTabMenu(selectTabMenu.Menu2));
-      expect(container).toHaveTextContent('archive tab menu');
     });
   });
 
@@ -123,6 +122,7 @@ describe('<MainPage />', () => {
       useSelector.mockImplementation((selector) => selector({
         url,
         preview,
+        selectTabMenu: selectTabMenu.Menu1,
       }));
     });
 
@@ -148,6 +148,7 @@ describe('<MainPage />', () => {
 
       useSelector.mockImplementation((selector) => selector({
         url: null,
+        selectTabMenu: selectTabMenu.Menu1,
       }));
     });
 
@@ -177,6 +178,7 @@ describe('<MainPage />', () => {
       useSelector.mockImplementation((selector) => selector({
         url,
         preview: null,
+        selectTabMenu: selectTabMenu.Menu1,
       }));
     });
 
@@ -202,6 +204,7 @@ describe('<MainPage />', () => {
       useSelector.mockImplementation((selector) => selector({
         url,
         preview,
+        selectTabMenu: selectTabMenu.Menu1,
       }));
     });
 
@@ -231,6 +234,7 @@ describe('<MainPage />', () => {
       useSelector.mockImplementation((selector) => selector({
         url,
         preview,
+        selectTabMenu: selectTabMenu.Menu1,
       }));
     });
 
@@ -257,6 +261,7 @@ describe('<MainPage />', () => {
         url,
         preview,
         comment: null,
+        selectTabMenu: selectTabMenu.Menu1,
       }));
     });
 
@@ -288,6 +293,8 @@ describe('<MainPage />', () => {
           comment,
           tags: [tags[0]],
           autoCompleteTags: [],
+          selectTabMenu: selectTabMenu.Menu1,
+
         }));
       });
 
@@ -325,6 +332,8 @@ describe('<MainPage />', () => {
           comment,
           tags: [tags[0]],
           autoCompleteTags: [],
+          selectTabMenu: selectTabMenu.Menu1,
+
         }));
       });
 
@@ -356,6 +365,8 @@ describe('<MainPage />', () => {
           comment,
           tags: [tags[0]],
           autoCompleteTags,
+          selectTabMenu: selectTabMenu.Menu1,
+
         }));
       });
 
@@ -398,6 +409,8 @@ describe('<MainPage />', () => {
           comment,
           tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'],
           autoCompleteTags: [],
+          selectTabMenu: selectTabMenu.Menu1,
+
         }));
 
         isNeedScroll.mockImplementation(() => jest.fn().mockReturnValue(true));
@@ -438,6 +451,8 @@ describe('<MainPage />', () => {
           comment,
           tags: [tags[0]],
           autoCompleteTags: [],
+          selectTabMenu: selectTabMenu.Menu1,
+
         }));
       });
 
@@ -474,6 +489,8 @@ describe('<MainPage />', () => {
         comment,
         tags,
         autoCompleteTags,
+        selectTabMenu: selectTabMenu.Menu1,
+
       }));
     });
 
@@ -502,6 +519,8 @@ describe('<MainPage />', () => {
         comment,
         tags,
         autoCompleteTags: [],
+        selectTabMenu: selectTabMenu.Menu1,
+
       }));
 
       isNeedScroll.mockReturnValue(true);
@@ -534,6 +553,8 @@ describe('<MainPage />', () => {
         comment,
         tags: [tags[0]],
         autoCompleteTags: [],
+        selectTabMenu: selectTabMenu.Menu1,
+
       }));
 
       isNeedScroll.mockReturnValue(false);
@@ -567,6 +588,8 @@ describe('<MainPage />', () => {
         comment,
         tags,
         autoCompleteTags,
+        selectTabMenu: selectTabMenu.Menu1,
+
       }));
     });
 
@@ -597,6 +620,8 @@ describe('<MainPage />', () => {
           comment,
           tags,
           autoCompleteTags: [],
+          selectTabMenu: selectTabMenu.Menu1,
+
         }));
       });
 
@@ -626,6 +651,8 @@ describe('<MainPage />', () => {
           comment, // TODO : 코멘트 필수 입력 논의 후 수정 필요
           tags: [],
           autoCompleteTags: [],
+          selectTabMenu: selectTabMenu.Menu1,
+
         }));
       });
 
@@ -656,6 +683,8 @@ describe('<MainPage />', () => {
           comment,
           tags: [tags[0]],
           autoCompleteTags: [],
+          selectTabMenu: selectTabMenu.Menu1,
+
         }));
 
         isNeedScroll.mockImplementation(() => jest.fn().mockReturnValue(true));
