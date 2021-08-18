@@ -1,7 +1,9 @@
 /* eslint-disable react/no-array-index-key */
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
+
+import Tags from '../components/Tags';
 
 import {
   setTags,
@@ -16,6 +18,8 @@ import { isNeedScroll, autoXScroll } from '../helper';
 
 const useTags = () => {
   const dispatch = useDispatch();
+
+  const isShowTagsValidationMessage = useSelector(get('isShowTagsValidationMessage'));
 
   const tags = useSelector(get('tags'));
   const inputTagRef = useRef();
@@ -80,11 +84,23 @@ const useTags = () => {
       autoXScroll(ulTagsRef, MOVE_LEFT);
     }
   };
+
+  const renderTags = () => (
+    <Tags
+      ulTagsRef={ulTagsRef}
+      tags={tags}
+      onClickRemoveTag={handleClickRemoveTag}
+      inputTagRef={inputTagRef}
+      onChangeTag={handleChangeTag}
+      onKeyDownEnter={handleKeyDownEnter}
+      autoCompleteTags={autoCompleteTags}
+      onClickAutoCompleteTag={handleClickAutoCompleteTag}
+      isShowTagsValidationMessage={isShowTagsValidationMessage}
+    />
+  );
+
   return [
-    tags, inputTagRef,
-    handleChangeTag, handleKeyDownEnter, handleClickRemoveTag,
-    autoCompleteTags, ulTagsRef,
-    handleClickAutoCompleteTag,
+    tags, inputTagRef, renderTags,
   ];
 };
 

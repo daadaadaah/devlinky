@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Url from '../components/Url';
 import Preview from '../components/Preview';
 import Comment from '../components/Comment';
-import Tags from '../components/Tags';
 
 import style from '../styles/designSystem';
 
@@ -72,13 +71,7 @@ export default function MainPage() {
     dispatch(setComment(e.target.value));
   };
 
-  const [
-    tags, inputTagRef,
-    handleChangeTag, handleKeyDownEnter, handleClickRemoveTag,
-    autoCompleteTags, ulTagsRef, handleClickAutoCompleteTag,
-  ] = useTags();
-
-  const isShowTagsValidationMessage = useSelector(get('isShowTagsValidationMessage'));
+  const [tags, inputTagRef, Tags] = useTags();
 
   const handleClickSave = () => {
     if (isEmpty(url)) {
@@ -125,17 +118,7 @@ export default function MainPage() {
               comment={comment}
               onChangeComment={handleChangeComment}
             />
-            <Tags
-              ulTagsRef={ulTagsRef}
-              tags={tags}
-              onClickRemoveTag={handleClickRemoveTag}
-              inputTagRef={inputTagRef}
-              onChangeTag={handleChangeTag}
-              onKeyDownEnter={handleKeyDownEnter}
-              autoCompleteTags={autoCompleteTags}
-              onClickAutoCompleteTag={handleClickAutoCompleteTag}
-              isShowTagsValidationMessage={isShowTagsValidationMessage}
-            />
+            <Tags />
             <SaveButton type="button" id="btn-save" onClick={handleClickSave}>Save a contents</SaveButton>
           </form>
         ) : (
