@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useHistory } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,13 +12,20 @@ import { currentUser } from '../fixtures';
 
 jest.mock('react-redux');
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: jest.fn(),
+}));
+
 describe('<App />', () => {
   const dispatch = jest.fn();
 
   function renderApp({ path }) {
     return render(
       <MemoryRouter initialEntries={[path]}>
-        <App />
+        <Suspense fallback={<div>Loading...</div>}>
+          <App />
+        </Suspense>
       </MemoryRouter>,
     );
   }
@@ -45,7 +52,7 @@ describe('<App />', () => {
       }));
     });
 
-    it('shows menus', () => {
+    it('shows menus', async () => {
       const { container } = renderApp({ path: '/' });
 
       expect(container).toHaveTextContent('newlink');
@@ -53,20 +60,30 @@ describe('<App />', () => {
     });
   });
 
-  context('with path / & without currentUser', () => {
+  context('with path /login & with currentUser', () => {
+    const mockPush = jest.fn();
+
     beforeEach(() => {
       useDispatch.mockImplementation(() => dispatch);
 
       useSelector.mockImplementation((selector) => selector({
         currentUser: null,
       }));
+
+      useHistory.mockImplementation(() => ({
+        push: mockPush,
+      }));
     });
 
-    it('does not show menus & redirect loginPage', () => {
-      const { container } = renderApp({ path: '/' });
+    it('shows login', async () => {
+      const { container, getByText } = renderApp({ path: '/login' });
 
-      expect(container).not.toHaveTextContent('newlink');
-      expect(container).not.toHaveTextContent('archive');
+      expect(mockPush).toBeCalledWith('/login');
+
+      expect(container).toHaveTextContent('Loading...');
+
+      await waitFor(() => getByText(/login/));
+
       expect(container).toHaveTextContent('login');
     });
   });
