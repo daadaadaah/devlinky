@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import styled from '@emotion/styled';
 
-import React, { useRef } from 'react';
+import React from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -18,6 +18,7 @@ import { colors, font } from '../styles/commom';
 
 import useCurrentUser from '../hooks/useCurrentUser';
 import useUrl from '../hooks/useUrl';
+import useTags from '../hooks/useTags';
 
 import {
   fetchPreview,
@@ -25,17 +26,11 @@ import {
   setIsShowUrlValidationMessage,
   setIsShowTagsValidationMessage,
   setComment,
-  setTags,
-  loadAutoCompleteTags,
-  resetAutoCompleteTags,
   submitDevlink,
   setSelectTabMenu,
-  removeTag,
 } from '../redux/slice';
 
 import { isEmpty, get } from '../utils';
-
-import { isNeedScroll, autoXScroll } from '../helper';
 
 export default function MainPage() {
   const history = useHistory();
@@ -77,70 +72,13 @@ export default function MainPage() {
     dispatch(setComment(e.target.value));
   };
 
-  const tags = useSelector(get('tags'));
-  const inputTagRef = useRef();
-
-  const autoCompleteTags = useSelector(get('autoCompleteTags'));
-  const ulTagsRef = useRef();
+  const [
+    tags, inputTagRef,
+    handleChangeTag, handleKeyDownEnter, handleClickRemoveTag,
+    autoCompleteTags, ulTagsRef, handleClickAutoCompleteTag,
+  ] = useTags();
 
   const isShowTagsValidationMessage = useSelector(get('isShowTagsValidationMessage'));
-
-  const handleChangeTag = (e) => {
-    const newTag = e.target.value.toUpperCase().trim();
-
-    if (isEmpty(newTag)) {
-      dispatch(resetAutoCompleteTags());
-    } else {
-      dispatch(loadAutoCompleteTags(newTag));
-    }
-  };
-
-  const SCROLL_X_VALUE = 60; // TODO : 얼만큼 이동하는게 UX적으로 좋을지 디자이너와 상의 후 x값 픽스하기
-
-  const handleAddTag = (tag) => {
-    if (tags.length === 5) {
-      window.alert('태그는 최대 5개까지 가능합니다.'); // TODO : UI 디자인 나오면 수정 필요
-      return;
-    }
-
-    dispatch(setTags([...tags, tag]));
-    inputTagRef.current.value = '';
-    dispatch(resetAutoCompleteTags());
-    // 최대 태그 입력 갯수 정하기
-    if (isNeedScroll(inputTagRef)) {
-      const MOVE_RIGHT = SCROLL_X_VALUE;
-
-      autoXScroll(ulTagsRef, MOVE_RIGHT);
-    }
-  };
-
-  const handleKeyDownEnter = (e) => {
-    const newTag = e.target.value.trim();
-    const ENTER = 13;
-
-    if (e.keyCode === ENTER) {
-      if (newTag && tags.indexOf(newTag) === -1) {
-        handleAddTag(newTag);
-      }
-    }
-  };
-
-  const handleClickAutoCompleteTag = (index) => () => {
-    const newAutoCompleteTag = autoCompleteTags[index].name;
-
-    handleAddTag(newAutoCompleteTag);
-  };
-
-  const handleClickRemoveTag = (removeIndex) => () => {
-    dispatch(removeTag(removeIndex));
-    dispatch(resetAutoCompleteTags());
-
-    if (isNeedScroll(inputTagRef)) {
-      const MOVE_LEFT = -SCROLL_X_VALUE;
-
-      autoXScroll(ulTagsRef, MOVE_LEFT);
-    }
-  };
 
   const handleClickSave = () => {
     if (isEmpty(url)) {
