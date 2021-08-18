@@ -17,13 +17,13 @@ import style from '../styles/designSystem';
 import { colors, font } from '../styles/commom';
 
 import useCurrentUser from '../hooks/useCurrentUser';
+import useUrl from '../hooks/useUrl';
 
 import {
   fetchPreview,
   loadUrl,
   setIsShowUrlValidationMessage,
   setIsShowTagsValidationMessage,
-  setUrl,
   setComment,
   setTags,
   loadAutoCompleteTags,
@@ -57,22 +57,13 @@ export default function MainPage() {
     dispatch(setSelectTabMenu(newSelectTabMenu));
   };
 
-  const url = useSelector(get('url'));
-  const inputUrlRef = useRef();
+  const [url, inputUrlRef, handleChangeUrl, handleSearchUrl] = useUrl();
 
   const isShowUrlValidationMessage = useSelector(get('isShowUrlValidationMessage'));
 
   if (isEmpty(url)) {
     dispatch(loadUrl());
   }
-
-  const handleChangeUrl = (e) => {
-    dispatch(setUrl(e.target.value));
-  };
-
-  const handleSearchUrl = () => {
-    dispatch(fetchPreview());
-  };
 
   const preview = useSelector(get('preview'));
 
