@@ -4,6 +4,7 @@ import reducer, {
   resetCurrentUser,
   setSelectTabMenu,
   setUrl,
+  setIsShowUrlValidationMessage,
   setPreview,
   setComment,
   setTags,
@@ -38,6 +39,7 @@ describe('reducer', () => {
       autoCompleteTags: [],
       toggleSpeechBubble: false,
       selectTabMenu: selectTabMenu.Menu1,
+      isShowUrlValidationMessage: false,
     };
 
     it('returns initialState', () => {
@@ -111,6 +113,21 @@ describe('reducer', () => {
       const state = reducer(initialState, setUrl(url));
 
       expect(state.url).toStrictEqual(url);
+    });
+  });
+
+  describe('setIsShowUrlValidationMessage', () => {
+    it('set isShowUrlValidationMessage', () => {
+      const initialState = {
+        currentUser: null,
+        url: null,
+        preview: null,
+        isShowUrlValidationMessage: false,
+      };
+
+      const state = reducer(initialState, setIsShowUrlValidationMessage(true));
+
+      expect(state.isShowUrlValidationMessage).toStrictEqual(true);
     });
   });
 

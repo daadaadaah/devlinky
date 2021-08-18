@@ -22,6 +22,7 @@ const { actions, reducer } = createSlice({
     autoCompleteTags: [],
     toggleSpeechBubble: false,
     selectTabMenu: 'newlink',
+    isShowUrlValidationMessage: false,
   },
   reducers: {
     setError(state, { payload: error }) {
@@ -52,6 +53,12 @@ const { actions, reducer } = createSlice({
       return {
         ...state,
         url,
+      };
+    },
+    setIsShowUrlValidationMessage(state, { payload: isShowUrlValidationMessage }) {
+      return {
+        ...state,
+        isShowUrlValidationMessage,
       };
     },
     setPreview(state, { payload: preview }) {
@@ -114,6 +121,7 @@ export const {
   resetCurrentUser,
   setSelectTabMenu,
   setUrl,
+  setIsShowUrlValidationMessage,
   setPreview,
   setComment,
   setTags,
