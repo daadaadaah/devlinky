@@ -48,10 +48,9 @@ const PreivewContainer = styled.fieldset`
     text-transform: capitalize;
     
     font-weight: 300;
-    font-size: 12px;
+    font-size: ${style.font.size.small};;
     opacity: 0.8;
 
-    font-family: ${style.font.family.en};
   }
 `;
 
@@ -108,7 +107,7 @@ const PreviewContainer = styled.div`
 
     color: ${style.colors.yoonblue.deepDark};
     font-weight: 500;
-    font-size: 12px;
+    font-size: ${style.font.size.small};;
   }
 
   /* Preview description */

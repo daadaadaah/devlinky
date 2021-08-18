@@ -3,9 +3,7 @@ import styled from '@emotion/styled';
 
 import React, { useRef } from 'react';
 
-import {
-  useHistory, MemoryRouter, Route, Link, Switch,
-} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -51,7 +49,8 @@ export default function MainPage() {
   const selectTabMenu = useSelector(get('selectTabMenu'));
 
   const handleClickTabMenu = (e) => {
-    const newSelectTabMenu = e.target.text;
+    const newSelectTabMenu = e.target.textContent;
+
     dispatch(setSelectTabMenu(newSelectTabMenu));
   };
 
@@ -160,80 +159,75 @@ export default function MainPage() {
 
   return (
     <>
-      <MemoryRouter initialEntries={['/newlink']}>
-        <TabMenus selectTabMenu={selectTabMenu}>
-          <li>
-            <Link to="/newlink" onClick={handleClickTabMenu}>newlink</Link>
-          </li>
-          <li>
-            <Link to="/archive" onClick={handleClickTabMenu}>archive</Link>
-          </li>
-        </TabMenus>
-        <Layout>
-          <Switch>
-            <Route path="/newlink">
-              <form>
-                <Url
-                  url={url}
-                  onChangeUrl={handleChangeUrl}
-                  onSeatchUrl={handleSearchUrl}
-                />
-                <Preview
-                  preview={preview}
-                />
-                <Comment
-                  comment={comment}
-                  onChangeComment={handleChangeComment}
-                />
-                <FormField>
-                  <label htmlFor="devlink-tags">
-                    tags
-                  </label>
-                  <TagInputWrapper>
-                    <ul ref={ulTagsRef}>
-                      {!isEmpty(tags) && tags.map((tag, index) => (
-                        <li key={index}>
-                          <TagText>{`#${tag}`}</TagText>
-                          <button type="button" alt="btn-remove-tag" title="remove-tag" onClick={() => handleClickRemoveTag(index)} />
-                        </li>
-                      ))}
-                      <li>
-                        <input
-                          type="text"
-                          id="devlink-tags"
-                          aria-label="devlink-tags"
-                          placeholder={isEmpty(tags) ? 'tag 입력 후 enter를 입력해주세요' : undefined}
-                          ref={inputTagRef}
-                          name="tags"
-                          autoComplete="off"
-                          onChange={handleChangeTag}
-                          onKeyDown={handleKeyDownEnter}
-                        />
-                      </li>
-                    </ul>
-                  </TagInputWrapper>
-                  <AutoCompleteTagsWrapper showAutoCompleteTags={!isEmpty(autoCompleteTags)}>
-                    <ul>
-                      {!isEmpty(autoCompleteTags)
+      <TabMenus selectTabMenu={selectTabMenu}>
+        <li>
+          <button type="button" onClick={handleClickTabMenu}>newlink</button>
+        </li>
+        <li>
+          <button type="button" onClick={handleClickTabMenu}>archive</button>
+        </li>
+      </TabMenus>
+      <Layout>
+        {selectTabMenu === 'newlink' ? (
+          <form>
+            <Url
+              url={url}
+              onChangeUrl={handleChangeUrl}
+              onSeatchUrl={handleSearchUrl}
+            />
+            <Preview
+              preview={preview}
+            />
+            <Comment
+              comment={comment}
+              onChangeComment={handleChangeComment}
+            />
+            <FormField>
+              <label htmlFor="devlink-tags">
+                tags
+              </label>
+              <TagInputWrapper>
+                <ul ref={ulTagsRef}>
+                  {!isEmpty(tags) && tags.map((tag, index) => (
+                    <li key={index}>
+                      <TagText>{`#${tag}`}</TagText>
+                      <button type="button" alt="btn-remove-tag" title="remove-tag" onClick={() => handleClickRemoveTag(index)} />
+                    </li>
+                  ))}
+                  <li>
+                    <input
+                      type="text"
+                      id="devlink-tags"
+                      aria-label="devlink-tags"
+                      placeholder={isEmpty(tags) ? 'tag 입력 후 enter를 입력해주세요' : undefined}
+                      ref={inputTagRef}
+                      name="tags"
+                      autoComplete="off"
+                      onChange={handleChangeTag}
+                      onKeyDown={handleKeyDownEnter}
+                    />
+                  </li>
+                </ul>
+              </TagInputWrapper>
+              <AutoCompleteTagsWrapper showAutoCompleteTags={!isEmpty(autoCompleteTags)}>
+                <ul>
+                  {!isEmpty(autoCompleteTags)
                       && autoCompleteTags.map((autoCompleteTag, index) => (
                         <li key={index}>
                           <AutoCompleteTagsText onClick={() => handleClickAutoCompleteTag(index)}>{`#${autoCompleteTag.name}`}</AutoCompleteTagsText>
                         </li>
                       ))}
-                    </ul>
-                  </AutoCompleteTagsWrapper>
-                </FormField>
-                <SaveButton type="button" id="btn-save" onClick={handleClickSave}>Save a contents</SaveButton>
-              </form>
-            </Route>
-            <Route path="/archive">
-              <>
-                <p>archive tab menu</p>
-              </>
-            </Route>
-          </Switch>
-        </Layout>
-      </MemoryRouter>
+                </ul>
+              </AutoCompleteTagsWrapper>
+            </FormField>
+            <SaveButton type="button" id="btn-save" onClick={handleClickSave}>Save a contents</SaveButton>
+          </form>
+        ) : (
+          <>
+            <p>archive tab menu</p>
+          </>
+        )}
+      </Layout>
     </>
   );
 }
@@ -252,12 +246,17 @@ const TabMenus = styled.ul`
 
     height: 100%;
     font-size: ${font.size.large};
-    font-weight: ${font.weight.bold};
+
     line-height: 24px;
 
-    & a {
-      color: ${style.common.color};
-      text-transform: capitalize;
+    & button {
+        color: ${style.common.color};
+        background: transparent;
+
+        font-size: 20px;
+        font-weight: ${style.font.weight.bold};
+
+        text-transform: capitalize;
     }
   }
 
@@ -287,11 +286,10 @@ const FormField = styled.fieldset`
   & label {
     text-transform: capitalize;
     
-    font-weight: 300;
-    font-size: 12px;
-    opacity: 0.8;
+    font-size: ${style.font.size.small};;
+    font-weight: ${style.font.weight.light};
 
-    font-family: ${style.font.family.en};
+    opacity: 0.8;
   }
 
   & label ~ :nth-child(2) {
@@ -306,7 +304,10 @@ const FormField = styled.fieldset`
     height: 30px;
 
     ::placeholder {
+      font-size: ${style.font.size.small};;
       font-family: ${style.font.family.krNum};
+      font-weight: ${style.font.weight.light};
+
       opacity: 0.5;
     }
   }
@@ -353,10 +354,9 @@ const TagInputWrapper = styled.div`
 `;
 
 const TagText = styled.span`
+  font-size: ${style.font.size.small};
   font-family: ${style.font.family.krNum};
-  font-style: normal;
   font-weight: ${style.font.weight.regular};
-  font-size: 12px;
   color: #383D4B;
   text-transform: uppercase;
 `;
@@ -395,7 +395,6 @@ const AutoCompleteTagsText = styled.span`
   display: flex;
   align-items: center;
 
-  font-style: normal;
   font-weight: ${style.font.weight.bold};
   font-size: 10px;
   line-height: 12px;
@@ -418,8 +417,9 @@ const SaveButton = styled.button`
   background: ${style.button.normal.background};
   border-radius: 63px;
 
-  font-size: ${style.button.font.size};;
-  font-weight: ${style.button.font.weight};
+  font-size: ${style.button.font.size};
+  font-weight: ${style.font.weight.medium};
+
   color:  ${style.button.normal.color};
 
   &:hover {
