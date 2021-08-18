@@ -5,6 +5,7 @@ export const colors = {
     normal: '#D4D4D4',
     dark: '#b6b4b4',
   },
+  red: '#EB5757',
   yoonblue: {
     light: '#A9BAE8',
     normal: '#6D81B9',
@@ -30,7 +31,7 @@ export const font = {
     black: 900,
   },
   size: {
-    tiny: '10px', // content-subtitle
+    tiny: '10px', // content-subtitle, validation message
     small: '12px', // input-placeholder, input-title, content-title, page-number
     regular: '14px', // welcome 문구, input
     medium: '16px', // button

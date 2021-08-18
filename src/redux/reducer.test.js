@@ -4,6 +4,8 @@ import reducer, {
   resetCurrentUser,
   setSelectTabMenu,
   setUrl,
+  setIsShowUrlValidationMessage,
+  setIsShowTagsValidationMessage,
   setPreview,
   setComment,
   setTags,
@@ -38,6 +40,8 @@ describe('reducer', () => {
       autoCompleteTags: [],
       toggleSpeechBubble: false,
       selectTabMenu: selectTabMenu.Menu1,
+      isShowUrlValidationMessage: false,
+      isShowTagsValidationMessage: false,
     };
 
     it('returns initialState', () => {
@@ -114,6 +118,21 @@ describe('reducer', () => {
     });
   });
 
+  describe('setIsShowUrlValidationMessage', () => {
+    it('set isShowUrlValidationMessage', () => {
+      const initialState = {
+        currentUser: null,
+        url: null,
+        preview: null,
+        isShowUrlValidationMessage: false,
+      };
+
+      const state = reducer(initialState, setIsShowUrlValidationMessage(true));
+
+      expect(state.isShowUrlValidationMessage).toStrictEqual(true);
+    });
+  });
+
   describe('setPreview', () => {
     it('set Preview', () => {
       const initialState = {
@@ -156,6 +175,22 @@ describe('reducer', () => {
       const state = reducer(initialState, setTags(tags));
 
       expect(state.tags).toStrictEqual(tags);
+    });
+  });
+
+  describe('setIsShowTagsValidationMessage', () => {
+    it('set isShowTagsValidationMessage', () => {
+      const initialState = {
+        currentUser: null,
+        url: null,
+        preview: null,
+        isShowUrlValidationMessage: false,
+        isShowTagsValidationMessage: false,
+      };
+
+      const state = reducer(initialState, setIsShowTagsValidationMessage(true));
+
+      expect(state.isShowTagsValidationMessage).toStrictEqual(true);
     });
   });
 

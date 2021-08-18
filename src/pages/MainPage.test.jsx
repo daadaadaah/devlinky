@@ -11,7 +11,13 @@ import MainPage from './MainPage';
 import useCurrentUser from '../hooks/useCurrentUser';
 
 import {
-  setUrl, setComment, setTags, resetAutoCompleteTags, setSelectTabMenu,
+  setUrl,
+  setComment,
+  setTags,
+  resetAutoCompleteTags,
+  setSelectTabMenu,
+  setIsShowUrlValidationMessage,
+  setIsShowTagsValidationMessage,
 } from '../redux/slice';
 
 import { isNeedScroll, autoXScroll } from '../helper';
@@ -652,6 +658,38 @@ describe('<MainPage />', () => {
           tags: [],
           autoCompleteTags: [],
           selectTabMenu: selectTabMenu.Menu1,
+          isShowTagsValidationMessage: true,
+        }));
+      });
+
+      it('do not save devlink', () => {
+        const { container, getByText } = render(<MainPage />);
+
+        fireEvent.click(getByText(/Save a contents/i));
+
+        expect(dispatch).toBeCalledWith(setIsShowTagsValidationMessage(true));
+        expect(container).toHaveTextContent('tag 를 입력해주세요');
+      });
+    });
+
+    context('without required input value', () => {
+      const dispatch = jest.fn();
+      window.alert = jest.fn();
+
+      beforeEach(() => {
+        useCurrentUser.mockImplementation(() => ({
+          currentUser,
+        }));
+
+        useDispatch.mockImplementation(() => dispatch);
+
+        useSelector.mockImplementation((selector) => selector({
+          url: null,
+          preview,
+          comment, // TODO : 코멘트 필수 입력 논의 후 수정 필요
+          tags: [],
+          autoCompleteTags: [],
+          selectTabMenu: selectTabMenu.Menu1,
 
         }));
       });
@@ -661,7 +699,7 @@ describe('<MainPage />', () => {
 
         fireEvent.click(getByText(/Save a contents/i));
 
-        expect(window.alert).toBeCalled();
+        expect(dispatch).toBeCalledWith(setIsShowUrlValidationMessage(true));
       });
     });
   });

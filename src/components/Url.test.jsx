@@ -54,4 +54,22 @@ describe('<Url />', () => {
       expect(handleSeatchUrl).toBeCalled();
     });
   });
+
+  context('when isShowUrlValidationMessage', () => {
+    const handleSeatchUrl = jest.fn();
+
+    it('call handleChange', () => {
+      const { container, getByLabelText } = render(
+        <Url
+          url={url}
+          isShowUrlValidationMessage
+          onSeatchUrl={handleSeatchUrl}
+        />,
+      );
+
+      fireEvent.click(getByLabelText('search-url'));
+
+      expect(container).toHaveTextContent('URL을 입력해주세요');
+    });
+  });
 });
