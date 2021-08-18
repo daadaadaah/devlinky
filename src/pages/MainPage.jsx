@@ -21,6 +21,7 @@ import {
   fetchPreview,
   loadUrl,
   setIsShowUrlValidationMessage,
+  setIsShowTagsValidationMessage,
   setUrl,
   setComment,
   setTags,
@@ -58,6 +59,8 @@ export default function MainPage() {
   const url = useSelector(get('url'));
 
   const isShowUrlValidationMessage = useSelector(get('isShowUrlValidationMessage'));
+
+  const isShowTagsValidationMessage = useSelector(get('isShowTagsValidationMessage'));
 
   if (isEmpty(url)) {
     dispatch(loadUrl());
@@ -157,7 +160,7 @@ export default function MainPage() {
     }
 
     if (isEmpty(tags)) {
-      alert('태그를 최소 하나 입력해주세요'); // TODO : UI 디자인 나오면 수정 필요
+      dispatch(setIsShowTagsValidationMessage(true));
       inputTagRef.current.focus();
       return;
     }
@@ -231,6 +234,7 @@ export default function MainPage() {
                       ))}
                 </ul>
               </AutoCompleteTagsWrapper>
+              {isShowTagsValidationMessage && <ValidationMessage>tag 를 입력해주세요</ValidationMessage>}
             </FormField>
             <SaveButton type="button" id="btn-save" onClick={handleClickSave}>Save a contents</SaveButton>
           </form>
@@ -417,6 +421,26 @@ const AutoCompleteTagsText = styled.span`
   text-transform: uppercase;
 
   cursor: pointer;
+`;
+
+const ValidationMessage = styled.p`
+  margin-top: 6px;
+  margin-left: 16px;
+
+  width: 244px;
+  height: 20px;
+
+  font-family: ${style.font.family.krNum};
+  font-weight: normal;
+  font-size: ${style.font.size.tiny};
+  line-height: 13px;
+
+  display: flex;
+  align-items: center;
+
+  color: ${style.colors.red};
+
+  mix-blend-mode: normal;
 `;
 
 const SaveButton = styled.button`

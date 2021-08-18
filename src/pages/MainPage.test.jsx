@@ -17,6 +17,7 @@ import {
   resetAutoCompleteTags,
   setSelectTabMenu,
   setIsShowUrlValidationMessage,
+  setIsShowTagsValidationMessage,
 } from '../redux/slice';
 
 import { isNeedScroll, autoXScroll } from '../helper';
@@ -657,16 +658,17 @@ describe('<MainPage />', () => {
           tags: [],
           autoCompleteTags: [],
           selectTabMenu: selectTabMenu.Menu1,
-
+          isShowTagsValidationMessage: true,
         }));
       });
 
       it('do not save devlink', () => {
-        const { getByText } = render(<MainPage />);
+        const { container, getByText } = render(<MainPage />);
 
         fireEvent.click(getByText(/Save a contents/i));
 
-        expect(window.alert).toBeCalled();
+        expect(dispatch).toBeCalledWith(setIsShowTagsValidationMessage(true));
+        expect(container).toHaveTextContent('tag 를 입력해주세요');
       });
     });
 
