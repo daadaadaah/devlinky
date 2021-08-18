@@ -11,7 +11,12 @@ import MainPage from './MainPage';
 import useCurrentUser from '../hooks/useCurrentUser';
 
 import {
-  setUrl, setComment, setTags, resetAutoCompleteTags, setSelectTabMenu,
+  setUrl,
+  setComment,
+  setTags,
+  resetAutoCompleteTags,
+  setSelectTabMenu,
+  setIsShowUrlValidationMessage,
 } from '../redux/slice';
 
 import { isNeedScroll, autoXScroll } from '../helper';
@@ -662,6 +667,37 @@ describe('<MainPage />', () => {
         fireEvent.click(getByText(/Save a contents/i));
 
         expect(window.alert).toBeCalled();
+      });
+    });
+
+    context('without required input value', () => {
+      const dispatch = jest.fn();
+      window.alert = jest.fn();
+
+      beforeEach(() => {
+        useCurrentUser.mockImplementation(() => ({
+          currentUser,
+        }));
+
+        useDispatch.mockImplementation(() => dispatch);
+
+        useSelector.mockImplementation((selector) => selector({
+          url: null,
+          preview,
+          comment, // TODO : 코멘트 필수 입력 논의 후 수정 필요
+          tags: [],
+          autoCompleteTags: [],
+          selectTabMenu: selectTabMenu.Menu1,
+
+        }));
+      });
+
+      it('do not save devlink', () => {
+        const { getByText } = render(<MainPage />);
+
+        fireEvent.click(getByText(/Save a contents/i));
+
+        expect(dispatch).toBeCalledWith(setIsShowUrlValidationMessage(true));
       });
     });
   });

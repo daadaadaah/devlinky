@@ -20,6 +20,7 @@ import useCurrentUser from '../hooks/useCurrentUser';
 import {
   fetchPreview,
   loadUrl,
+  setIsShowUrlValidationMessage,
   setUrl,
   setComment,
   setTags,
@@ -55,6 +56,8 @@ export default function MainPage() {
   };
 
   const url = useSelector(get('url'));
+
+  const isShowUrlValidationMessage = useSelector(get('isShowUrlValidationMessage'));
 
   if (isEmpty(url)) {
     dispatch(loadUrl());
@@ -95,6 +98,7 @@ export default function MainPage() {
     }
   };
 
+  const inputUrlRef = useRef();
   const ulTagsRef = useRef();
 
   const SCROLL_X_VALUE = 60; // TODO : 얼만큼 이동하는게 UX적으로 좋을지 디자이너와 상의 후 x값 픽스하기
@@ -146,6 +150,12 @@ export default function MainPage() {
   };
 
   const handleClickSave = () => {
+    if (isEmpty(url)) {
+      dispatch(setIsShowUrlValidationMessage(true));
+      inputUrlRef.current.focus();
+      return;
+    }
+
     if (isEmpty(tags)) {
       alert('태그를 최소 하나 입력해주세요'); // TODO : UI 디자인 나오면 수정 필요
       inputTagRef.current.focus();
@@ -172,6 +182,8 @@ export default function MainPage() {
           <form>
             <Url
               url={url}
+              inputUrlRef={inputUrlRef}
+              isShowUrlValidationMessage={isShowUrlValidationMessage}
               onChangeUrl={handleChangeUrl}
               onSeatchUrl={handleSearchUrl}
             />
