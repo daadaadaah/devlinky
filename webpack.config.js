@@ -51,6 +51,7 @@ module.exports = () => ({
         { from: './assets/icon.png', to: './icon.png' },
         { from: './assets/css', to: './assets/css' },
         { from: './assets/images', to: './assets/images' },
+        { from: './assets/js', to: './assets/js' },
         { from: './assets/webfonts', to: './assets/webfonts' },
       ],
     }),
