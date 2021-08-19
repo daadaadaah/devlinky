@@ -16,6 +16,7 @@ import { colors, font } from '../styles/commom';
 
 import useCurrentUser from '../hooks/useCurrentUser';
 import useUrl from '../hooks/useUrl';
+import useComment from '../hooks/useComment';
 import useTags from '../hooks/useTags';
 
 import {
@@ -23,7 +24,6 @@ import {
   loadUrl,
   setIsShowUrlValidationMessage,
   setIsShowTagsValidationMessage,
-  setComment,
   submitDevlink,
   setSelectTabMenu,
 } from '../redux/slice';
@@ -62,11 +62,7 @@ export default function MainPage() {
     dispatch(fetchPreview());
   }
 
-  const comment = useSelector(get('comment'));
-
-  const handleChangeComment = (e) => {
-    dispatch(setComment(e.target.value));
-  };
+  const [comment, onChangeComment] = useComment();
 
   const [tags, inputTagRef, Tags] = useTags();
 
@@ -107,7 +103,7 @@ export default function MainPage() {
             />
             <Comment
               comment={comment}
-              onChangeComment={handleChangeComment}
+              onChangeComment={onChangeComment}
             />
             <Tags />
             <SaveButton type="button" id="btn-save" onClick={handleClickSave}>Save a contents</SaveButton>
