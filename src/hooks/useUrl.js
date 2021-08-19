@@ -1,9 +1,7 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-
-import Url from '../components/Url';
 
 import {
   fetchPreview,
@@ -28,17 +26,7 @@ const useUrl = () => {
     dispatch(fetchPreview());
   };
 
-  const renderUrl = () => (
-    <Url
-      url={url}
-      inputUrlRef={inputUrlRef}
-      isShowUrlValidationMessage={isShowUrlValidationMessage}
-      onChangeUrl={handleChangeUrl}
-      onSeatchUrl={handleSearchUrl}
-    />
-  );
-
-  return [url, inputUrlRef, renderUrl];
+  return [url, inputUrlRef, handleChangeUrl, handleSearchUrl, isShowUrlValidationMessage];
 };
 
 export default useUrl;

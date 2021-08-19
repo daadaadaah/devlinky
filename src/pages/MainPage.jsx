@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import Url from '../components/Url';
 import Preview from '../components/Preview';
 import Comment from '../components/Comment';
 import Tags from '../components/Tags';
@@ -51,7 +52,7 @@ export default function MainPage() {
     dispatch(setSelectTabMenu(newSelectTabMenu));
   };
 
-  const [url, inputUrlRef, Url] = useUrl();
+  const [url, inputUrlRef, handleChangeUrl, handleSearchUrl, isShowUrlValidationMessage] = useUrl();
 
   if (isEmpty(url)) {
     dispatch(loadUrl());
@@ -102,7 +103,13 @@ export default function MainPage() {
       <Layout>
         {selectTabMenu === 'newlink' ? (
           <form>
-            <Url />
+            <Url
+              url={url}
+              inputUrlRef={inputUrlRef}
+              onChangeUrl={handleChangeUrl}
+              onSeatchUrl={handleSearchUrl}
+              isShowUrlValidationMessage={isShowUrlValidationMessage}
+            />
             <Preview
               preview={preview}
             />
