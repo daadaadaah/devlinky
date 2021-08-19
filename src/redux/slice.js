@@ -86,6 +86,12 @@ const { actions, reducer } = createSlice({
         isShowTagsValidationMessage,
       };
     },
+    resetIsShowTagsValidationMessage(state) {
+      return {
+        ...state,
+        isShowTagsValidationMessage: false,
+      };
+    },
     setAutoCompleteTags(state, { payload: autoCompleteTags }) {
       return {
         ...state,
@@ -130,6 +136,7 @@ export const {
   setUrl,
   setIsShowUrlValidationMessage,
   setIsShowTagsValidationMessage,
+  resetIsShowTagsValidationMessage,
   setPreview,
   setComment,
   setTags,
