@@ -372,7 +372,7 @@ describe('<MainPage />', () => {
           tags: [tags[0]],
           autoCompleteTags,
           selectTabMenu: selectTabMenu.Menu1,
-
+          isShowTagsValidationMessage: true,
         }));
       });
 
@@ -387,7 +387,7 @@ describe('<MainPage />', () => {
           target: { value: newTag },
         });
 
-        expect(dispatch).toBeCalledTimes(1);
+        expect(dispatch).toBeCalledTimes(2);
 
         fireEvent.change(tagInput, {
           target: { value: null },

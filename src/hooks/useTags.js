@@ -8,6 +8,7 @@ import {
   loadAutoCompleteTags,
   resetAutoCompleteTags,
   removeTag,
+  resetIsShowTagsValidationMessage,
 } from '../redux/slice';
 
 import { isEmpty, get } from '../utils';
@@ -26,6 +27,10 @@ const useTags = () => {
   const ulTagsRef = useRef();
 
   const handleChangeTag = (e) => {
+    if (isShowTagsValidationMessage) {
+      dispatch(resetIsShowTagsValidationMessage());
+    }
+
     const newTag = e.target.value.toUpperCase().trim();
 
     if (isEmpty(newTag)) {
