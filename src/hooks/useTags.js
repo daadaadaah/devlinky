@@ -1,9 +1,7 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-
-import Tags from '../components/Tags';
 
 import {
   setTags,
@@ -85,22 +83,10 @@ const useTags = () => {
     }
   };
 
-  const renderTags = () => (
-    <Tags
-      ulTagsRef={ulTagsRef}
-      tags={tags}
-      onClickRemoveTag={handleClickRemoveTag}
-      inputTagRef={inputTagRef}
-      onChangeTag={handleChangeTag}
-      onKeyDownEnter={handleKeyDownEnter}
-      autoCompleteTags={autoCompleteTags}
-      onClickAutoCompleteTag={handleClickAutoCompleteTag}
-      isShowTagsValidationMessage={isShowTagsValidationMessage}
-    />
-  );
-
   return [
-    tags, inputTagRef, renderTags,
+    tags, inputTagRef, ulTagsRef, handleChangeTag, handleKeyDownEnter, handleClickRemoveTag,
+    autoCompleteTags, handleClickAutoCompleteTag,
+    isShowTagsValidationMessage,
   ];
 };
 
