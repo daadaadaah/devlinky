@@ -5,8 +5,6 @@ import 'firebase/firestore';
 
 import config from './config';
 
-import { getUniqArray } from '../../utils';
-
 firebase.initializeApp(config);
 
 const githubAuthProvider = new firebase.auth.GithubAuthProvider();
@@ -43,7 +41,10 @@ const getDevlink = async ({ url }) => {
 
 const getDevlinkById = async (devlinkId) => {
   const result = await db.collection(`devlink${version}`).doc(devlinkId).get();
-  return result.data();
+  return {
+    id: devlinkId,
+    ...result.data(),
+  };
 };
 
 const getDevlinksByIds = async (devlinkIds) => {
@@ -60,11 +61,12 @@ const getDevlinksByIds = async (devlinkIds) => {
 const getMyDevlinks = async (userUid) => {
   const responses = await db.collection(`mydevlink${version}`).where('userUid', '==', userUid).get();
 
-  const myDevlinkUids = responses.docs.map((doc) => (doc.data().devlinkId));
+  const myDevlinks = responses.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 
-  const uniqueDevlinkUids = getUniqArray(myDevlinkUids);
-
-  return uniqueDevlinkUids;
+  return myDevlinks;
 };
 
 const addNewDevlink = async (devlink) => {
