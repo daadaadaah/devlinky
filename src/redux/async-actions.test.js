@@ -19,16 +19,18 @@ import {
   removeTag,
   setTags,
   setIsFullPageOverlay,
+  loadMyDevlinks,
+  setMyDevlinks,
 } from './slice';
 
 import { fetchUrl } from '../services/chrome';
 
 import {
-  fetchUrlMetaData, login, isUser, autoSignup, postDevlink,
+  fetchUrlMetaData, login, isUser, autoSignup, postDevlink, fetchMyDevlinks,
 } from '../services/api';
 
 import {
-  error, url, preview, currentUser, autoCompleteTags, comment, tags,
+  error, url, preview, currentUser, autoCompleteTags, comment, tags, mydevlinks,
 } from '../../fixtures';
 
 const mockStore = configureStore(getDefaultMiddleware());
@@ -240,6 +242,26 @@ describe('actions', () => {
       const actions = store.getActions();
 
       expect(actions[0]).toStrictEqual(setTags([tags[1], tags[2]]));
+    });
+  });
+
+  describe('loadMyDevlinks', () => {
+    beforeEach(() => {
+      store = mockStore({
+        currentUser,
+        tags,
+        mydevlinks: [],
+      });
+
+      fetchMyDevlinks.mockResolvedValue(mydevlinks);
+    });
+
+    it('runs setMyDevlinks', async () => {
+      await store.dispatch(loadMyDevlinks());
+
+      const actions = store.getActions();
+
+      expect(actions[0]).toStrictEqual(setMyDevlinks(mydevlinks));
     });
   });
 });

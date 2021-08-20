@@ -7,6 +7,7 @@ import {
   autoSignup,
   postDevlink,
   logout,
+  fetchMyDevlinks,
 } from '../services/api';
 
 import { fetchUrl } from '../services/chrome';
@@ -248,6 +249,14 @@ export const removeTag = (removeIndex) => async (dispatch, getState) => {
   const newTags = tags.filter((tag, index) => index !== removeIndex);
 
   dispatch(setTags(newTags));
+};
+
+export const loadMyDevlinks = () => async (dispatch, getState) => {
+  const { currentUser } = getState();
+
+  const myDevlinks = await fetchMyDevlinks(currentUser.uid);
+
+  dispatch(setMyDevlinks(myDevlinks));
 };
 
 export default reducer;
