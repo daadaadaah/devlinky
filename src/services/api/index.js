@@ -73,11 +73,23 @@ export const postDevlink = async ({ userId, devlink }) => {
 };
 
 export const fetchMyDevlinks = async (userUid) => {
-  const mydevlinkUids = await getMyDevlinks(userUid);
+  const myDevlinks = await getMyDevlinks(userUid);
 
-  const result = await getDevlinksByIds(mydevlinkUids);
+  const devlinkIds = myDevlinks.map((mydevlink) => mydevlink.devlinkId);
 
-  return result;
+  const devlinks = await getDevlinksByIds(devlinkIds);
+
+  const newMyDevlinks = myDevlinks.map((myDevlink) => {
+    const newDevlink = devlinks.find((devlink) => devlink.id === myDevlink.devlinkId);
+
+    return {
+      id: myDevlink.id,
+      devlink: newDevlink,
+      createdAt: myDevlink.createdAt,
+    };
+  });
+
+  return newMyDevlinks;
 };
 
 export const logout = async () => {
