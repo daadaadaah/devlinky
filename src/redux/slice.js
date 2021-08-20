@@ -222,8 +222,9 @@ export const submitDevlink = () => async (dispatch, getState) => {
   try {
     // eslint-disable-next-line no-unused-vars
     const response = await postDevlink({ userId: currentUser.uid, devlink });
+    dispatch(setIsFullPageOverlay(false));
     dispatch(resetDevlink());
-  } catch (error) {
+  } catch (error) { // TODO : 에러 메시지 처리 필요함
     dispatch(setError(error.message));
   }
 };

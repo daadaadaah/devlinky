@@ -18,6 +18,7 @@ import {
   resetCurrentUser,
   removeTag,
   setTags,
+  setIsFullPageOverlay,
 } from './slice';
 
 import { fetchUrl } from '../services/chrome';
@@ -179,7 +180,8 @@ describe('actions', () => {
 
         const actions = store.getActions();
 
-        expect(actions[0]).toEqual(resetDevlink());
+        expect(actions[0]).toEqual(setIsFullPageOverlay(false));
+        expect(actions[1]).toEqual(resetDevlink());
       });
     });
 
