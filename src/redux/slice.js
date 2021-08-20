@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
-  fetchUrlMetaData, login, isUser, autoSignup, postDevlink, logout,
+  fetchUrlMetaData,
+  login,
+  isUser,
+  autoSignup,
+  postDevlink,
+  logout,
 } from '../services/api';
 
 import { fetchUrl } from '../services/chrome';
@@ -25,6 +30,7 @@ const { actions, reducer } = createSlice({
     isShowUrlValidationMessage: false,
     isShowTagsValidationMessage: false,
     isFullPageOverlay: false,
+    mydevlinks: [],
   },
   reducers: {
     setError(state, { payload: error }) {
@@ -120,6 +126,12 @@ const { actions, reducer } = createSlice({
         tags: [],
       };
     },
+    setMyDevlinks(state, { payload: mydevlinks }) {
+      return {
+        ...state,
+        mydevlinks,
+      };
+    },
     settoggleSpeechBubble(state, { payload: toggleSpeechBubble }) {
       return {
         ...state,
@@ -151,6 +163,7 @@ export const {
   resetAutoCompleteTags,
   resetDevlink,
   setIsFullPageOverlay,
+  setMyDevlinks,
   settoggleSpeechBubble,
   resettoggleSpeechBubble,
 } = actions;
