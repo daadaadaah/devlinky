@@ -6,6 +6,7 @@ import reducer, {
   setUrl,
   setIsShowUrlValidationMessage,
   setIsShowTagsValidationMessage,
+  resetIsShowTagsValidationMessage,
   setPreview,
   setComment,
   setTags,
@@ -191,6 +192,22 @@ describe('reducer', () => {
       const state = reducer(initialState, setIsShowTagsValidationMessage(true));
 
       expect(state.isShowTagsValidationMessage).toStrictEqual(true);
+    });
+  });
+
+  describe('resetIsShowTagsValidationMessage', () => {
+    it('reset isShowTagsValidationMessage', () => {
+      const initialState = {
+        currentUser: null,
+        url: null,
+        preview: null,
+        isShowUrlValidationMessage: true,
+        isShowTagsValidationMessage: false,
+      };
+
+      const state = reducer(initialState, resetIsShowTagsValidationMessage());
+
+      expect(state.isShowTagsValidationMessage).toStrictEqual(false);
     });
   });
 
