@@ -33,7 +33,10 @@ const addUser = async ({ firebaseUid, githubId, githubProfile }) => {
 const getDevlink = async ({ url }) => {
   const responses = await db.collection(`devlink${version}`).where('url', '==', url).get();
 
-  return responses.docs.map((doc) => (doc.data()))[0];
+  return responses.docs.map((doc) => ({
+    uid: doc.id,
+    ...doc.data(),
+  }))[0];
 };
 
 const addNewDevlink = async (devlink) => {
@@ -60,6 +63,8 @@ const addMyDevlink = async ({ userId, devlinkId }) => {
     updatedAt: null,
     deletedAt: null,
   };
+
+  console.log('newMyDevlink : ', newMyDevlink);
 
   const doc = await db.collection(`mydevlink${version}`).add(newMyDevlink);
 
