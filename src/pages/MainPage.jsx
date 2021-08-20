@@ -28,6 +28,7 @@ import {
   setIsShowTagsValidationMessage,
   submitDevlink,
   setSelectTabMenu,
+  setIsFullPageOverlay,
 } from '../redux/slice';
 
 import { isEmpty, get } from '../utils';
@@ -88,6 +89,7 @@ export default function MainPage() {
     // TODO : 코멘트 필수 입력 논의 후 수정 필요
 
     dispatch(submitDevlink());
+    dispatch(setIsFullPageOverlay(true));
   };
 
   return (
