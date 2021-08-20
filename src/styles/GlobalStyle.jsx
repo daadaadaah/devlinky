@@ -22,6 +22,10 @@ const GlobalStyle = () => (
         ${process.env.NODE_ENV !== 'production' && `box-shadow: 0 0 0 1px${style.colors.white}`};
       }
 
+      #app {
+        height: 600px;
+      }
+
       button {
         cursor: pointer;
       }

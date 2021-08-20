@@ -24,6 +24,7 @@ const { actions, reducer } = createSlice({
     selectTabMenu: 'newlink',
     isShowUrlValidationMessage: false,
     isShowTagsValidationMessage: false,
+    isFullPageOverlay: false,
   },
   reducers: {
     setError(state, { payload: error }) {
@@ -104,6 +105,12 @@ const { actions, reducer } = createSlice({
         autoCompleteTags: [],
       };
     },
+    setIsFullPageOverlay(state, { payload: isFullPageOverlay }) {
+      return {
+        ...state,
+        isFullPageOverlay,
+      };
+    },
     resetDevlink(state) {
       return {
         ...state,
@@ -143,6 +150,7 @@ export const {
   setAutoCompleteTags,
   resetAutoCompleteTags,
   resetDevlink,
+  setIsFullPageOverlay,
   settoggleSpeechBubble,
   resettoggleSpeechBubble,
 } = actions;
@@ -214,8 +222,9 @@ export const submitDevlink = () => async (dispatch, getState) => {
   try {
     // eslint-disable-next-line no-unused-vars
     const response = await postDevlink({ userId: currentUser.uid, devlink });
+    dispatch(setIsFullPageOverlay(false));
     dispatch(resetDevlink());
-  } catch (error) {
+  } catch (error) { // TODO : 에러 메시지 처리 필요함
     dispatch(setError(error.message));
   }
 };

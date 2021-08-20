@@ -636,7 +636,7 @@ describe('<MainPage />', () => {
 
         fireEvent.click(getByText(/Save a contents/i));
 
-        expect(dispatch).toBeCalledTimes(1);
+        expect(dispatch).toBeCalledTimes(2);
       });
     });
 
