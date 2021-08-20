@@ -13,6 +13,7 @@ import reducer, {
   setAutoCompleteTags,
   resetAutoCompleteTags,
   resetDevlink,
+  setIsFullPageOverlay,
   settoggleSpeechBubble,
   resettoggleSpeechBubble,
 } from './slice';
@@ -43,6 +44,7 @@ describe('reducer', () => {
       selectTabMenu: selectTabMenu.Menu1,
       isShowUrlValidationMessage: false,
       isShowTagsValidationMessage: false,
+      isFullPageOverlay: false,
     };
 
     it('returns initialState', () => {
@@ -262,6 +264,24 @@ describe('reducer', () => {
       expect(state.preview).toBeNull();
       expect(state.comment).toBeNull();
       expect(state.tags).toStrictEqual([]);
+    });
+  });
+
+  describe('setIsFullPageOverlay', () => {
+    it('reset isFullPageOverlay', () => {
+      const initialState = {
+        currentUser: null,
+        url,
+        preview,
+        comment,
+        tags,
+        autoCompleteTags: [],
+        isFullPageOverlay: false,
+      };
+
+      const state = reducer(initialState, setIsFullPageOverlay(true));
+
+      expect(state.isFullPageOverlay).toBeTruthy();
     });
   });
 

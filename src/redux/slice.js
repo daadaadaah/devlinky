@@ -24,6 +24,7 @@ const { actions, reducer } = createSlice({
     selectTabMenu: 'newlink',
     isShowUrlValidationMessage: false,
     isShowTagsValidationMessage: false,
+    isFullPageOverlay: false,
   },
   reducers: {
     setError(state, { payload: error }) {
@@ -104,6 +105,12 @@ const { actions, reducer } = createSlice({
         autoCompleteTags: [],
       };
     },
+    setIsFullPageOverlay(state, { payload: isFullPageOverlay }) {
+      return {
+        ...state,
+        isFullPageOverlay,
+      };
+    },
     resetDevlink(state) {
       return {
         ...state,
@@ -143,6 +150,7 @@ export const {
   setAutoCompleteTags,
   resetAutoCompleteTags,
   resetDevlink,
+  setIsFullPageOverlay,
   settoggleSpeechBubble,
   resettoggleSpeechBubble,
 } = actions;
