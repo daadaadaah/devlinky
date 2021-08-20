@@ -1,4 +1,4 @@
-import { get, isEmpty, getUniqArray } from '.';
+import { get, isEmpty } from '.';
 
 test('get', () => {
   const state = {
@@ -17,10 +17,4 @@ test('isEmpty', () => {
 
   expect(isEmpty(array)).toBeTruthy();
   expect(isEmpty(null)).toBeTruthy();
-});
-
-test('getUniqArray', () => {
-  const array = [1, 2, 3, 4, 4, 4, 4, 2, 2, 2];
-
-  expect(getUniqArray(array)).toStrictEqual([1, 2, 3, 4]);
 });
