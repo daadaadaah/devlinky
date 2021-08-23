@@ -12,6 +12,8 @@ import Preview from '../components/Preview';
 import Comment from '../components/Comment';
 import Tags from '../components/Tags';
 
+import Card from '../components/Card';
+
 import style from '../styles/designSystem';
 
 import { colors, font } from '../styles/commom';
@@ -21,6 +23,8 @@ import useUrl from '../hooks/useUrl';
 import useComment from '../hooks/useComment';
 import useTags from '../hooks/useTags';
 
+import useCard from '../hooks/useCard';
+
 import {
   fetchPreview,
   loadUrl,
@@ -29,6 +33,7 @@ import {
   submitDevlink,
   setSelectTabMenu,
   setIsFullPageOverlay,
+  loadMyDevlinks,
 } from '../redux/slice';
 
 import { isEmpty, get } from '../utils';
@@ -72,6 +77,14 @@ export default function MainPage() {
     autoCompleteTags, handleClickAutoCompleteTag,
     isShowTagsValidationMessage,
   ] = useTags();
+
+  const mydevlinks = useSelector(get('mydevlinks'));
+
+  if (selectTabMenu === 'archive' && isEmpty(mydevlinks)) {
+    dispatch(loadMyDevlinks());
+  }
+
+  const { handleHoverCard, handleTogglePublicSetting, handleClickCard } = useCard();
 
   const handleClickSave = () => {
     if (isEmpty(url)) {
@@ -134,7 +147,16 @@ export default function MainPage() {
           </form>
         ) : (
           <>
-            <p>archive tab menu</p>
+            <ul>
+              {mydevlinks?.map((mydevlink) => (
+                <Card
+                  mydevlink={mydevlink}
+                  onHoverCard={handleHoverCard}
+                  onTogglePublicSetting={handleTogglePublicSetting}
+                  onClickCard={handleClickCard}
+                />
+              ))}
+            </ul>
           </>
         )}
       </Layout>
