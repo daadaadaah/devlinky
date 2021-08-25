@@ -24,6 +24,7 @@ const GlobalStyle = () => (
 
       #app {
         height: 600px;
+        overflow: auto;
       }
 
       button {
