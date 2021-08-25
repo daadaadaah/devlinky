@@ -29,6 +29,7 @@ const GlobalStyle = () => (
 
       button {
         cursor: pointer;
+        background: transparent;
       }
     `}
   />
