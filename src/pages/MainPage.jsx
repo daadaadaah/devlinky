@@ -25,6 +25,9 @@ import useTags from '../hooks/useTags';
 
 import useCard from '../hooks/useCard';
 
+import LeftArrowIcon from '../helper/Icon/LeftArrowIcon';
+import RightArrowIcon from '../helper/Icon/RightArrowIcon';
+
 import {
   fetchPreview,
   loadUrl,
@@ -34,6 +37,7 @@ import {
   setSelectTabMenu,
   setIsFullPageOverlay,
   loadMyDevlinks,
+  setMyDevlinks,
 } from '../redux/slice';
 
 import { isEmpty, get } from '../utils';
@@ -85,6 +89,23 @@ export default function MainPage() {
   }
 
   const { handleHoverCard, handleTogglePublicSetting, handleClickCard } = useCard();
+
+  const mydevlinksPerPage = useSelector(get('mydevlinksPerPage'));
+
+  const handleClickPageNumber = (pageNumber) => () => {
+    dispatch(setMyDevlinks(mydevlinksPerPage[pageNumber - 1]));
+  };
+
+  const handleClickPrevPage = (prevPageLastNumber) => () => {
+    // dispatch(lo)
+
+  };
+
+  const handleClickNextPage = (nextPageFirstNumber) => () => {
+    // dispatch(lo)
+    //
+
+  };
 
   const handleClickSave = () => {
     if (isEmpty(url)) {
@@ -150,6 +171,7 @@ export default function MainPage() {
             <ul>
               {mydevlinks?.map((mydevlink) => (
                 <Card
+                  key={mydevlink.id}
                   mydevlink={mydevlink}
                   onHoverCard={handleHoverCard}
                   onTogglePublicSetting={handleTogglePublicSetting}
@@ -157,12 +179,79 @@ export default function MainPage() {
                 />
               ))}
             </ul>
+            <PageNavigator>
+              {/* {mydevlinksPerPage?.map((_, index) => (index + 1 <= 3 ? <li>{index + 1}</li> : <li><RightArrowIcon /></li>))} */}
+              <li><LeftArrowButton onClick={handleClickPrevPage(0)}><LeftArrowIcon /></LeftArrowButton></li>
+              <li><PageNumberButton onClick={handleClickPageNumber(1)}>1</PageNumberButton></li>
+              <li><PageNumberButton onClick={handleClickPageNumber(2)}>2</PageNumberButton></li>
+              <li><PageNumberButton onClick={handleClickPageNumber(3)}>3</PageNumberButton></li>
+              <li><RightArrowButton onClick={handleClickNextPage(4)}><RightArrowIcon /></RightArrowButton></li>
+
+              {/* <li><LeftArrowButton onClick={handleClickPrevPage(3)}><LeftArrowIcon /></LeftArrowButton></li>
+              <li><PageNumberButton onClick={handleClickPageNumber(4)}>1</PageNumberButton></li>
+              <li><PageNumberButton onClick={handleClickPageNumber(5)}>2</PageNumberButton></li>
+              <li><PageNumberButton onClick={handleClickPageNumber(6)}>3</PageNumberButton></li>
+              <li><RightArrowButton onClick={handleClickNextPage(7)}><RightArrowIcon /></RightArrowButton></li> */}
+              {/*
+              <li><LeftArrowButton onClick={handleClickPrevPage(6)}><LeftArrowIcon /></LeftArrowButton></li>
+              <li><PageNumberButton onClick={handleClickPageNumber(7)}>1</PageNumberButton></li>
+              <li><PageNumberButton onClick={handleClickPageNumber(8)}>2</PageNumberButton></li>
+              <li><PageNumberButton onClick={handleClickPageNumber(9)}>3</PageNumberButton></li>
+              <li><RightArrowButton onClick={handleClickNextPage(10)}><RightArrowIcon /></RightArrowButton></li> */}
+            </PageNavigator>
+
           </>
         )}
       </Layout>
     </>
   );
 }
+
+const PageNavigator = styled.ul`
+  margin-top: 20px;
+  margin-left: 91px;
+
+  width: 90px;
+  height: 24px;
+
+  display: flex;
+  flex-direction: row;
+
+  list-style: none; /* 가로 정렬 */
+  
+  & li {
+    float: left; /* 가로 정렬 */
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    & button {
+
+      color: #D4D4D4; // 선택한 아이는 : white;
+
+    }
+
+  }
+`;
+
+const PageNumberButton = styled.button`
+  width: 20px;
+  height: 24px;
+
+  font-family: Noto Sans SC;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 17px;
+`;
+
+const LeftArrowButton = styled.button`
+  margin-right: 7px;
+`;
+
+const RightArrowButton = styled.button`
+  margin-left: 7px;
+`;
 
 const TabMenus = styled.ul`  
   margin-top: 30px;

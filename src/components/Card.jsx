@@ -18,9 +18,10 @@ export default function Card({
 
   const ulTagsCallbackRef = useCallback(AddOneLine, []);
 
+  console.log('mydevlink : tags', mydevlink);
+
   return (
     <CardWrapper
-      key={mydevlink.id}
       onMouseEnter={onHoverCard(mydevlink.id)}
       onMouseLeave={onHoverCard(mydevlink.id)}
     >
@@ -47,7 +48,7 @@ export default function Card({
         <CardComment>{mydevlink.devlink.comment}</CardComment>
         <CardTitle>{mydevlink.devlink.preview.title}</CardTitle>
         <TagsWrapper ref={ulTagsCallbackRef}>
-          {mydevlink.tags.map((tag, index) => (
+          {mydevlink?.tags?.map((tag, index) => (
             // TODO : 테스트 커버 해야 됨
             <li key={index}>
               <TagText>{`#${tag}`}</TagText>

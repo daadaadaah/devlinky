@@ -43,7 +43,7 @@ export default function App() {
           {/* TODO : fallback 디자이너와 상의해서 디자인 수정 필요 */}
           <Suspense fallback={<div>Loading...</div>}>
             <Route exact path="/login" component={LoginPage} />
-            <Route path="/" component={MainPage} />
+            <Route exact path="/" component={MainPage} />
           </Suspense>
         </Switch>
       </LoadingOverlay>

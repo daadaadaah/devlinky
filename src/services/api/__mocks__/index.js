@@ -11,3 +11,5 @@ export const postDevlink = jest.fn();
 export const logout = jest.fn();
 
 export const fetchMyDevlinks = jest.fn();
+
+export const postMyDevlinkToPublic = jest.fn();

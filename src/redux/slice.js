@@ -28,17 +28,25 @@ const { actions, reducer } = createSlice({
     tags: [],
     autoCompleteTags: [],
     toggleSpeechBubble: false,
+    // selectTabMenu: 'archive', // TODO : 아카이브 탭 작업 후 newlink로 변경 필요!
     selectTabMenu: 'newlink',
     isShowUrlValidationMessage: false,
     isShowTagsValidationMessage: false,
     isFullPageOverlay: false,
     mydevlinks: [],
+    mydevlinksPerPage: [],
   },
   reducers: {
     setError(state, { payload: error }) {
       return {
         ...state,
         error,
+      };
+    },
+    setMyDevlinksPerPage(state, { payload: mydevlinksPerPage }) {
+      return {
+        ...state,
+        mydevlinksPerPage,
       };
     },
     setCurrentUser(state, { payload: currentUser }) {
@@ -168,6 +176,7 @@ export const {
   setMyDevlinks,
   settoggleSpeechBubble,
   resettoggleSpeechBubble,
+  setMyDevlinksPerPage,
 } = actions;
 
 export const loadCurrentUser = () => async (dispatch) => {
@@ -257,7 +266,35 @@ export const loadMyDevlinks = () => async (dispatch, getState) => {
 
   const myDevlinks = await fetchMyDevlinks(currentUser.uid);
 
-  dispatch(setMyDevlinks(myDevlinks));
+  const newMyDevlinks = myDevlinks.map((myDevlink) => ({
+    ...myDevlink,
+    isShowCardHoverMenu: false,
+  }));
+
+  // dispatch(setMyDevlinks(newMyDevlinks));
+
+  const itemPerPage = 4;
+  const pageUnitCnt = 3;
+
+  const myDevlinksCnt = myDevlinks.length;
+
+  const share = parseInt(myDevlinksCnt / itemPerPage, 10);
+  const rest = myDevlinksCnt % itemPerPage;
+
+  const pageCnt = rest === 0 ? share : share + 1;
+
+  const newMydevlinksPerPage = [];
+
+  for (let i = 1; i <= pageCnt; i++) {
+    const newmydevlinks = myDevlinks.filter((_, index) => index >= 4 * (i - 1) && index <= (4 * i) - 1);
+    newMydevlinksPerPage.push(newmydevlinks);
+  }
+
+  console.log('newMydevlinksPerPage : ', newMydevlinksPerPage);
+
+  dispatch(setMyDevlinksPerPage(newMydevlinksPerPage));
+
+  dispatch(setMyDevlinks(newMydevlinksPerPage[0]));
 };
 
 export const showCardHoverMenu = (devlinkId) => (dispatch, getState) => {

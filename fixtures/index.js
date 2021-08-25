@@ -15,7 +15,6 @@ export const devlink = {
   description: '1. 배경 먼저 모듈에 대해 이야기 해보자. 문법 수준에서 모듈을 지원하기 시작한',
   comment: 'Webpack 기본 지식 잘 나온 링크',
   tags: ['Webpack', '웹', '프론트앤드'],
-  isPublic: false,
 };
 
 export const { url, comment, tags } = devlink;
@@ -46,13 +45,13 @@ export const selectTabMenu = {
   Menu2: 'archive',
 };
 
-export const mydevlinks = [
-  {
-    id: 1,
-    ...devlink,
-    isShowCardHoverMenu: false,
-  },
-];
+// export const mydevlinks = [
+//   {
+//     id: 1,
+//     ...devlink,
+//     isShowCardHoverMenu: false,
+//   },
+// ];
 
 export const mydevlink = {
   id: 1,
@@ -70,3 +69,9 @@ export const mydevlink = {
   isPublic: false,
   isShowCardHoverMenu: false,
 };
+
+export const mydevlinks = [
+  {
+    ...mydevlink,
+  },
+];

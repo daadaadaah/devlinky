@@ -59,7 +59,15 @@ const getDevlinksByIds = async (devlinkIds) => {
 };
 
 const getMyDevlinks = async (userUid) => {
-  const responses = await db.collection(`mydevlink${version}`).where('userUid', '==', userUid).get();
+  const itemCntPerPage = 4; // 1페이지당 불러오는 카드 수
+  const pageCntPerRequest = 3; // 1번에 볼 수 있는 페이지 수
+
+  const maxItemOnce = itemCntPerPage * pageCntPerRequest + 1;
+
+  const responses = await db.collection(`mydevlink${version}`)
+    .orderBy('createdAt', 'desc').limit(maxItemOnce)
+    .where('userUid', '==', userUid)
+    .get();
 
   const myDevlinks = responses.docs.map((doc) => ({
     id: doc.id,
