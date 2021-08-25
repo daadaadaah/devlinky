@@ -8,6 +8,7 @@ import {
   postDevlink,
   logout,
   fetchMyDevlinks,
+  postMyDevlinkToPublic,
 } from '../services/api';
 
 import { fetchUrl } from '../services/chrome';
@@ -257,6 +258,37 @@ export const loadMyDevlinks = () => async (dispatch, getState) => {
   const myDevlinks = await fetchMyDevlinks(currentUser.uid);
 
   dispatch(setMyDevlinks(myDevlinks));
+};
+
+export const showCardHoverMenu = (devlinkId) => (dispatch, getState) => {
+  const { mydevlinks } = getState();
+
+  const newMyDevlinks = mydevlinks.map((mydevlink) => (mydevlink?.id === devlinkId ? {
+    ...mydevlink,
+    isShowCardHoverMenu: !mydevlink.isShowCardHoverMenu,
+  } : mydevlink));
+
+  dispatch(setMyDevlinks(newMyDevlinks));
+};
+
+export const toggleCardPublicSetting = (mydevlinkId) => async (dispatch, getState) => {
+  const { mydevlinks } = getState();
+
+  const preMydevlink = mydevlinks.find(({ id }) => id === mydevlinkId);
+
+  const newMyDevlinks = mydevlinks.map((mydevlink) => (mydevlink.id === mydevlinkId ? {
+    ...mydevlink,
+    isPublic: !mydevlink.isPublic,
+  } : mydevlink));
+
+  dispatch(setMyDevlinks(newMyDevlinks));
+
+  try {
+    await postMyDevlinkToPublic({ mydevlinkId, isPublic: !preMydevlink.isPublic });
+  } catch (error) {
+    dispatch(setMyDevlinks(mydevlinks));
+    dispatch(setError(error.message));
+  }
 };
 
 export default reducer;
