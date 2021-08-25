@@ -8,6 +8,7 @@ import {
   githubOAuthLogout,
   getMyDevlinks,
   getDevlinksByIds,
+  addMyDevlinkToPublic,
 } from '../firebase';
 
 export const fetchUrlMetaData = async (url) => {
@@ -90,6 +91,11 @@ export const fetchMyDevlinks = async (userUid) => {
   });
 
   return newMyDevlinks;
+};
+
+export const postMyDevlinkToPublic = async ({ mydevlinkId, isPublic }) => {
+  const result = await addMyDevlinkToPublic({ mydevlinkId, isPublic });
+  return result;
 };
 
 export const logout = async () => {
