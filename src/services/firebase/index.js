@@ -101,6 +101,14 @@ const addMyDevlink = async ({ userId, devlinkId }) => {
   return doc;
 };
 
+const addMyDevlinkToPublic = async ({ mydevlinkId, isPublic }) => {
+  const result = await db.collection(`mydevlink${version}`).doc(mydevlinkId).update({
+    isPublic,
+  });
+
+  return result;
+};
+
 export {
   firebase,
   githubAuthProvider,
@@ -114,4 +122,5 @@ export {
   getMyDevlinks,
   getDevlinksByIds,
   getDevlinkById,
+  addMyDevlinkToPublic,
 };
