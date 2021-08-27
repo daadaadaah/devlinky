@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import styled from '@emotion/styled';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
@@ -38,10 +38,11 @@ export default function MainPage() {
 
   const { currentUser } = useCurrentUser();
 
-  if (isEmpty(currentUser)) {
-    history.push('/login');
-    return null;
-  }
+  useEffect(() => {
+    if (isEmpty(currentUser)) {
+      history.push('/login');
+    }
+  }, [currentUser]);
 
   const dispatch = useDispatch();
 

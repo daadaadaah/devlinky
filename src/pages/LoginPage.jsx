@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 
@@ -19,10 +19,11 @@ export default function LoginPage() {
 
   const { currentUser } = useCurrentUser();
 
-  if (currentUser) {
-    history.push('/');
-    return null;
-  }
+  useEffect(() => {
+    if (currentUser) {
+      history.push('/');
+    }
+  }, [currentUser]);
 
   const dispatch = useDispatch();
 

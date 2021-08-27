@@ -60,7 +60,7 @@ describe('<App />', () => {
     });
   });
 
-  context('with path /login & with currentUser', () => {
+  context('without currentUser', () => {
     const mockPush = jest.fn();
 
     beforeEach(() => {
@@ -75,12 +75,8 @@ describe('<App />', () => {
       }));
     });
 
-    it('shows login', async () => {
+    it('shows LoginPage', async () => {
       const { container, getByText } = renderApp({ path: '/login' });
-
-      expect(mockPush).toBeCalledWith('/login');
-
-      expect(container).toHaveTextContent('Loading...');
 
       await waitFor(() => getByText(/login/));
 
