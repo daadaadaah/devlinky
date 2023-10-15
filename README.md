@@ -1,6 +1,6 @@
 # devlinky
 ## 🌈 소개
-- 개발링크를 등록할 수 있는 develink-web-clipper 🔖
+- 개발링크를 등록할 수 있는 Chrome-Extension 🔖
 
 |로그인 페이지|개발 링크 등록 페이지|
 |:--:|:--:|
